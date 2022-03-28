@@ -6,11 +6,11 @@
 package model;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,18 +19,16 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author USER
+ * @author Lim
  */
 @Entity
 @Table(name = "CUSTOMER")
@@ -89,20 +87,24 @@ public class Customer implements Serializable {
     @Size(max = 500)
     @Column(name = "ADDRESS")
     private String address;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId")
-    private List<AuthToken> authTokenList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId")
-    private List<Orders> ordersList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId")
-    private List<CartItem> cartItemList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId")
-    private List<Verification> verificationList;
 
     public Customer() {
     }
 
     public Customer(Integer customerId) {
         this.customerId = customerId;
+    }
+
+    public Customer(String email) {
+        this.email = email;
+    }
+
+    public Customer(String email, String fullname, String phone, String password, Date registerDate) {
+        this.email = email;
+        this.fullname = fullname;
+        this.phone = phone;
+        this.password = password;
+        this.registerDate = registerDate;
     }
 
     public Customer(Integer customerId, String email, String fullname, String phone, String password, Date registerDate) {
@@ -186,42 +188,6 @@ public class Customer implements Serializable {
         this.address = address;
     }
 
-    @XmlTransient
-    public List<AuthToken> getAuthTokenList() {
-        return authTokenList;
-    }
-
-    public void setAuthTokenList(List<AuthToken> authTokenList) {
-        this.authTokenList = authTokenList;
-    }
-
-    @XmlTransient
-    public List<Orders> getOrdersList() {
-        return ordersList;
-    }
-
-    public void setOrdersList(List<Orders> ordersList) {
-        this.ordersList = ordersList;
-    }
-
-    @XmlTransient
-    public List<CartItem> getCartItemList() {
-        return cartItemList;
-    }
-
-    public void setCartItemList(List<CartItem> cartItemList) {
-        this.cartItemList = cartItemList;
-    }
-
-    @XmlTransient
-    public List<Verification> getVerificationList() {
-        return verificationList;
-    }
-
-    public void setVerificationList(List<Verification> verificationList) {
-        this.verificationList = verificationList;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -246,9 +212,15 @@ public class Customer implements Serializable {
     public String toString() {
         return "model.Customer[ customerId=" + customerId + " ]";
     }
-    
-    public String getBase64Image(){
-        return  Base64.getEncoder().encodeToString(this.customerImage);
-       
+
+    public String getBase64Image() {
+        return Base64.getEncoder().encodeToString(this.customerImage);
+
     }
+
+    public String getStrDate() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.format(this.dob);
+    }
+
 }

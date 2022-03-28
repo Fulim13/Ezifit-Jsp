@@ -16,6 +16,18 @@
         <servlet-name>AddToCart</servlet-name>
         <servlet-class>controller.AddToCart</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GetReview</servlet-name>
+        <servlet-class>controller.GetReview</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SaveOrderReview</servlet-name>
+        <servlet-class>controller.SaveOrderReview</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SaveProdReview</servlet-name>
+        <servlet-class>controller.SaveProdReview</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>GetProduct</servlet-name>
         <url-pattern>/GetProduct</url-pattern>
@@ -32,9 +44,24 @@
         <servlet-name>AddToCart</servlet-name>
         <url-pattern>/AddToCart</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetReview</servlet-name>
+        <url-pattern>/GetReview</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SaveProdReview</servlet-name>
+        <url-pattern>/SaveProdReview</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SaveOrderReview</servlet-name>
+        <url-pattern>/SaveOrderReview</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
+    <welcome-file-list>
+        <welcome-file>homePage.jsp</welcome-file>
+    </welcome-file-list>
 </web-app>

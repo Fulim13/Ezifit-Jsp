@@ -9,7 +9,6 @@
 <%@page import="model.Product, java.util.List"%>
 <%
   List<Product> productList = (List)session.getAttribute("productList");
-  System.out.println(productList.get(1).getProdName());
 %>
 
 <!DOCTYPE html>
@@ -106,12 +105,13 @@
                 font-style: italic;
              }
              .productForm{
-                 margin: 5%;
+                 width: 95%;
+                 margin-top: 30px;
+                 margin-left: 4%;
              }
              .productForm button{
-                 display: inline-block;
-                 float: left;
-                 width: 25%;
+                 display: inline-block;                
+                 width: 24%;
                  text-align: center;
                  margin-bottom: 80px;
                  border: none;
@@ -181,7 +181,7 @@
                     <div><%= productList.get(i).getProdName() %></div>                    
                     <div>MYR <%= String.format("%.2f", productList.get(i).getPrice()) %> </div>   
                 </div>
-            </button>
+            </button>         
         <% } %>
         </form>       
         

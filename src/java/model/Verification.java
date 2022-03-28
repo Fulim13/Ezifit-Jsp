@@ -6,24 +6,25 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author USER
+ * @author Lim
  */
 @Entity
 @Table(name = "VERIFICATION")
@@ -31,7 +32,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Verification.findAll", query = "SELECT v FROM Verification v")
     , @NamedQuery(name = "Verification.findByVerificationId", query = "SELECT v FROM Verification v WHERE v.verificationId = :verificationId")
-    , @NamedQuery(name = "Verification.findByVerificationCode", query = "SELECT v FROM Verification v WHERE v.verificationCode = :verificationCode")})
+    , @NamedQuery(name = "Verification.findByVerificationCode", query = "SELECT v FROM Verification v WHERE v.verificationCode = :verificationCode")
+    , @NamedQuery(name = "Verification.findByExpireDate", query = "SELECT v FROM Verification v WHERE v.expireDate = :expireDate")
+    , @NamedQuery(name = "Verification.findByExpireTime", query = "SELECT v FROM Verification v WHERE v.expireTime = :expireTime")
+    , @NamedQuery(name = "Verification.findByEmail", query = "SELECT v FROM Verification v WHERE v.email = :email")})
 public class Verification implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,9 +49,22 @@ public class Verification implements Serializable {
     @Size(min = 1, max = 6)
     @Column(name = "VERIFICATION_CODE")
     private String verificationCode;
-    @JoinColumn(name = "CUSTOMER_ID", referencedColumnName = "CUSTOMER_ID")
-    @ManyToOne(optional = false)
-    private Customer customerId;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "EXPIRE_DATE")
+    @Temporal(TemporalType.DATE)
+    private Date expireDate;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "EXPIRE_TIME")
+    @Temporal(TemporalType.TIME)
+    private Date expireTime;
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 64)
+    @Column(name = "EMAIL")
+    private String email;
 
     public Verification() {
     }
@@ -55,10 +72,22 @@ public class Verification implements Serializable {
     public Verification(Integer verificationId) {
         this.verificationId = verificationId;
     }
+    
+    
+     public Verification(String verificationCode, Date expireDate, Date expireTime, String email) {
+        this.verificationCode = verificationCode;
+        this.expireDate = expireDate;
+        this.expireTime = expireTime;
+        this.email = email;
+    }
 
-    public Verification(Integer verificationId, String verificationCode) {
+
+    public Verification(Integer verificationId, String verificationCode, Date expireDate, Date expireTime, String email) {
         this.verificationId = verificationId;
         this.verificationCode = verificationCode;
+        this.expireDate = expireDate;
+        this.expireTime = expireTime;
+        this.email = email;
     }
 
     public Integer getVerificationId() {
@@ -77,12 +106,28 @@ public class Verification implements Serializable {
         this.verificationCode = verificationCode;
     }
 
-    public Customer getCustomerId() {
-        return customerId;
+    public Date getExpireDate() {
+        return expireDate;
     }
 
-    public void setCustomerId(Customer customerId) {
-        this.customerId = customerId;
+    public void setExpireDate(Date expireDate) {
+        this.expireDate = expireDate;
+    }
+
+    public Date getExpireTime() {
+        return expireTime;
+    }
+
+    public void setExpireTime(Date expireTime) {
+        this.expireTime = expireTime;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override

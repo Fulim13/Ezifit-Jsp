@@ -21,6 +21,7 @@ public class Error implements Serializable {
     private boolean phoneNoEmpty;
     private boolean passwordNotFollowRequirement;
     private boolean passwordNotSame;
+    private boolean vCodeNotMatch;
 
     public Error() {
     }
@@ -87,6 +88,14 @@ public class Error implements Serializable {
 
     public void setPasswordNotSame(boolean passwordNotSame) {
         this.passwordNotSame = passwordNotSame;
+    }
+
+    public boolean isvCodeNotMatch() {
+        return vCodeNotMatch;
+    }
+
+    public void setvCodeNotMatch(boolean vCodeNotMatch) {
+        this.vCodeNotMatch = vCodeNotMatch;
     }
 
 }

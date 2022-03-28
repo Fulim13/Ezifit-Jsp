@@ -19,9 +19,7 @@
             <h1>Registration Form</h1>
             <form  action="RegisterProcess" method="POST" class="register-form">
                 <label>Email</label>
-                <input type="text" name="email" value="${customer.email}"/>
-                <p class="error">${error.emailEmpty ? "Email is empty" : ""}</p>
-                <p class="error">${error.emailRedundant ? "This email has been registered by another user" : ""}</p>
+                <input type="text" name="email" value="${email}" readonly/>
                 <label>Full Name</label>
                 <input type="text" name="fullName" value="${customer.fullname}"/>
                 <p class="error">${error.fullNameEmpty ? "FullName is empty" : ""}</p>
@@ -42,4 +40,5 @@
         </div>
     </body>
 </html>
+<% session.removeAttribute("customer"); %>
 <% session.removeAttribute("error"); %>

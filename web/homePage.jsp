@@ -1,4 +1,16 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="model.Customer" contentType="text/html" pageEncoding="UTF-8"%>
+<%
+//    boolean loggedIn = false;
+//    System.out.println(session.getAttribute("loggedin"));
+//    if(session.getAttribute("loggedin") != null){
+//        loggedIn = (Boolean) session.getAttribute("loggedin");
+//    }
+boolean loggedIn = session != null && session.getAttribute("loggedInCustomer") != null;
+System.out.println(loggedIn);
+//    System.out.println(loggedIn);
+    
+//    Customer customer = (Customer) session.getAttribute("customer");
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -37,24 +49,24 @@
             .home1 {
                 animation-name: home1;
                 animation-duration: 7s;
-             }            
-             @keyframes home1 {
+            }            
+            @keyframes home1 {
                 from {filter:brightness(30%)} 
                 to {filter:brightness(80%)}
-             }
+            }
             .dot {
-               background-color: rgb(187, 187, 187);
-               height: 10px;
-               width: 10px;
-               margin: 0 2px;
-               border-radius: 50%;
-               display: inline-block;
-               transition: background-color 7s ease;
+                background-color: rgb(187, 187, 187);
+                height: 10px;
+                width: 10px;
+                margin: 0 2px;
+                border-radius: 50%;
+                display: inline-block;
+                transition: background-color 7s ease;
             }
             .active {
-               background-color: rgb(89, 89, 89);
-             }
-             .slogan {
+                background-color: rgb(89, 89, 89);
+            }
+            .slogan {
                 font-family: 'Arial narrow';
                 font-weight: 600;
                 font-size: 25px;
@@ -62,34 +74,34 @@
                 padding-top: 90px;      
                 word-spacing: 10px;
                 letter-spacing: 1px;
-             }
-             .slogan span{
-                 font-size: 35px;
-                 color: #8B0000;
-                 text-decoration: line-through;
-             }
-             .container {
+            }
+            .slogan span{
+                font-size: 35px;
+                color: #8B0000;
+                text-decoration: line-through;
+            }
+            .container {
                 position: relative;
                 width: 100%;
                 border: none;
                 background-color: transparent;
                 cursor: pointer;
-              }
-             .overlay{
-                 position: absolute;
-                 bottom: 0;
-                 left: 0;
-                 right: 0;
-                 background-color: rgba(0, 0, 0, 0.5);
-                 overflow: hidden;
-                 width: 100%;
-                 height: 0;
-                 transition: .5s ease;
-             }
-             .container:hover .overlay{
-                 height: 10%;
-             }
-             .text {
+            }
+            .overlay{
+                position: absolute;
+                bottom: 0;
+                left: 8px;
+                right: 0;
+                background-color: rgba(0, 0, 0, 0.5);
+                overflow: hidden;
+                width: 96%;
+                height: 0;
+                transition: .5s ease;
+            }
+            .container:hover .overlay{
+                height: 10%;
+            }
+            .text {
                 color: white;
                 font-size: 20px;
                 position: absolute;
@@ -97,25 +109,40 @@
                 left: 50%;
                 transform: translate(-50%, -50%);
                 text-align: center;
-              }
-              .container img{
-                  display: block;
-              }
+            }
+            .container img{
+                display: block;
+            }
+
+            a, a:hover, a:focus, a:active {
+                text-decoration: none;
+                color: inherit;
+            }
         </style>
     </head>
     <body>
         <div class="header">            
             <span><a href="homePage.jsp">EZIFIT</a></span>
             <ul class="nav-link">
-                <li><a href=""><i class="fa fa-facebook"></i></a></li>
-                <li><a href=""><i class="fa fa-twitter"></i></a></li>
+<!--                <li><a href=""><i class="fa fa-facebook"></i></a></li>
+                <li><a href=""><i class="fa fa-twitter"></i></a></li>-->
                 <li>|</li>
-                <li><a href=""><i class="fa fa-user"></i></a></li>
+                
+                <%if(loggedIn){%>
+                 <li><a href="profile.jsp"><i class="fa fa-user"></i></a></li>
+                  <%} else {%>
+                  <li><a href="login.jsp"><i class="fa fa-user"></i></a></li>
+                 <%}%>
+                <%if(loggedIn){%>
+                <li><a href="Logout">Logout</a></li>
+                <%} else {%>
+                <li><a href="login.jsp">Login</a></li>
+                <%}%>
                 <li><a href=""><i class="fa fa-shopping-cart"></i></a></li>
-                <li><a href=""><i class="fa fa-sign-out"></i></a></li>                
+                <!--<li><a href=""><i class="fa fa-sign-out"></i></a></li>-->                
             </ul>
         </div>
-        
+
         <div class="home1">
             <img src="home1.jpg" alt="" style="width: 100%;" />     
         </div>
@@ -125,15 +152,15 @@
         <div class="home1">
             <img src="home3.jpg" alt="" style="width: 100%;" />     
         </div>
-        
+
         <div style="text-align:center">
             <span class="dot"></span> 
             <span class="dot"></span> 
             <span class="dot"></span> 
-         </div>
-        
+        </div>
+
         <div class="slogan">- BELIEVE <span>YOU</span> ARE STRONGER THAN <span>YOU</span> KNOW -</div>
-        
+
         <form action="GetProduct">
             <table style="text-align: center; margin: 70px; border-spacing: 65px;">
                 <tr>
@@ -171,21 +198,23 @@
             showSlides();
 
             function showSlides() {
-              var i;
-              var slides = document.getElementsByClassName("home1");
-              var dots = document.getElementsByClassName("dot");
-              for (i = 0; i < slides.length; i++) {
-                slides[i].style.display = "none";  
-              }
-              slideIndex++;
-              if (slideIndex > slides.length) {slideIndex = 1}    
-              for (i = 0; i < dots.length; i++) {
-                dots[i].className = dots[i].className.replace(" active", "");
-              }
-              slides[slideIndex-1].style.display = "grid";  
-              dots[slideIndex-1].className += " active";
-              setTimeout(showSlides, 7000); 
+                var i;
+                var slides = document.getElementsByClassName("home1");
+                var dots = document.getElementsByClassName("dot");
+                for (i = 0; i < slides.length; i++) {
+                    slides[i].style.display = "none";
+                }
+                slideIndex++;
+                if (slideIndex > slides.length) {
+                    slideIndex = 1
+                }
+                for (i = 0; i < dots.length; i++) {
+                    dots[i].className = dots[i].className.replace(" active", "");
+                }
+                slides[slideIndex - 1].style.display = "grid";
+                dots[slideIndex - 1].className += " active";
+                setTimeout(showSlides, 7000);
             }
-         </script>
+        </script>
     </body>
 </html>

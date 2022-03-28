@@ -46,6 +46,7 @@
                 padding-top: 30px;
                 margin-left: auto;
                 margin-right: auto;
+                margin-bottom: 20px;
             }
             .picture{
                 width: 40%; 
@@ -169,7 +170,7 @@
                     <% for(int i=0; i<productSelected.size(); i++){ %>
                         <% id = i; %>
                         <label>                            
-                            <input class="radioBtn" type="radio" name="prodID" value="<%= productSelected.get(i).getProdId() %>"  required="true" />
+                            <input class="radioBtn" type="radio" name="prodID" value="<%= productSelected.get(i).getProdId() %>"  required />
                             <span><i><%= productSelected.get(i).getSize() %></i></span>                       
                         </label>                        
                     <% } %>

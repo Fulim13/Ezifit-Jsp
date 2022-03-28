@@ -7,6 +7,7 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -16,7 +17,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 import model.CartItem;
 import model.Customer;
@@ -46,9 +46,27 @@ public class AddToCart extends HttpServlet {
             Customer cust = em.find(Customer.class, custID); 
             //
        
-            CartItem cartItem = new CartItem(product, cust, 1, product.getPrice());
+            List<CartItem> cartItemList = em.createNamedQuery("CartItem.findAll", CartItem.class).getResultList();
+            CartItem cartItem1 = new CartItem(product, cust, 1, product.getPrice());
+            CartItem cartItem2 = new CartItem();
+                    System.out.println("1");
+            //Find if there is same product that is in cart
+            System.out.println("apa:" +cartItemList.get(4).getCustomerId().getFullname());
+            for(int i=0; i<cartItemList.size(); i++){
+                if((cartItemList.get(i).getCustomerId().getCustomerId() == custID) && (cartItemList.get(i).getOrderId() == null) && (cartItemList.get(i).getProdId().getProdId() == prodID)){                                        
+                    cartItem2 = cartItemList.get(i);
+                    int qty = cartItem2.getPurchaseQty() + 1;
+                    cartItem2.setPurchaseQty(qty);
+                }
+            }
+            System.out.println(cartItem2 + "qty: " + cartItem2.getPurchaseQty());
+            
             utx.begin();
-            em.persist(cartItem);
+            if(cartItem2.getCartId() == null){
+                em.persist(cartItem1);
+            } else{
+                em.merge(cartItem2);
+            }            
             utx.commit();
             
             //back to previous page
