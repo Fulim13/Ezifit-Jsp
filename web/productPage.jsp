@@ -1,8 +1,4 @@
-<%-- 
-    Document   : productPage
-    Created on : Mar 21, 2022, 8:39:47 PM
-    Author     : USER
---%>
+<%-- CHAN KAI LIN --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -92,8 +88,8 @@
             }
             .searchBtn{
                 position: absolute;
-                top: 21.5%;
-                right: 8.5%;
+                top: 143px;
+                right: 111px;
                 cursor: pointer;
             }                 
              .result{

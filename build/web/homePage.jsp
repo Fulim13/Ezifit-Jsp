@@ -1,14 +1,16 @@
-<%@page import="model.Customer" contentType="text/html" pageEncoding="UTF-8"%>
+<%-- CHAN KAI LIN --%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
 //    boolean loggedIn = false;
 //    System.out.println(session.getAttribute("loggedin"));
 //    if(session.getAttribute("loggedin") != null){
 //        loggedIn = (Boolean) session.getAttribute("loggedin");
 //    }
-boolean loggedIn = session != null && session.getAttribute("loggedInCustomer") != null;
-System.out.println(loggedIn);
+    boolean loggedIn = session != null && session.getAttribute("loggedInCustomer") != null;
+    System.out.println(loggedIn);
 //    System.out.println(loggedIn);
-    
+
 //    Customer customer = (Customer) session.getAttribute("customer");
 %>
 <!DOCTYPE html>
@@ -113,7 +115,6 @@ System.out.println(loggedIn);
             .container img{
                 display: block;
             }
-
             a, a:hover, a:focus, a:active {
                 text-decoration: none;
                 color: inherit;
@@ -124,7 +125,7 @@ System.out.println(loggedIn);
         <div class="header">            
             <span><a href="homePage.jsp">EZIFIT</a></span>
             <ul class="nav-link">
-<!--                <li><a href=""><i class="fa fa-facebook"></i></a></li>
+                <!--                <li><a href=""><i class="fa fa-facebook"></i></a></li>
                 <li><a href=""><i class="fa fa-twitter"></i></a></li>-->
                 <li>|</li>
                 
@@ -139,7 +140,7 @@ System.out.println(loggedIn);
                 <li><a href="login.jsp">Login</a></li>
                 <%}%>
                 <li><a href=""><i class="fa fa-shopping-cart"></i></a></li>
-                <!--<li><a href=""><i class="fa fa-sign-out"></i></a></li>-->                
+                <!--<li><a href=""><i class="fa fa-sign-out"></i></a></li>-->             
             </ul>
         </div>
 

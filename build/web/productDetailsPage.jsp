@@ -1,3 +1,5 @@
+<%-- CHAN KAI LIN --%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="model.Product, java.util.List"%>
@@ -165,10 +167,8 @@
                     <div class="price">MYR <%= String.format("%.2f", productSelected.get(0).getPrice()) %> </div>
                                      
                     <form action="AddToCart" class="size">
-                        <div class="sizeTitle">Select size </div>
-                    <%! int id; %>
-                    <% for(int i=0; i<productSelected.size(); i++){ %>
-                        <% id = i; %>
+                        <div class="sizeTitle">Select size </div>                    
+                    <% for(int i=0; i<productSelected.size(); i++){ %>                        
                         <label>                            
                             <input class="radioBtn" type="radio" name="prodID" value="<%= productSelected.get(i).getProdId() %>"  required />
                             <span><i><%= productSelected.get(i).getSize() %></i></span>                       

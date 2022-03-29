@@ -1,7 +1,8 @@
+//CHAN KAI LIN
+
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -13,13 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.CartItem;
 import model.Orders;
-import model.Product;
 import model.Review;
 
-/**
- *
- * @author USER
- */
+
 public class GetReview extends HttpServlet {
 
     @PersistenceContext

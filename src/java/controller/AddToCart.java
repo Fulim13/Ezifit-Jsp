@@ -1,8 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+//CHAN KAI LIN
+
 package controller;
 
 import java.io.IOException;
@@ -22,10 +19,7 @@ import model.CartItem;
 import model.Customer;
 import model.Product;
 
-/**
- *
- * @author USER
- */
+
 public class AddToCart extends HttpServlet {
     
     @PersistenceContext
@@ -49,18 +43,18 @@ public class AddToCart extends HttpServlet {
             List<CartItem> cartItemList = em.createNamedQuery("CartItem.findAll", CartItem.class).getResultList();
             CartItem cartItem1 = new CartItem(product, cust, 1, product.getPrice());
             CartItem cartItem2 = new CartItem();
-                    System.out.println("1");
+                    
             //Find if there is same product that is in cart
-            System.out.println("apa:" +cartItemList.get(4).getCustomerId().getFullname());
             for(int i=0; i<cartItemList.size(); i++){
                 if((cartItemList.get(i).getCustomerId().getCustomerId() == custID) && (cartItemList.get(i).getOrderId() == null) && (cartItemList.get(i).getProdId().getProdId() == prodID)){                                        
                     cartItem2 = cartItemList.get(i);
                     int qty = cartItem2.getPurchaseQty() + 1;
+                    double price = cartItem2.getSubtotal() + product.getPrice();
                     cartItem2.setPurchaseQty(qty);
+                    cartItem2.setSubtotal(price);
                 }
             }
-            System.out.println(cartItem2 + "qty: " + cartItem2.getPurchaseQty());
-            
+
             utx.begin();
             if(cartItem2.getCartId() == null){
                 em.persist(cartItem1);
