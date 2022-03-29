@@ -10,9 +10,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -23,12 +25,13 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import javax.transaction.UserTransaction;
 import model.Customer;
+import helper.Error;
 
 @WebServlet(name = "UpdateProfile", urlPatterns = {"/UpdateProfile"})
 @MultipartConfig(
         fileSizeThreshold = 1024 * 10,
-        maxFileSize = 1024 * 1024 * 2 ,
-        maxRequestSize = 1024 * 1024 * 3
+        maxFileSize = 1024 * 1024 * 10,
+        maxRequestSize = 1024 * 1024 * 11
 )
 public class UpdateProfile extends HttpServlet {
 
@@ -40,23 +43,109 @@ public class UpdateProfile extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        //get all the field from the use submission form
         String fullName = request.getParameter("fullName");
-        String email = request.getParameter("email");
+//        String email = request.getParameter("email");
         String phone = request.getParameter("phone");
-        String confirmPassword = request.getParameter("confirmPassword");
         String dob = request.getParameter("dob");
         String address = request.getParameter("address");
-        String password = request.getParameter("password");
+//        String password = request.getParameter("password");
+//        String confirmPassword = request.getParameter("confirmPassword");
         Part profilePicture = request.getPart("profilePicture");
-        DateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            Date dobDate = dateformat.parse(dob);
-            System.out.println(dobDate);
-        } catch (ParseException ex) {
-            Logger.getLogger(UpdateProfile.class.getName()).log(Level.SEVERE, null, ex);
+
+        //validation for all the field
+        Error error = new helper.Error();
+        //fullName cannot be empty
+        if (fullName.isEmpty() || fullName.trim().length() == 0) {
+            error.setIsError(true);
+            error.setFullNameEmpty(true);
         }
-        System.out.println(dob+ "First time");
-       
+        //phone cannot be empty
+        if (phone.isEmpty() || fullName.trim().length() == 0) {
+            error.setIsError(true);
+            error.setPhoneNoEmpty(true);
+        }
+        //phone of customer cannot duplicate to other customer phone
+        HttpSession session = request.getSession();
+        Customer customer = (Customer) session.getAttribute("loggedInCustomer");
+        String customerEmail = customer.getEmail();
+        Query queryExceptCustomer = em.createQuery("SELECT c FROM Customer c WHERE c.email != :email").setParameter("email", customerEmail);
+        List<Customer> customerList = queryExceptCustomer.getResultList();
+        for (Customer cust : customerList) {
+            System.out.println(cust.getPhone());
+            if (phone.equals(cust.getPhone())) {
+                error.setIsError(true);
+                error.setPhoneNoRedundant(true);
+            }
+        }
+
+        //dob must need to be a valid string
+        Pattern p = Pattern.compile("\\d{4}-\\d{2}-\\d{2}");
+        if (!p.matcher(dob).matches() && !dob.isEmpty()) {
+            error.setIsError(true);
+            error.setDobFormatErr(true);
+        }
+
+        //redirect back to profile page with error
+        if (error.isIsError()) {
+            session.setAttribute("error", error);
+            System.out.println("Hi");
+            response.sendRedirect("profile.jsp");
+        } else{
+            
+//        // get the user data from db 
+//        HttpSession session = request.getSession();
+//        Customer customer = (Customer)session.getAttribute("loggedInCustomer");
+//        String customerEmail = customer.getEmail();
+        //get Customer object from the database
+        Query querySessionCustomer = em.createQuery("SELECT c FROM Customer c WHERE c.email = :email").setParameter("email", customerEmail);
+        List<Customer> sessionCustomerList = querySessionCustomer.getResultList();
+
+        if (sessionCustomerList.size() > 0) {
+            Customer sessionCustomerObj = sessionCustomerList.get(0);
+
+            //set fullname
+            sessionCustomerObj.setFullname(fullName);
+            //set phone No
+            sessionCustomerObj.setPhone(phone);
+            //set address
+            sessionCustomerObj.setAddress(address);
+            //convert String date in html to JAVA Date (to store in db)
+                    DateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                Date dobDate = dateformat.parse(dob);
+                System.out.println(dobDate);
+                sessionCustomerObj.setDob(dobDate);
+            } catch (ParseException ex) {
+                Logger.getLogger(UpdateProfile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            //convert user uploaded image to the format that db accept
+            if (profilePicture.getSize() > 0 && profilePicture != null) {
+                long size = profilePicture.getSize();
+                byte[] imageBytes = new byte[(int) size];
+                InputStream inputStream = profilePicture.getInputStream();
+                inputStream.read(imageBytes);
+                inputStream.close();
+                sessionCustomerObj.setCustomerImage(imageBytes);
+            }
+
+            //update database
+            try {
+                utx.begin();
+                em.merge(sessionCustomerObj);
+                utx.commit();
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+            //update session loggedInCustomer 
+            session.setAttribute("loggedInCustomer", sessionCustomerObj);
+            response.sendRedirect("profile.jsp");
+        } else {
+//            response.sendRedirect("profile.jsp");
+        }
+        }
+
 
 //        Customer customer = new Customer(email, fullName, phone, password, new Date());
 //        if (profilePicture.getSize() > 0 && profilePicture != null) {

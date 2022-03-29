@@ -22,6 +22,7 @@ public class Error implements Serializable {
     private boolean passwordNotFollowRequirement;
     private boolean passwordNotSame;
     private boolean vCodeNotMatch;
+    private boolean dobFormatErr;
 
     public Error() {
     }
@@ -97,5 +98,15 @@ public class Error implements Serializable {
     public void setvCodeNotMatch(boolean vCodeNotMatch) {
         this.vCodeNotMatch = vCodeNotMatch;
     }
+
+    public boolean isDobFormatErr() {
+        return dobFormatErr;
+    }
+
+    public void setDobFormatErr(boolean dobFormatErr) {
+        this.dobFormatErr = dobFormatErr;
+    }
+    
+    
 
 }
