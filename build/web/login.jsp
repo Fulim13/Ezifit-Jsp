@@ -27,5 +27,6 @@
             <input type="submit" value="submit" />
         </form>
         <a href="signup.jsp">Sign up?</a>
+        <a href="forgotPassword.jsp">Forgot Password?</a>
     </body>
 </html>

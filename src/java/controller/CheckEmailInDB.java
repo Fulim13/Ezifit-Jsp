@@ -1,70 +1,59 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
-import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Customer;
-import model.Verification;
 import helper.Error;
 import helper.MailUtil;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.servlet.RequestDispatcher;
+import javax.persistence.Query;
 import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
+import model.Customer;
+import model.Verification;
 import org.apache.commons.lang3.time.DateUtils;
 
-@WebServlet(name = "CheckEmail", urlPatterns = {"/CheckEmail"})
-public class CheckEmail extends HttpServlet {
-
-    @PersistenceContext
+@WebServlet(name = "CheckEmailInDB", urlPatterns = {"/CheckEmailInDB"})
+public class CheckEmailInDB extends HttpServlet {
+@PersistenceContext
     EntityManager em;
     @Resource
     UserTransaction utx;
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //Server side Validation
         String email = request.getParameter("email");
-
-        Error error = new Error();
-
-        //Validation
-        //check whether email is empty
+        HttpSession session = request.getSession();
+        Error error = new helper.Error();
+        //email cannot be empty
         if (email.isEmpty()) {
             error.setIsError(true);
             error.setEmailEmpty(true);
         }
-
-        //check whether email is in the database 
+        //email must in the db
         Query queryEmail = em.createNamedQuery("Customer.findByEmail").setParameter("email", email);
         List<Customer> customer1 = queryEmail.getResultList();
-        if (customer1.size() > 0) {
+        if (customer1.isEmpty()) {
             error.setIsError(true);
-            error.setEmailRedundant(true);
+            error.setEmailNotFound(true);
         }
 
-        //if user do not enter correct email - back to signup
-        if (error.isIsError()) {
-            HttpSession session = request.getSession();
-            session.setAttribute("email", email);
+        //if got error redirect back to forgotPassword
+        //send with error object and user entered email
+        if(error.isIsError()){
             session.setAttribute("error", error);
-            response.sendRedirect("signup.jsp");
+            session.setAttribute("email", email);
+            response.sendRedirect("forgotPassword.jsp");
         } else {
             //get all the verification code from the database
             List<Verification> vList = em.createQuery("SELECT v FROM Verification v WHERE v.email = :email").setParameter("email", email).getResultList();
@@ -109,14 +98,13 @@ public class CheckEmail extends HttpServlet {
             } catch (MessagingException e) {
                 System.out.println(e.getMessage());
             }
-            HttpSession session = request.getSession();
             session.removeAttribute("email");
 
             session.setAttribute("email", email);
-            response.sendRedirect("signupWithCode.jsp");
+            response.sendRedirect("changePasswordWithCode.jsp");
 
         }
-
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

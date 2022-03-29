@@ -19,7 +19,7 @@
     </head>
     <body>
         <form  action="CheckVerificationCode" method="POST" class="register-form">
-            <input name="whichJSP" value="signUpWithCode" hidden/>
+            <input name="whichJSP" value="changePasswordWithCode" hidden/>
             <label>Email</label>
             <input type="text" class="email" name="email" value="${email}" readonly/>
 

@@ -16,6 +16,7 @@ import javax.transaction.UserTransaction;
 import model.Customer;
 import model.Verification;
 import helper.Error;
+import java.util.Date;
 
 @WebServlet(name = "CheckVerificationCode", urlPatterns = {"/CheckVerificationCode"})
 public class CheckVerificationCode extends HttpServlet {
@@ -29,37 +30,77 @@ public class CheckVerificationCode extends HttpServlet {
             throws ServletException, IOException {
         String email = request.getParameter("email");
         String verificationCode = request.getParameter("verificationCode");
+        String whichJSP = request.getParameter("whichJSP");
         System.out.println(email);
         List<Verification> vList = em.createQuery("SELECT v FROM Verification v WHERE  v.verificationCode = :verificationCode and v.email = :email").setParameter("verificationCode", verificationCode).setParameter("email", email).getResultList();
         int size = vList.size();
         System.out.println(size);
         HttpSession session = request.getSession();
         if (size > 0) {
-            //check whether is expired or nto 
-
-            //delete verification 
             Verification verification = vList.get(0);
-            try {
-                utx.begin();
-                if (!em.contains(verification)) {
-                    verification = em.merge(verification);
+            //check whether is expired or not
+            //if expired already , delete the verifcation , redirect to signupWithCode and  let user click the link below to regenerate a new Verifcation 
+            Date currentDateTime = new Date();
+            System.out.println(currentDateTime);
+            System.out.println(verification.getExpireDate());
+            if (currentDateTime.after(verification.getExpireDate())) {
+                System.out.println("work");
+                //delete verification 
+                try {
+                    utx.begin();
+                    if (!em.contains(verification)) {
+                        verification = em.merge(verification);
+                    }
+                    em.remove(verification);
+                    utx.commit();
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage() + "Error");
                 }
-                em.remove(verification);
-                utx.commit();
-            } catch (Exception ex) {
-                System.out.println(ex.getMessage() + "Error");
+
+                Error err = new Error();
+                err.setvCodeExpire(true);
+                session.setAttribute("email", email);
+                session.setAttribute("error", err);
+
+                if ("signUpWithCode".equalsIgnoreCase(whichJSP)) {
+                    response.sendRedirect("signupWithCode.jsp");
+                } else {
+                    response.sendRedirect("changePasswordWithCode.jsp");
+                }
+            } else {
+                try {
+                    utx.begin();
+                    if (!em.contains(verification)) {
+                        verification = em.merge(verification);
+                    }
+                    em.remove(verification);
+                    utx.commit();
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage() + "Error");
+                }
+                session.removeAttribute("email");
+                session.setAttribute("email", email);
+
+                System.out.println(email + "tseting");
+                if ("signUpWithCode".equalsIgnoreCase(whichJSP)) {
+                    response.sendRedirect("registration.jsp");
+                } else {
+                    response.sendRedirect("changePassword.jsp");
+                }
             }
-            session.removeAttribute("email");
-            session.setAttribute("email", email);
-            
-            System.out.println(email+ "tseting");
-            response.sendRedirect("registration.jsp");
+
         } else {
             Error err = new Error();
             err.setvCodeNotMatch(true);
             session.setAttribute("email", email);
-            session.setAttribute("error",err);
-            response.sendRedirect("signupWithCode.jsp");
+            session.setAttribute("error", err);
+
+            if ("signUpWithCode".equalsIgnoreCase(whichJSP)) {
+                response.sendRedirect("signupWithCode.jsp");
+            } else {
+                response.sendRedirect("changePasswordWithCode.jsp");
+            }
+
         }
     }
 

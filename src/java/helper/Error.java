@@ -23,6 +23,8 @@ public class Error implements Serializable {
     private boolean passwordNotSame;
     private boolean vCodeNotMatch;
     private boolean dobFormatErr;
+    private boolean vCodeExpire;
+    private boolean emailNotFound;
 
     public Error() {
     }
@@ -106,7 +108,21 @@ public class Error implements Serializable {
     public void setDobFormatErr(boolean dobFormatErr) {
         this.dobFormatErr = dobFormatErr;
     }
-    
-    
+
+    public boolean isvCodeExpire() {
+        return vCodeExpire;
+    }
+
+    public void setvCodeExpire(boolean vCodeExpire) {
+        this.vCodeExpire = vCodeExpire;
+    }
+
+    public boolean isEmailNotFound() {
+        return emailNotFound;
+    }
+
+    public void setEmailNotFound(boolean emailNotFound) {
+        this.emailNotFound = emailNotFound;
+    }
 
 }
