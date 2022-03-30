@@ -42,8 +42,6 @@ public class CheckLogin extends HttpServlet {
 
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        boolean rememberMe = "on".equals(request.getParameter("rememberMe"));
-        System.out.println(rememberMe);
         HttpSession session = request.getSession();
         List<Customer> cList = em.createQuery("SELECT c FROM Customer c WHERE c.email = :email and c.password = :password").setParameter("email", email).setParameter("password", password).getResultList();
         int size = cList.size();
@@ -51,31 +49,6 @@ public class CheckLogin extends HttpServlet {
         if (size > 0) {
 
             session.setAttribute("loggedInCustomer", cList.get(0));
-
-            if (rememberMe) {
-                //create Token value
-                String tokenValue = RandomStringUtils.randomAlphanumeric(50);
-                //hash it 
-
-                //create new token
-                AuthToken token = new AuthToken(tokenValue,cList.get(0));
-                //save the token into the db
-
-                try {
-
-                    utx.begin();
-                    em.persist(token);
-                    utx.commit();
-
-                } catch (Exception ex) {
-                    System.out.println(ex.getMessage());
-                }
-                //create cookie to store the token
-                Cookie cookieToken = new Cookie("token", tokenValue);
-                cookieToken.setMaxAge(604800);
-                response.addCookie(cookieToken);
-            }
-
             response.sendRedirect(request.getContextPath());
         } else {
             Error err = new Error();

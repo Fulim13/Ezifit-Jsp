@@ -25,7 +25,6 @@
             <label>Password</label><br/>
             <input type="password" name="password" /><br/>
             <div>${error.emailPasswordNotMatch ? "Email and Password Not Match" : ""}</div>
-            <input type="checkbox" name="rememberMe" checked>Remember Me
             <input type="submit" value="submit" />
         </form>
         <a href="signup.jsp">Sign up?</a>
