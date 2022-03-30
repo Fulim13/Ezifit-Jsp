@@ -1,64 +1,46 @@
-//CHAN KAI LIN
-
 package controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.PrintWriter;
 import java.util.List;
+import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.CartItem;
+import javax.transaction.UserTransaction;
+import model.Customer;
 import model.Orders;
-import model.Review;
 
+@WebServlet(name = "GetOrder", urlPatterns = {"/GetOrder"})
+public class GetOrder extends HttpServlet {
 
-public class GetReview extends HttpServlet {
-
-    @PersistenceContext
+  @PersistenceContext
     EntityManager em;
-    
+    @Resource
+    UserTransaction utx;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        
-        int orderID = Integer.parseInt(request.getParameter("orderID"));
-        System.out.println(orderID);
-        List<Review> reviewList = em.createNamedQuery("Review.findAll", Review.class).getResultList(); 
-        Review rByOrder = new Review();
-        List<Review> rByProductList = new ArrayList<>();
-        //To remove not the specific orderID
-        if(!(reviewList.isEmpty())){
-            for(int i=0; i<reviewList.size(); i++){    
-                if(!(reviewList.get(i).getOrderId().getOrderId() == orderID)){
-                    reviewList.remove(i);
-                    i--;
-                }else{
-                    if(reviewList.get(i).getProdId() == null){
-                        rByOrder = reviewList.get(i);
-                    } else{
-                        rByProductList.add(reviewList.get(i));
-                    }
-                }              
-            }
+         HttpSession session = request.getSession();
+        boolean loggedIn = session != null && session.getAttribute("loggedInCustomer") != null;
+        // not enable the people whoe have not logged in , to profile page
+        if (!loggedIn) {
+            response.sendRedirect("login.jsp");
         }
+        Customer loggedInCustomer = (Customer)session.getAttribute("loggedInCustomer");
+        List <Orders> ordersList = em.createQuery("SELECT o FROM Orders o WHERE o.customerId = :customerId").setParameter("customerId", loggedInCustomer).getResultList();
+         //Test Display sucessful
+        for(Orders orders : ordersList){
+            System.out.println(orders.getOrderId());
+            System.out.println(orders.getOrderPrice());
+        }
+        session.setAttribute("ordersList", ordersList);
+        response.sendRedirect("orders.jsp");
         
-        //To get cart related to specific orderID 
-        Orders order = em.find(Orders.class, orderID);
-        List<CartItem> cartList = order.getCartItemList();
-        System.out.println(cartList.get(0).getCartId());
-       
-        HttpSession session = request.getSession();
-        session.setAttribute("orderID", orderID);
-        session.setAttribute("rByOrder", rByOrder);  
-        session.setAttribute("rByProductList", rByProductList); 
-        session.setAttribute("cartList", cartList);  
-
-        response.sendRedirect("reviewPage1.jsp");       
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

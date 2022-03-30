@@ -34,7 +34,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Verification.findByVerificationId", query = "SELECT v FROM Verification v WHERE v.verificationId = :verificationId")
     , @NamedQuery(name = "Verification.findByVerificationCode", query = "SELECT v FROM Verification v WHERE v.verificationCode = :verificationCode")
     , @NamedQuery(name = "Verification.findByExpireDate", query = "SELECT v FROM Verification v WHERE v.expireDate = :expireDate")
-    , @NamedQuery(name = "Verification.findByExpireTime", query = "SELECT v FROM Verification v WHERE v.expireTime = :expireTime")
     , @NamedQuery(name = "Verification.findByEmail", query = "SELECT v FROM Verification v WHERE v.email = :email")})
 public class Verification implements Serializable {
 
@@ -54,11 +53,6 @@ public class Verification implements Serializable {
     @Column(name = "EXPIRE_DATE")
     @Temporal(TemporalType.DATE)
     private Date expireDate;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "EXPIRE_TIME")
-    @Temporal(TemporalType.TIME)
-    private Date expireTime;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Basic(optional = false)
     @NotNull
@@ -73,20 +67,16 @@ public class Verification implements Serializable {
         this.verificationId = verificationId;
     }
     
-    
-     public Verification(String verificationCode, Date expireDate, Date expireTime, String email) {
+    public Verification(String verificationCode, Date expireDate, String email) {
         this.verificationCode = verificationCode;
         this.expireDate = expireDate;
-        this.expireTime = expireTime;
         this.email = email;
     }
 
-
-    public Verification(Integer verificationId, String verificationCode, Date expireDate, Date expireTime, String email) {
+    public Verification(Integer verificationId, String verificationCode, Date expireDate, String email) {
         this.verificationId = verificationId;
         this.verificationCode = verificationCode;
         this.expireDate = expireDate;
-        this.expireTime = expireTime;
         this.email = email;
     }
 
@@ -112,14 +102,6 @@ public class Verification implements Serializable {
 
     public void setExpireDate(Date expireDate) {
         this.expireDate = expireDate;
-    }
-
-    public Date getExpireTime() {
-        return expireTime;
-    }
-
-    public void setExpireTime(Date expireTime) {
-        this.expireTime = expireTime;
     }
 
     public String getEmail() {

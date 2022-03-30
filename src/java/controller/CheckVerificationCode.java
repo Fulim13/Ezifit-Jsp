@@ -29,7 +29,7 @@ public class CheckVerificationCode extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String email = request.getParameter("email");
-        String verificationCode = request.getParameter("verificationCode");
+        String verificationCode = request.getParameter("verificationCode").trim();
         String whichJSP = request.getParameter("whichJSP");
         System.out.println(email);
         List<Verification> vList = em.createQuery("SELECT v FROM Verification v WHERE  v.verificationCode = :verificationCode and v.email = :email").setParameter("verificationCode", verificationCode).setParameter("email", email).getResultList();

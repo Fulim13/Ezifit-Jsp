@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author USER
+ * @author Lim
  */
 @Entity
 @Table(name = "ORDERS")
@@ -41,7 +41,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Orders.findByOrderPrice", query = "SELECT o FROM Orders o WHERE o.orderPrice = :orderPrice")
     , @NamedQuery(name = "Orders.findByPaymentMethod", query = "SELECT o FROM Orders o WHERE o.paymentMethod = :paymentMethod")
     , @NamedQuery(name = "Orders.findByShippingFee", query = "SELECT o FROM Orders o WHERE o.shippingFee = :shippingFee")
-    , @NamedQuery(name = "Orders.findByStatus", query = "SELECT o FROM Orders o WHERE o.status = :status")})
+    , @NamedQuery(name = "Orders.findByStatus", query = "SELECT o FROM Orders o WHERE o.status = :status")
+    , @NamedQuery(name = "Orders.findByShippingAddress", query = "SELECT o FROM Orders o WHERE o.shippingAddress = :shippingAddress")})
 public class Orders implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -73,6 +74,11 @@ public class Orders implements Serializable {
     @Size(min = 1, max = 25)
     @Column(name = "STATUS")
     private String status;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 500)
+    @Column(name = "SHIPPING_ADDRESS")
+    private String shippingAddress;
     @JoinColumn(name = "CUSTOMER_ID", referencedColumnName = "CUSTOMER_ID")
     @ManyToOne(optional = false)
     private Customer customerId;
@@ -87,14 +93,24 @@ public class Orders implements Serializable {
     public Orders(Integer orderId) {
         this.orderId = orderId;
     }
+    
+    public Orders(Date orderDate, double orderPrice, String paymentMethod, double shippingFee, String status, String shippingAddress) {
+        this.orderDate = orderDate;
+        this.orderPrice = orderPrice;
+        this.paymentMethod = paymentMethod;
+        this.shippingFee = shippingFee;
+        this.status = status;
+        this.shippingAddress = shippingAddress;
+    }
 
-    public Orders(Integer orderId, Date orderDate, double orderPrice, String paymentMethod, double shippingFee, String status) {
+    public Orders(Integer orderId, Date orderDate, double orderPrice, String paymentMethod, double shippingFee, String status, String shippingAddress) {
         this.orderId = orderId;
         this.orderDate = orderDate;
         this.orderPrice = orderPrice;
         this.paymentMethod = paymentMethod;
         this.shippingFee = shippingFee;
         this.status = status;
+        this.shippingAddress = shippingAddress;
     }
 
     public Integer getOrderId() {
@@ -145,6 +161,14 @@ public class Orders implements Serializable {
         this.status = status;
     }
 
+    public String getShippingAddress() {
+        return shippingAddress;
+    }
+
+    public void setShippingAddress(String shippingAddress) {
+        this.shippingAddress = shippingAddress;
+    }
+
     public Customer getCustomerId() {
         return customerId;
     }
@@ -152,7 +176,7 @@ public class Orders implements Serializable {
     public void setCustomerId(Customer customerId) {
         this.customerId = customerId;
     }
-
+    
     @XmlTransient
     public List<Review> getReviewList() {
         return reviewList;

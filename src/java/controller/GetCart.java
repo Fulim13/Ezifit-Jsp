@@ -1,15 +1,13 @@
-//CHAN KAI LIN
 package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,66 +15,31 @@ import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 import model.CartItem;
 import model.Customer;
-import model.Product;
 
-public class AddToCart extends HttpServlet {
-
-    @PersistenceContext
+@WebServlet(name = "GetCart", urlPatterns = {"/GetCart"})
+public class GetCart extends HttpServlet {
+@PersistenceContext
     EntityManager em;
     @Resource
     UserTransaction utx;
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         boolean loggedIn = session != null && session.getAttribute("loggedInCustomer") != null;
         // not enable the people whoe have not logged in , to profile page
         if (!loggedIn) {
-            response.sendRedirect(request.getContextPath());
+            response.sendRedirect("login.jsp");
         }
+        Customer loggedInCustomer = (Customer)session.getAttribute("loggedInCustomer");
+        List<CartItem> cartItemList = em.createQuery("SELECT c FROM CartItem c WHERE c.customerId = :customerId and c.orderId IS NULL").setParameter("customerId", loggedInCustomer).getResultList();
         
-
-        int prodID = Integer.parseInt(request.getParameter("prodID"));
-
-        try {
-            Product product = em.find(Product.class, prodID);
-
-            Customer loggedInCustomer = (Customer)session.getAttribute("loggedInCustomer");
-
-            List<CartItem> cartItemList = em.createNamedQuery("CartItem.findAll", CartItem.class).getResultList();
-            CartItem cartItem1 = new CartItem(product, loggedInCustomer, 1, product.getPrice());
-            CartItem cartItem2 = new CartItem();
-
-            //Find if there is same product that is in cart
-            for (int i = 0; i < cartItemList.size(); i++) {
-                if ((cartItemList.get(i).getCustomerId().getCustomerId() == loggedInCustomer.getCustomerId()) && (cartItemList.get(i).getOrderId() == null) && (cartItemList.get(i).getProdId().getProdId() == prodID)) {
-                    cartItem2 = cartItemList.get(i);
-                    int qty = cartItem2.getPurchaseQty() + 1;
-                    double price = cartItem2.getSubtotal() + product.getPrice();
-                    cartItem2.setPurchaseQty(qty);
-                    cartItem2.setSubtotal(price);
-                }
-            }
-
-            utx.begin();
-            if (cartItem2.getCartId() == null) {
-                em.persist(cartItem1);
-            } else {
-                em.merge(cartItem2);
-            }
-            utx.commit();
-
-            //back to previous page
-            PrintWriter out = response.getWriter();
-            out.println("<button id=\"backBtn\" onclick=\"history.back()\">Click here to go back </button>");
-            out.println("<script>window.onload = function(){"
-                    + "var button = document.getElementById('backBtn').click();"
-                    + "}</script>");
-
-        } catch (Exception ex) {
-            Logger.getLogger(AddToCart.class.getName()).log(Level.SEVERE, null, ex);
+        //Test Display sucessful
+        for(CartItem cartItem : cartItemList){
+            System.out.println(cartItem.getCartId());
+            System.out.println(cartItem.getPurchaseQty());
         }
+        session.setAttribute("cartItemList", cartItemList);
+        response.sendRedirect("cart.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -95,7 +95,7 @@ public class CheckEmail extends HttpServlet {
             System.out.println("Before Adding : " + targetTime);
             targetTime = DateUtils.addMinutes(targetTime, addMinuteTime); // add minute
             System.out.println("After adding targetTime : " + targetTime);
-            Verification verification = new Verification(verificationCode, targetTime, targetTime, email);
+            Verification verification = new Verification(verificationCode, targetTime, email);
             try {
                 utx.begin();
                 em.persist(verification);

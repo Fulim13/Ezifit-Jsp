@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author USER
+ * @author Lim
  */
 @Entity
 @Table(name = "AUTH_TOKEN")

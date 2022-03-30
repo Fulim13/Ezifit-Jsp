@@ -135,11 +135,12 @@
                   <li><a href="login.jsp"><i class="fa fa-user"></i></a></li>
                  <%}%>
                 <%if(loggedIn){%>
+                <li><a href="GetOrder">My Order</a></li>
                 <li><a href="Logout">Logout</a></li>
                 <%} else {%>
                 <li><a href="login.jsp">Login</a></li>
                 <%}%>
-                <li><a href=""><i class="fa fa-shopping-cart"></i></a></li>
+                <li><a href="GetCart"><i class="fa fa-shopping-cart"></i></a></li>
                 <!--<li><a href=""><i class="fa fa-sign-out"></i></a></li>-->             
             </ul>
         </div>

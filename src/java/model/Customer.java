@@ -6,8 +6,6 @@
 package model;
 
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -94,11 +92,7 @@ public class Customer implements Serializable {
     public Customer(Integer customerId) {
         this.customerId = customerId;
     }
-
-    public Customer(String email) {
-        this.email = email;
-    }
-
+    
     public Customer(String email, String fullname, String phone, String password, Date registerDate) {
         this.email = email;
         this.fullname = fullname;
@@ -212,15 +206,10 @@ public class Customer implements Serializable {
     public String toString() {
         return "model.Customer[ customerId=" + customerId + " ]";
     }
-
-    public String getBase64Image() {
-        return Base64.getEncoder().encodeToString(this.customerImage);
-
+    
+    public String getBase64Image(){
+        return  Base64.getEncoder().encodeToString(this.customerImage);
+       
     }
-
-    public String getStrDate() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        return dateFormat.format(this.dob);
-    }
-
+    
 }
