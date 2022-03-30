@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -94,7 +95,7 @@ public class Orders implements Serializable {
         this.orderId = orderId;
     }
     
-    public Orders(Date orderDate, double orderPrice, String paymentMethod, double shippingFee, String status, String shippingAddress) {
+    public Orders( Date orderDate, double orderPrice, String paymentMethod, double shippingFee, String status, String shippingAddress) {
         this.orderDate = orderDate;
         this.orderPrice = orderPrice;
         this.paymentMethod = paymentMethod;
@@ -176,7 +177,7 @@ public class Orders implements Serializable {
     public void setCustomerId(Customer customerId) {
         this.customerId = customerId;
     }
-    
+
     @XmlTransient
     public List<Review> getReviewList() {
         return reviewList;

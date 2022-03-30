@@ -47,27 +47,43 @@ public class Payment extends HttpServlet {
         double shippingFee = Double.parseDouble(request.getParameter("shippingFee"));
         double totalPayment = Double.parseDouble(request.getParameter("totalPayment"));
 
+//        for (String purchaseCartItemId : purchaseCartItemIdArr) {
+//            //minus product quantity
+//            CartItem purchaseCartItem = em.find(CartItem.class, Integer.parseInt(purchaseCartItemId));
+//            int originalQty = purchaseCartItem.getProdId().getQuantity();
+//            int purchaseQty = purchaseCartItem.getPurchaseQty();
+//            if (purchaseQty > originalQty) {
+//                response.sendRedirect("orderFail.jsp");
+//            } else {
+//                Product product = em.find(Product.class, purchaseCartItem.getProdId().getProdId());
+//                product.setQuantity(originalQty - purchaseQty);
+//
+//                try {
+//                    utx.begin();
+//                    em.merge(product);
+//                    utx.commit();
+//                } catch (Exception ex) {
+//                    System.out.println(ex.getMessage());
+//                }
+//            }
+//        }
+        List<CartItem> purchaseCartItemList = new ArrayList<CartItem>();
         for (String purchaseCartItemId : purchaseCartItemIdArr) {
-            //minus product quantity
+            System.out.println(purchaseCartItemId);
             CartItem purchaseCartItem = em.find(CartItem.class, Integer.parseInt(purchaseCartItemId));
-            int originalQty = purchaseCartItem.getProdId().getQuantity();
-            int purchaseQty = purchaseCartItem.getPurchaseQty();
-            if (purchaseQty > originalQty) {
-                response.sendRedirect("orderFail.jsp");
-            } else {
-                Product product = em.find(Product.class, purchaseCartItem.getProdId().getProdId());
-                product.setQuantity(originalQty - purchaseQty);
+            System.out.println(purchaseCartItem);
+//            purchaseCartItem.setOrderId(order);
+            purchaseCartItemList.add(purchaseCartItem);
+//            //update database
+//            try {
+//                utx.begin();
+//                em.merge(purchaseCartItem);
+//                utx.commit();
+//            } catch (Exception ex) {
+//                System.out.println(ex.getMessage());
+//            }
 
-                try {
-                    utx.begin();
-                    em.merge(product);
-                    utx.commit();
-                } catch (Exception ex) {
-                    System.out.println(ex.getMessage());
-                }
-            }
         }
-//        List<CartItem> purchaseCartItemList = new ArrayList<CartItem>();
 
         System.out.println(paymentMethod);
         System.out.println(totalPayment);
@@ -79,6 +95,7 @@ public class Payment extends HttpServlet {
             System.out.println("Before Adding : " + targetTime);
             targetTime = DateUtils.addMinutes(targetTime, 0); // add minute
         Orders order = new Orders(targetTime, totalPayment, paymentMethod, shippingFee, "Ordered", shippingAddress);
+        order.setCartItemList(purchaseCartItemList);
 //        System.out.println(order.getCartItemList());
         order.setCustomerId(loggedInCustomer);
 
@@ -92,13 +109,14 @@ public class Payment extends HttpServlet {
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
+        
         for (String purchaseCartItemId : purchaseCartItemIdArr) {
             System.out.println(purchaseCartItemId);
             CartItem purchaseCartItem = em.find(CartItem.class, Integer.parseInt(purchaseCartItemId));
             System.out.println(purchaseCartItem);
             purchaseCartItem.setOrderId(order);
-//            purchaseCartItemList.add(purchaseCartItem);
-            //update database
+            purchaseCartItemList.add(purchaseCartItem);
+//            //update database
             try {
                 utx.begin();
                 em.merge(purchaseCartItem);
@@ -108,6 +126,7 @@ public class Payment extends HttpServlet {
             }
 
         }
+        
 
 //            RequestDispatcher rd = request.getRequestDispatcher("GetOrder");
 //

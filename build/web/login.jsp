@@ -19,14 +19,17 @@
         <title>JSP Page</title>
     </head>
     <body>
-       <form action="CheckLogin">
+       <form action="CheckLogin" method="POST">
             <label>Email</label><br/>
             <input type="text" name="email" /><br/>
             <label>Password</label><br/>
             <input type="password" name="password" /><br/>
+            <div>${error.emailPasswordNotMatch ? "Email and Password Not Match" : ""}</div>
+            <input type="checkbox" name="rememberMe" checked>Remember Me
             <input type="submit" value="submit" />
         </form>
         <a href="signup.jsp">Sign up?</a>
         <a href="forgotPassword.jsp">Forgot Password?</a>
     </body>
 </html>
+<%session.removeAttribute("error");%>

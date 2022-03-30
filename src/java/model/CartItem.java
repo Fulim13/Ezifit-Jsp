@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author USER
+ * @author Lim
  */
 @Entity
 @Table(name = "CART_ITEM")
@@ -51,7 +51,7 @@ public class CartItem implements Serializable {
     @JoinColumn(name = "CUSTOMER_ID", referencedColumnName = "CUSTOMER_ID")
     @ManyToOne(optional = false)
     private Customer customerId;
-    @JoinColumn(name = "ORDER_ID", referencedColumnName = "ORDER_ID")
+    @JoinColumn(name = "ORDER_ID", referencedColumnName = "ORDER_ID",updatable = true)
     @ManyToOne
     private Orders orderId;
     @JoinColumn(name = "PROD_ID", referencedColumnName = "PROD_ID")
@@ -70,14 +70,14 @@ public class CartItem implements Serializable {
         this.purchaseQty = purchaseQty;
         this.subtotal = subtotal;
     }
-    
+
     public CartItem(Product prodId, Customer customerId, int purchaseQty, double subtotal){
         this.prodId = prodId;
         this.customerId = customerId;
         this.purchaseQty = purchaseQty;
         this.subtotal = subtotal;
     }
-
+    
     public Integer getCartId() {
         return cartId;
     }

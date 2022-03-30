@@ -50,7 +50,7 @@ public class GetReview extends HttpServlet {
         //To get cart related to specific orderID 
         Orders order = em.find(Orders.class, orderID);
         List<CartItem> cartList = order.getCartItemList();
-        System.out.println(cartList.get(0).getCartId());
+        System.out.println(cartList.size());
        
         HttpSession session = request.getSession();
         session.setAttribute("orderID", orderID);

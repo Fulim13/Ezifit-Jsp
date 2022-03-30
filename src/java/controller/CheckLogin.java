@@ -6,18 +6,24 @@
 package controller;
 
 import model.Customer;
+import helper.Error;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.transaction.UserTransaction;
+import model.AuthToken;
+import org.apache.commons.lang3.RandomStringUtils;
 
 /**
  *
@@ -28,44 +34,54 @@ public class CheckLogin extends HttpServlet {
 
     @PersistenceContext
     EntityManager em;
+    @Resource
+    UserTransaction utx;
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-//        response.setContentType("text/html;charset=UTF-8");
-//        try (PrintWriter out = response.getWriter()) {
-//            /* TODO output your page here. You may use following sample code. */
-//            out.println("<!DOCTYPE html>");
-//            out.println("<html>");
-//            out.println("<head>");
-//            out.println("<title>Servlet CheckLogin</title>");            
-//            out.println("</head>");
-//            out.println("<body>");
-//            out.println("<h1>Servlet CheckLogin at " + request.getContextPath() + "</h1>");
-//            out.println("</body>");
-//            out.println("</html>");
-//        }
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-
+        boolean rememberMe = "on".equals(request.getParameter("rememberMe"));
+        System.out.println(rememberMe);
+        HttpSession session = request.getSession();
         List<Customer> cList = em.createQuery("SELECT c FROM Customer c WHERE c.email = :email and c.password = :password").setParameter("email", email).setParameter("password", password).getResultList();
         int size = cList.size();
 //        System.out.println(cList.get(0));
         if (size > 0) {
-            HttpSession session = request.getSession();
+
             session.setAttribute("loggedInCustomer", cList.get(0));
+
+            if (rememberMe) {
+                //create Token value
+                String tokenValue = RandomStringUtils.randomAlphanumeric(50);
+                //hash it 
+
+                //create new token
+                AuthToken token = new AuthToken(tokenValue,cList.get(0));
+                //save the token into the db
+
+                try {
+
+                    utx.begin();
+                    em.persist(token);
+                    utx.commit();
+
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
+                }
+                //create cookie to store the token
+                Cookie cookieToken = new Cookie("token", tokenValue);
+                cookieToken.setMaxAge(604800);
+                response.addCookie(cookieToken);
+            }
 
             response.sendRedirect(request.getContextPath());
         } else {
+            Error err = new Error();
+            err.setEmailPasswordNotMatch(true);
+
+            session.setAttribute("error", err);
             response.sendRedirect("login.jsp");
         }
 

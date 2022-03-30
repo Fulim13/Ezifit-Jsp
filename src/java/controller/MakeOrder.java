@@ -44,7 +44,7 @@ public class MakeOrder extends HttpServlet {
         //Find all the selected cart Item where this customer select to buy
         for(String cartItemId : cartItemIdArr){
             CartItem cartItem = em.find(CartItem.class, Integer.parseInt(cartItemId));
-            System.out.println(cartItem);
+//            System.out.println(cartItem);
             //calc subtotal
             orderPrice +=cartItem.getSubtotal();
             //calculate Shipping feee based on weight

@@ -56,6 +56,11 @@ public class AuthToken implements Serializable {
         this.tokenId = tokenId;
     }
 
+    public AuthToken(String tokenValue,Customer customerId) {
+        this.tokenValue = tokenValue;
+        this.customerId = customerId;
+    }
+
     public AuthToken(Integer tokenId, String tokenValue) {
         this.tokenId = tokenId;
         this.tokenValue = tokenValue;
@@ -109,5 +114,5 @@ public class AuthToken implements Serializable {
     public String toString() {
         return "model.AuthToken[ tokenId=" + tokenId + " ]";
     }
-    
+
 }
