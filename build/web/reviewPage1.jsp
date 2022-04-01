@@ -5,7 +5,13 @@
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-  Review rByOrder = (Review)session.getAttribute("rByOrder");
+    boolean loggedIn = session != null && session.getAttribute("loggedInCustomer") != null;
+    // not enable the people whoe have not logged in , to profile page
+    if (!loggedIn) {
+        response.sendRedirect(request.getContextPath());
+        return;
+    }
+    Review rByOrder = (Review) session.getAttribute("rByOrder");
 %>
 
 <!DOCTYPE html>
@@ -43,6 +49,10 @@
             }
             .nav-link :hover{
                 color: #8B0000;
+            }
+            a, a:hover, a:focus, a:active {
+                text-decoration: none;
+                color: inherit;
             }
             .button{
                 text-align: center;                
@@ -110,15 +120,21 @@
         <div class="header">            
             <span><a href="homePage.jsp">EZIFIT</a></span>
             <ul class="nav-link">
-                <li><a href=""><i class="fa fa-facebook"></i></a></li>
-                <li><a href=""><i class="fa fa-twitter"></i></a></li>
                 <li>|</li>
-                <li><a href=""><i class="fa fa-user"></i></a></li>
-                <li><a href=""><i class="fa fa-shopping-cart"></i></a></li>
-                <li><a href=""><i class="fa fa-sign-out"></i></a></li>                
+                    <%if (loggedIn) {%>
+                <li><a href="profile.jsp"><i class="fa fa-user"></i></a></li>
+                <li><a href="GetOrder">My Order</a></li>
+                <li><a href="Logout">Logout</a></li>
+                <li><a href="GetCart"><i class="fa fa-shopping-cart"></i></a></li>
+                        <%} else {%>
+                <li><a href="login.jsp"><i class="fa fa-user"></i></a></li>
+                <li><a href="login.jsp">My Order</a></li>
+                <li><a href="login.jsp">Login</a></li>
+                <li><a href="login.jsp"><i class="fa fa-shopping-cart"></i></a></li>
+                        <%}%>       
             </ul>
         </div>
-        
+
         <div class="button">
             <button id="btn1">REVIEW BY ORDER</button>
             <a href="reviewPage2.jsp"><button id="btn2">REVIEW BY PRODUCTS</button></a>
@@ -126,55 +142,57 @@
 
         <div class="rByO" id="1">           
             <div class="rateOrder">                                   
-                
-                <% if(rByOrder.getReviewId() != null){ %>        
+
+                <% if (rByOrder.getReviewId() != null) { %>        
+                <h1>Send Us Feedback</h1><br/><br/>
+                <div>How was your experience?</div><br/>
+                <span><i class="fa fa-thumbs-down"></i></span><span><i class="fa fa-thumbs-up"></i></span>
+                <div class="radioBtn">
+                    <% for (int r = 1; r <= 10; r++) {
+                            if (rByOrder.getRating() == r) {
+                    %>
+                    <input type="radio" name="rating" disabled checked="true" />
+                    <% } else { %>
+                    <input type="radio" name="rating" disabled /> 
+                    <%  }
+                            }%>                   
+                </div>                
+
+                <br/><br/>
+                <div style="margin-bottom: 10px">We'd love to hear your feedback. What was positive? What can we improve?</div>
+                <textarea name="comment" rows="6" cols="50" readonly="" placeholder="<%= rByOrder.getComment()%>"></textarea><br/><br/><br/>
+
+                <%  if (rByOrder.getReplyComment() != null) {%> 
+                <div style="margin-bottom: 10px">Feedback from us</div>
+                <textarea rows="6" cols="50" readonly="" placeholder="<%= rByOrder.getReplyComment()%>"></textarea>
+
+                <% }
+                } else { %>
+                <form action="SaveOrderReview">                  
                     <h1>Send Us Feedback</h1><br/><br/>
                     <div>How was your experience?</div><br/>
                     <span><i class="fa fa-thumbs-down"></i></span><span><i class="fa fa-thumbs-up"></i></span>
                     <div class="radioBtn">
-                        <% for(int r=1; r<=10; r++){
-                            if(rByOrder.getRating() == r){                             
-                        %>
-                            <input type="radio" name="rating" disabled checked="true" />
-                        <% }else { %>
-                            <input type="radio" name="rating" disabled /> 
-                        <%  } } %>                   
+                        <input type="radio" name="rating" value="1" required />
+                        <input type="radio" name="rating" value="2" required />
+                        <input type="radio" name="rating" value="3" required />
+                        <input type="radio" name="rating" value="4" required />
+                        <input type="radio" name="rating" value="5" required />
+                        <input type="radio" name="rating" value="6" required />
+                        <input type="radio" name="rating" value="7" required />
+                        <input type="radio" name="rating" value="8" required />
+                        <input type="radio" name="rating" value="9" required />
+                        <input type="radio" name="rating" value="10" required />
                     </div>                
 
                     <br/><br/>
                     <div style="margin-bottom: 10px">We'd love to hear your feedback. What was positive? What can we improve?</div>
-                    <textarea name="comment" rows="6" cols="50" readonly="" placeholder="<%= rByOrder.getComment() %>"></textarea><br/><br/><br/>
-                    
-                    <%  if(rByOrder.getReplyComment() != null){ %> 
-                    <div style="margin-bottom: 10px">Feedback from us</div>
-                    <textarea rows="6" cols="50" readonly="" placeholder="<%= rByOrder.getReplyComment() %>"></textarea>
-                        
-                <% } }else{ %>
-                <form action="SaveOrderReview">                  
-                        <h1>Send Us Feedback</h1><br/><br/>
-                        <div>How was your experience?</div><br/>
-                        <span><i class="fa fa-thumbs-down"></i></span><span><i class="fa fa-thumbs-up"></i></span>
-                        <div class="radioBtn">
-                            <input type="radio" name="rating" value="1" required />
-                            <input type="radio" name="rating" value="2" required />
-                            <input type="radio" name="rating" value="3" required />
-                            <input type="radio" name="rating" value="4" required />
-                            <input type="radio" name="rating" value="5" required />
-                            <input type="radio" name="rating" value="6" required />
-                            <input type="radio" name="rating" value="7" required />
-                            <input type="radio" name="rating" value="8" required />
-                            <input type="radio" name="rating" value="9" required />
-                            <input type="radio" name="rating" value="10" required />
-                        </div>                
+                    <textarea name="comment" rows="6" cols="50"></textarea>
+                    <div class="submitBtn"><input type="submit" value="submit" /><div>
+                            </form>
+                            <% }%>
+                        </div>
+                    </div>
 
-                        <br/><br/>
-                        <div style="margin-bottom: 10px">We'd love to hear your feedback. What was positive? What can we improve?</div>
-                        <textarea name="comment" rows="6" cols="50"></textarea>
-                        <div class="submitBtn"><input type="submit" value="submit" /><div>
-                </form>
-                <% } %>
-            </div>
-        </div>
-        
-    </body>
-</html>
+                    </body>
+                    </html>

@@ -5,8 +5,14 @@
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-  List<Review> rByProductList = (List)session.getAttribute("rByProductList");
-  List<CartItem> cartList = (List)session.getAttribute("cartList");
+    boolean loggedIn = session != null && session.getAttribute("loggedInCustomer") != null;
+    // not enable the people whoe have not logged in , to profile page
+    if (!loggedIn) {
+        response.sendRedirect(request.getContextPath());
+        return;
+    }
+    List<Review> rByProductList = (List) session.getAttribute("rByProductList");
+    List<CartItem> cartList = (List) session.getAttribute("cartList");
 %>
 
 <!DOCTYPE html>
@@ -44,6 +50,10 @@
             }
             .nav-link :hover{
                 color: #8B0000;
+            }
+            a, a:hover, a:focus, a:active {
+                text-decoration: none;
+                color: inherit;
             }
             .button{
                 text-align: center;                
@@ -150,37 +160,43 @@
         <div class="header">            
             <span><a href="homePage.jsp">EZIFIT</a></span>
             <ul class="nav-link">
-                <li><a href=""><i class="fa fa-facebook"></i></a></li>
-                <li><a href=""><i class="fa fa-twitter"></i></a></li>
                 <li>|</li>
-                <li><a href=""><i class="fa fa-user"></i></a></li>
-                <li><a href=""><i class="fa fa-shopping-cart"></i></a></li>
-                <li><a href=""><i class="fa fa-sign-out"></i></a></li>                
+                    <%if (loggedIn) {%>
+                <li><a href="profile.jsp"><i class="fa fa-user"></i></a></li>
+                <li><a href="GetOrder">My Order</a></li>
+                <li><a href="Logout">Logout</a></li>
+                <li><a href="GetCart"><i class="fa fa-shopping-cart"></i></a></li>
+                        <%} else {%>
+                <li><a href="login.jsp"><i class="fa fa-user"></i></a></li>
+                <li><a href="login.jsp">My Order</a></li>
+                <li><a href="login.jsp">Login</a></li>
+                <li><a href="login.jsp"><i class="fa fa-shopping-cart"></i></a></li>
+                        <%}%>       
             </ul>
         </div>
-        
+
         <div class="button">
             <a href="reviewPage1.jsp"><button id="btn1">REVIEW BY ORDER</button></a>
             <button id="btn2">REVIEW BY PRODUCTS</button>
         </div>
-        
-        <% for(int i=0; i<cartList.size(); i++){ %>        
-        <div class="num"><%= i+1 %>/<%= cartList.size() %></div>
+
+        <% for (int i = 0; i < cartList.size(); i++) {%>        
+        <div class="num"><%= i + 1%>/<%= cartList.size()%></div>
         <table class="rByP">           
             <tr>
                 <td class="imageC">
-                    <img id="img" src="data:image/jpg;base64,<%= cartList.get(i).getProdId().getBase64Image() %>">
+                    <img id="img" src="data:image/jpg;base64,<%= cartList.get(i).getProdId().getBase64Image()%>">
                     <div class="descriptionC">
-                        <div class="name"><%= cartList.get(i).getProdId().getProdName() %></div>
-                        <div>Size: <%= cartList.get(i).getProdId().getSize() %></div>
-                        <div>Quantity: <%= cartList.get(i).getPurchaseQty() %></div>  
-                        <div>Price per piece: MYR<%= String.format("%.2f", cartList.get(i).getProdId().getPrice()) %></div>                        
+                        <div class="name"><%= cartList.get(i).getProdId().getProdName()%></div>
+                        <div>Size: <%= cartList.get(i).getProdId().getSize()%></div>
+                        <div>Quantity: <%= cartList.get(i).getPurchaseQty()%></div>  
+                        <div>Price per piece: MYR<%= String.format("%.2f", cartList.get(i).getProdId().getPrice())%></div>                        
                     </div>
                 </td>
-                
+
                 <td>
                     <form class="form" action="SaveProdReview">
-                        <% if(rByProductList.isEmpty()){ %>
+                        <% if (rByProductList.isEmpty()) {%>
                         <h1>Send Us Feedback</h1><br/><br/>
                         <div>How was our product?</div><br/>
                         <span><i class="fa fa-thumbs-down"></i></span><span><i class="fa fa-thumbs-up"></i></span>
@@ -199,70 +215,72 @@
                         <br/><br/>
                         <div style>We'd love to hear your feedback. How was our product? What can we improve?</div>
                         <textarea name="comment" rows="6" cols="60"></textarea>
-                        <input type="hidden" name="prodID" value="<%= cartList.get(i).getProdId() %>" />
+                        <input type="hidden" name="prodID" value="<%= cartList.get(i).getProdId()%>" />
                         <div class="submitBtn"><input type="submit" value="submit" />        
-                        <% } else{ %>
-                        <% int flag=0; int index = -1; %>
-                        <% for(int j=0; j<rByProductList.size(); j++){ 
-                            if(rByProductList.get(j).getProdId().getProdId() == cartList.get(i).getProdId().getProdId()){ 
-                                flag = 1;
-                                index = j;
-                            }
-                           }
-                        %> 
-                        <% if(flag ==1){ %>
-                        <h1>Send Us Feedback</h1><br/><br/>
-                        <div>How was our product?</div><br/>
-                        <span><i class="fa fa-thumbs-down"></i></span><span><i class="fa fa-thumbs-up"></i></span>
-                        <div class="radioBtn">
-                            <% for(int r=1; r<=10; r++){
-                                if(rByProductList.get(index).getRating() == r){                             
-                            %>
+                            <% } else { %>
+                            <% int flag = 0;
+                            int index = -1; %>
+                            <% for (int j = 0; j < rByProductList.size(); j++) {
+                                    if (rByProductList.get(j).getProdId().getProdId() == cartList.get(i).getProdId().getProdId()) {
+                                        flag = 1;
+                                        index = j;
+                                    }
+                                }
+                            %> 
+                            <% if (flag == 1) { %>
+                            <h1>Send Us Feedback</h1><br/><br/>
+                            <div>How was our product?</div><br/>
+                            <span><i class="fa fa-thumbs-down"></i></span><span><i class="fa fa-thumbs-up"></i></span>
+                            <div class="radioBtn">
+                                <% for (int r = 1; r <= 10; r++) {
+                                        if (rByProductList.get(index).getRating() == r) {
+                                %>
                                 <input type="radio" name="rating" disabled checked="true" />
-                            <% }else { %>
+                                <% } else { %>
                                 <input type="radio" name="rating" disabled /> 
-                            <%  } } %>                   
-                        </div>    
-                        <br/><br/>
-                        <div style>We'd love to hear your feedback. How was our product? What can we improve?</div>
-                        <textarea name="comment" rows="6" cols="60"  readonly="" placeholder="<%= rByProductList.get(index).getComment() %>"></textarea>
-                        
-                        <%  if(rByProductList.get(index).getReplyComment() != null){ %> 
-                            <div style="margin-bottom: 10px">Feedback from us:</div>
-                            <textarea rows="6" cols="50" readonly="" placeholder="<%= rByProductList.get(index).getReplyComment() %>"></textarea>
-                        <% } %>
-                        <% } else{ %>
-                                                          
-                        <h1>Send Us Feedback</h1><br/><br/>
-                        <div>How was our product?</div><br/>
-                        <span><i class="fa fa-thumbs-down"></i></span><span><i class="fa fa-thumbs-up"></i></span>
-                        <div class="radioBtn">
-                            <input id="rb" type="radio" name="rating" value="1" required />
-                            <input id="rb"  type="radio" name="rating" value="2" required />
-                            <input id="rb"  type="radio" name="rating" value="3" required />
-                            <input id="rb"  type="radio" name="rating" value="4" required />
-                            <input id="rb" type="radio" name="rating" value="5" required />
-                            <input id="rb" type="radio" name="rating" value="6" required />
-                            <input id="rb" type="radio" name="rating" value="7" required />
-                            <input id="rb" type="radio" name="rating" value="8" required />
-                            <input id="rb" type="radio" name="rating" value="9" required />
-                            <input id="rb" type="radio" name="rating" value="10" required />
-                        </div>                
-                        <br/><br/>
-                        <div style>We'd love to hear your feedback. How was our product? What can we improve?</div>
-                        <textarea id="ta" name="comment" rows="6" cols="60"></textarea>
-                        <input style="display: none;" type="text" name="prodID" value="<%= cartList.get(i).getProdId().getProdId() %>" />
-                        <div class="submitBtn"><input type="submit" value="submit" />                    
-                    <% } %>  
-                    <% } %>
-                    </form> 
-                </td>
-            </tr>                       
-        </table>   <br/><br/><br/><br/>      
-        <% } %>
-                     
-        <script>
+                                <%  }
+                                }%>                   
+                            </div>    
+                            <br/><br/>
+                            <div style>We'd love to hear your feedback. How was our product? What can we improve?</div>
+                            <textarea name="comment" rows="6" cols="60"  readonly="" placeholder="<%= rByProductList.get(index).getComment()%>"></textarea>
 
-        </script>
-    </body>
-</html>
+                            <%  if (rByProductList.get(index).getReplyComment() != null) {%> 
+                            <div style="margin-bottom: 10px">Feedback from us:</div>
+                            <textarea rows="6" cols="50" readonly="" placeholder="<%= rByProductList.get(index).getReplyComment()%>"></textarea>
+                            <% } %>
+                            <% } else {%>
+
+                            <h1>Send Us Feedback</h1><br/><br/>
+                            <div>How was our product?</div><br/>
+                            <span><i class="fa fa-thumbs-down"></i></span><span><i class="fa fa-thumbs-up"></i></span>
+                            <div class="radioBtn">
+                                <input id="rb" type="radio" name="rating" value="1" required />
+                                <input id="rb"  type="radio" name="rating" value="2" required />
+                                <input id="rb"  type="radio" name="rating" value="3" required />
+                                <input id="rb"  type="radio" name="rating" value="4" required />
+                                <input id="rb" type="radio" name="rating" value="5" required />
+                                <input id="rb" type="radio" name="rating" value="6" required />
+                                <input id="rb" type="radio" name="rating" value="7" required />
+                                <input id="rb" type="radio" name="rating" value="8" required />
+                                <input id="rb" type="radio" name="rating" value="9" required />
+                                <input id="rb" type="radio" name="rating" value="10" required />
+                            </div>                
+                            <br/><br/>
+                            <div style>We'd love to hear your feedback. How was our product? What can we improve?</div>
+                            <textarea id="ta" name="comment" rows="6" cols="60"></textarea>
+                            <input style="display: none;" type="text" name="prodID" value="<%= cartList.get(i).getProdId().getProdId()%>" />
+                            <div class="submitBtn"><input type="submit" value="submit" />                    
+                                <% } %>  
+                                <% } %>
+                                </form> 
+                                </td>
+                                </tr>                       
+                                </table>   <br/><br/><br/><br/>      
+                                <% }%>
+
+                                <script>
+
+                                </script>
+                                </body>
+                                </html>

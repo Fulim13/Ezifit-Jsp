@@ -109,7 +109,7 @@ public class Orders implements Serializable {
         this.orderDate = orderDate;
         this.orderPrice = orderPrice;
         this.paymentMethod = paymentMethod;
-        this.shippingFee = shippingFee;
+        this.shippingFee = Double.parseDouble(String.format("%.2f", shippingFee));
         this.status = status;
         this.shippingAddress = shippingAddress;
     }
@@ -151,7 +151,8 @@ public class Orders implements Serializable {
     }
 
     public void setShippingFee(double shippingFee) {
-        this.shippingFee = shippingFee;
+         
+        this.shippingFee = Double.parseDouble(String.format("%.2f", shippingFee));
     }
 
     public String getStatus() {

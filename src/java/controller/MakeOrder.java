@@ -5,7 +5,6 @@ package controller;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -28,56 +27,59 @@ import model.CartItem;
 @WebServlet(urlPatterns = {"/MakeOrder"})
 public class MakeOrder extends HttpServlet {
 
-   @PersistenceContext
+    @PersistenceContext
     EntityManager em;
     @Resource
     UserTransaction utx;
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //get selected CartItemID
+
         String[] cartItemIdArr = request.getParameterValues("cartItemList");
-        ArrayList<CartItem> purchaseCartItemList = new ArrayList<CartItem>();
-        double orderPrice = 0;
-        double weight = 0;
-        double shippingFee = 0;
-        
-        //Find all the selected cart Item where this customer select to buy
-        for(String cartItemId : cartItemIdArr){
-            CartItem cartItem = em.find(CartItem.class, Integer.parseInt(cartItemId));
+        if (cartItemIdArr == null) {
+            System.out.println("hi");
+            response.sendRedirect("cart.jsp");
+        } else {
+            ArrayList<CartItem> purchaseCartItemList = new ArrayList<CartItem>();
+            double orderPrice = 0;
+            double weight = 0;
+            double shippingFee = 0;
+
+            //Find all the selected cart Item where this customer select to buy
+            for (String cartItemId : cartItemIdArr) {
+                CartItem cartItem = em.find(CartItem.class, Integer.parseInt(cartItemId));
 //            System.out.println(cartItem);
-            //calc subtotal
-            orderPrice +=cartItem.getSubtotal();
-            //calculate Shipping feee based on weight
-            weight+= cartItem.getPurchaseQty() * cartItem.getProdId().getWeight();
-            if(weight <= 1){
-                 //less than or equal to 1kg
-                 shippingFee=4.5;
-            } else if (weight <= 3){
-                //less than or equal to 3kg
-                shippingFee=10;
-            }else if (weight <= 5 ){
-                //less than or equal to 5kg
-                shippingFee=20;
-            } else {
-                //more than 5 kg
-                // first 5 kg - RM 20
-                //subsequent kg (each kg - RM5)
-                shippingFee= 20 + ((weight - 5) * 5);
+                //calc subtotal
+                orderPrice += cartItem.getSubtotal();
+                //calculate Shipping feee based on weight
+                weight += cartItem.getPurchaseQty() * cartItem.getProdId().getWeight();
+                if (weight <= 1) {
+                    //less than or equal to 1kg
+                    shippingFee = 4.5;
+                } else if (weight <= 3) {
+                    //less than or equal to 3kg
+                    shippingFee = 10;
+                } else if (weight <= 5) {
+                    //less than or equal to 5kg
+                    shippingFee = 20;
+                } else {
+                    //more than 5 kg
+                    // first 5 kg - RM 20
+                    //subsequent kg (each kg - RM5)
+                    shippingFee = 20 + ((weight - 5) * 5);
+                }
+
+                purchaseCartItemList.add(cartItem);
             }
-           
-            
-            
-            purchaseCartItemList.add(cartItem);
+
+            HttpSession session = request.getSession();
+            session.setAttribute("purchaseCartItemList", purchaseCartItemList);
+            session.setAttribute("shippingFee", Double.parseDouble(String.format("%.2f", shippingFee)));
+            session.setAttribute("orderPrice", orderPrice);
+            response.sendRedirect("payment.jsp");
         }
-        
-        
-        
-        
-        HttpSession session = request.getSession();
-        session.setAttribute("purchaseCartItemList", purchaseCartItemList);
-        session.setAttribute("shippingFee", shippingFee);
-        session.setAttribute("orderPrice", orderPrice);
-        response.sendRedirect("payment.jsp");
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

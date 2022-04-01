@@ -33,32 +33,31 @@ public class AddToCart extends HttpServlet {
         boolean loggedIn = session != null && session.getAttribute("loggedInCustomer") != null;
         // not enable the people whoe have not logged in , to profile page
         if (!loggedIn) {
-            response.sendRedirect(request.getContextPath());
+            response.sendRedirect("login.jsp");
         }
         
-
+        
         int prodID = Integer.parseInt(request.getParameter("prodID"));
-
         try {
             Product product = em.find(Product.class, prodID);
 
-            Customer loggedInCustomer = (Customer)session.getAttribute("loggedInCustomer");
+            Customer loggedInCustomer = (Customer) session.getAttribute("loggedInCustomer");
 
             List<CartItem> cartItemList = em.createNamedQuery("CartItem.findAll", CartItem.class).getResultList();
             CartItem cartItem1 = new CartItem(product, loggedInCustomer, 1, product.getPrice());
             CartItem cartItem2 = new CartItem();
 
             //Find if there is same product that is in cart
-            for (int i = 0; i < cartItemList.size(); i++) {
-                if ((cartItemList.get(i).getCustomerId().getCustomerId() == loggedInCustomer.getCustomerId()) && (cartItemList.get(i).getOrderId() == null) && (cartItemList.get(i).getProdId().getProdId() == prodID)) {
+            for (int i = 0; i < cartItemList.size(); i++) {          
+                if ((cartItemList.get(i).getCustomerId().getCustomerId() == (int)loggedInCustomer.getCustomerId()) && (cartItemList.get(i).getOrderId() == null) && (cartItemList.get(i).getProdId().getProdId() == prodID)) {
                     cartItem2 = cartItemList.get(i);
                     int qty = cartItem2.getPurchaseQty() + 1;
                     double price = cartItem2.getSubtotal() + product.getPrice();
                     cartItem2.setPurchaseQty(qty);
                     cartItem2.setSubtotal(price);
                 }
-            }
-
+            } 
+            
             utx.begin();
             if (cartItem2.getCartId() == null) {
                 em.persist(cartItem1);

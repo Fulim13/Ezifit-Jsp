@@ -6,7 +6,6 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.persistence.Query;
 import javax.servlet.ServletException;
@@ -18,14 +17,12 @@ import model.Customer;
 import model.Verification;
 import helper.Error;
 import helper.MailUtil;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 import org.apache.commons.lang3.time.DateUtils;

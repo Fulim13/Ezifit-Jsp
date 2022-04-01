@@ -75,7 +75,7 @@ public class CartItem implements Serializable {
         this.prodId = prodId;
         this.customerId = customerId;
         this.purchaseQty = purchaseQty;
-        this.subtotal = subtotal;
+        this.subtotal = Double.parseDouble(String.format("%.2f", subtotal));
     }
     
     public Integer getCartId() {
@@ -99,7 +99,7 @@ public class CartItem implements Serializable {
     }
 
     public void setSubtotal(double subtotal) {
-        this.subtotal = subtotal;
+        this.subtotal = Double.parseDouble(String.format("%.2f", subtotal));
     }
 
     public Customer getCustomerId() {

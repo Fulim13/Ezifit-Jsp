@@ -31,10 +31,8 @@ public class CheckVerificationCode extends HttpServlet {
         String email = request.getParameter("email");
         String verificationCode = request.getParameter("verificationCode").trim();
         String whichJSP = request.getParameter("whichJSP");
-        System.out.println(email);
         List<Verification> vList = em.createQuery("SELECT v FROM Verification v WHERE  v.verificationCode = :verificationCode and v.email = :email").setParameter("verificationCode", verificationCode).setParameter("email", email).getResultList();
         int size = vList.size();
-        System.out.println(size);
         HttpSession session = request.getSession();
         if (size > 0) {
             Verification verification = vList.get(0);
@@ -80,8 +78,8 @@ public class CheckVerificationCode extends HttpServlet {
                 }
                 session.removeAttribute("email");
                 session.setAttribute("email", email);
+                session.setAttribute("verificationCode", verificationCode);
 
-                System.out.println(email + "tseting");
                 if ("signUpWithCode".equalsIgnoreCase(whichJSP)) {
                     response.sendRedirect("registration.jsp");
                 } else {

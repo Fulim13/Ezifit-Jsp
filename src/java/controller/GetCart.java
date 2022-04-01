@@ -29,8 +29,8 @@ public class GetCart extends HttpServlet {
         // not enable the people whoe have not logged in , to profile page
         if (!loggedIn) {
             response.sendRedirect("login.jsp");
-        }
-        Customer loggedInCustomer = (Customer)session.getAttribute("loggedInCustomer");
+        } else {
+            Customer loggedInCustomer = (Customer)session.getAttribute("loggedInCustomer");
         List<CartItem> cartItemList = em.createQuery("SELECT c FROM CartItem c WHERE c.customerId = :customerId and c.orderId IS NULL").setParameter("customerId", loggedInCustomer).getResultList();
         
         //Test Display sucessful
@@ -40,6 +40,8 @@ public class GetCart extends HttpServlet {
         }
         session.setAttribute("cartItemList", cartItemList);
         response.sendRedirect("cart.jsp");
+        }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

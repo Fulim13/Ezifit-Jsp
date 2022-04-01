@@ -7,14 +7,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 @WebServlet(name = "Logout", urlPatterns = {"/Logout"})
 public class Logout extends HttpServlet {
 
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       
+
         request.getSession().removeAttribute("loggedInCustomer");
         response.sendRedirect(request.getContextPath());
     }

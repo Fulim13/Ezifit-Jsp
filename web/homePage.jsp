@@ -2,16 +2,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-//    boolean loggedIn = false;
-//    System.out.println(session.getAttribute("loggedin"));
-//    if(session.getAttribute("loggedin") != null){
-//        loggedIn = (Boolean) session.getAttribute("loggedin");
-//    }
     boolean loggedIn = session != null && session.getAttribute("loggedInCustomer") != null;
-    System.out.println(loggedIn);
-//    System.out.println(loggedIn);
-
-//    Customer customer = (Customer) session.getAttribute("customer");
 %>
 <!DOCTYPE html>
 <html>
@@ -125,23 +116,18 @@
         <div class="header">            
             <span><a href="homePage.jsp">EZIFIT</a></span>
             <ul class="nav-link">
-                <!--                <li><a href=""><i class="fa fa-facebook"></i></a></li>
-                <li><a href=""><i class="fa fa-twitter"></i></a></li>-->
                 <li>|</li>
-                
-                <%if(loggedIn){%>
-                 <li><a href="profile.jsp"><i class="fa fa-user"></i></a></li>
-                  <%} else {%>
-                  <li><a href="login.jsp"><i class="fa fa-user"></i></a></li>
-                 <%}%>
-                <%if(loggedIn){%>
+                <%if (loggedIn) {%>
+                <li><a href="profile.jsp"><i class="fa fa-user"></i></a></li>
                 <li><a href="GetOrder">My Order</a></li>
                 <li><a href="Logout">Logout</a></li>
-                <%} else {%>
-                <li><a href="login.jsp">Login</a></li>
-                <%}%>
                 <li><a href="GetCart"><i class="fa fa-shopping-cart"></i></a></li>
-                <!--<li><a href=""><i class="fa fa-sign-out"></i></a></li>-->             
+                        <%} else {%>
+                <li><a href="login.jsp"><i class="fa fa-user"></i></a></li>
+                <li><a href="login.jsp">My Order</a></li>
+                <li><a href="login.jsp">Login</a></li>
+                <li><a href="login.jsp"><i class="fa fa-shopping-cart"></i></a></li>
+                        <%}%>       
             </ul>
         </div>
 

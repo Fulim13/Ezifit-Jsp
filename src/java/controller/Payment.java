@@ -44,59 +44,62 @@ public class Payment extends HttpServlet {
         String[] purchaseCartItemIdArr = request.getParameterValues("purchaseCartItem");
         String paymentMethod = request.getParameter("paymentMethod");
         String shippingAddress = request.getParameter("shippingAddress");
+
+        System.out.println(shippingAddress);
         double shippingFee = Double.parseDouble(request.getParameter("shippingFee"));
-        double totalPayment = Double.parseDouble(request.getParameter("totalPayment"));
-
-//        for (String purchaseCartItemId : purchaseCartItemIdArr) {
-//            //minus product quantity
-//            CartItem purchaseCartItem = em.find(CartItem.class, Integer.parseInt(purchaseCartItemId));
-//            int originalQty = purchaseCartItem.getProdId().getQuantity();
-//            int purchaseQty = purchaseCartItem.getPurchaseQty();
-//            if (purchaseQty > originalQty) {
-//                response.sendRedirect("orderFail.jsp");
-//            } else {
-//                Product product = em.find(Product.class, purchaseCartItem.getProdId().getProdId());
-//                product.setQuantity(originalQty - purchaseQty);
-//
-//                try {
-//                    utx.begin();
-//                    em.merge(product);
-//                    utx.commit();
-//                } catch (Exception ex) {
-//                    System.out.println(ex.getMessage());
-//                }
-//            }
-//        }
+        double orderPrice = Double.parseDouble(request.getParameter("orderPrice"));
         List<CartItem> purchaseCartItemList = new ArrayList<CartItem>();
-        for (String purchaseCartItemId : purchaseCartItemIdArr) {
-            System.out.println(purchaseCartItemId);
-            CartItem purchaseCartItem = em.find(CartItem.class, Integer.parseInt(purchaseCartItemId));
-            System.out.println(purchaseCartItem);
-//            purchaseCartItem.setOrderId(order);
-            purchaseCartItemList.add(purchaseCartItem);
-//            //update database
-//            try {
-//                utx.begin();
-//                em.merge(purchaseCartItem);
-//                utx.commit();
-//            } catch (Exception ex) {
-//                System.out.println(ex.getMessage());
-//            }
 
+        for (String purchaseCartItemId : purchaseCartItemIdArr) {
+            //minus product quantity
+            CartItem purchaseCartItem = em.find(CartItem.class, Integer.parseInt(purchaseCartItemId));
+            //order have paid the payment 
+            if (purchaseCartItem.getOrderId() != null) {
+                System.out.println("hi");
+                response.sendRedirect("orderHaveMade.jsp");
+                return;
+            }
+            int originalQty = purchaseCartItem.getProdId().getQuantity();
+            int purchaseQty = purchaseCartItem.getPurchaseQty();
+            if (purchaseQty > originalQty) {
+                response.sendRedirect("orderFail.jsp");
+                return;
+            } else {
+                Product product = em.find(Product.class, purchaseCartItem.getProdId().getProdId());
+                product.setQuantity(originalQty - purchaseQty);
+
+                try {
+                    utx.begin();
+                    em.merge(product);
+                    utx.commit();
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
+                }
+
+                purchaseCartItemList.add(purchaseCartItem);
+            }
         }
 
-        System.out.println(paymentMethod);
-        System.out.println(totalPayment);
-        System.out.println(shippingAddress);
-
+//        for (String purchaseCartItemId : purchaseCartItemIdArr) {
+//            System.out.println(purchaseCartItemId);
+//            CartItem purchaseCartItem = em.find(CartItem.class, Integer.parseInt(purchaseCartItemId));
+//            System.out.println(purchaseCartItem);
+////            purchaseCartItem.setOrderId(order);
+//            purchaseCartItemList.add(purchaseCartItem);
+////            //update database
+////            try {
+////                utx.begin();
+////                em.merge(purchaseCartItem);
+////                utx.commit();
+////            } catch (Exception ex) {
+////                System.out.println(ex.getMessage());
+////            }
+//
+//        }
         HttpSession session = request.getSession();
         Customer loggedInCustomer = (Customer) session.getAttribute("loggedInCustomer");
-         Date targetTime = new Date();
-            System.out.println("Before Adding : " + targetTime);
-            targetTime = DateUtils.addMinutes(targetTime, 0); // add minute
-        Orders order = new Orders(targetTime, totalPayment, paymentMethod, shippingFee, "Ordered", shippingAddress);
+        Orders order = new Orders(new Date(), orderPrice, paymentMethod, shippingFee, "Ordered", shippingAddress);
         order.setCartItemList(purchaseCartItemList);
-//        System.out.println(order.getCartItemList());
         order.setCustomerId(loggedInCustomer);
 
         try {
@@ -104,12 +107,10 @@ public class Payment extends HttpServlet {
             utx.begin();
             em.persist(order);
             utx.commit();
-
-//            response.sendRedirect(request.getContextPath());
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
-        
+
         for (String purchaseCartItemId : purchaseCartItemIdArr) {
             System.out.println(purchaseCartItemId);
             CartItem purchaseCartItem = em.find(CartItem.class, Integer.parseInt(purchaseCartItemId));
@@ -126,13 +127,9 @@ public class Payment extends HttpServlet {
             }
 
         }
-        
 
-//            RequestDispatcher rd = request.getRequestDispatcher("GetOrder");
-//
-//            rd.forward(request, response);
-    
-            response.sendRedirect("GetOrder");
+        response.sendRedirect("GetOrder");
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

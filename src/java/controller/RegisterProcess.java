@@ -33,26 +33,10 @@ public class RegisterProcess extends HttpServlet {
         String fullName = request.getParameter("fullName");
         String phoneNo = request.getParameter("phoneNo");
         String password = request.getParameter("password");
-        String confirmPassword = request.getParameter("confirmPassword");
         System.out.println(email);
         Customer customer = new Customer(email, fullName, phoneNo, password, new Date());
 
         Error error = new Error();
-
-//        //Validation
-//        //check whether email is empty
-//        if (email.isEmpty()) {
-//            error.setIsError(true);
-//            error.setEmailEmpty(true);
-//        }
-//        
-//        //check whether email is in the database 
-//        Query queryEmail = em.createNamedQuery("Customer.findByEmail").setParameter("email", email);
-//        List<Customer> customer1 = queryEmail.getResultList();
-//        if (customer1.size() > 0) {
-//            error.setIsError(true);
-//            error.setEmailRedundant(true);
-//        }
 
         //check fullname is emtpy
         if (fullName.isEmpty()) {
@@ -99,18 +83,8 @@ public class RegisterProcess extends HttpServlet {
             error.setPasswordNotFollowRequirement(true);
         }
         
-        if (!password.equals(confirmPassword)) {
-             error.setIsError(true);
-            error.setPasswordNotSame(true);
-        }
 
         if (error.isIsError()) {
-//            request.setAttribute(
-//                    "error", error);
-//            RequestDispatcher rd = request.getRequestDispatcher("registration.jsp");
-//
-//            rd.forward(request, response);
-
             HttpSession session = request.getSession();
             session.setAttribute("customer", customer);
             session.setAttribute("error", error);

@@ -6,6 +6,8 @@
 package model;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -210,5 +212,10 @@ public class Customer implements Serializable {
     public String getBase64Image() {
         return Base64.getEncoder().encodeToString(this.customerImage);
 
+    }
+    
+    public String getStrDate() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.format(this.dob);
     }
 }
