@@ -102,7 +102,7 @@
                 padding: 11px;
                 border: 3px solid #e6e6e6;
                 border-radius: 2px;
-                margin-bottom: 20px;
+                
             }
 
             .left{
@@ -140,6 +140,10 @@
             .password-field{
                 margin: 0;
             }
+            .error{
+                color:red;
+                margin-bottom: 20px;
+            }
         </style>
     </head>
     <body>
@@ -166,7 +170,7 @@
                 <form  action="RegisterProcess" method="POST" class="register-form">
                     <div class="left">
                         <label>Email*</label>
-                        <input type="text" class="email" name="email" value="${email}" readonly/>
+                        <input type="text" class="email" name="email" value="${verifiedEmail2}" readonly/>
                         <label>Verification Code*</label>
                         <input type="text" class="email" name="email" value="${verificationCode}" readonly/>
                     </div>

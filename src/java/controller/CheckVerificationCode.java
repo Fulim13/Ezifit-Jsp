@@ -39,11 +39,8 @@ public class CheckVerificationCode extends HttpServlet {
             //check whether is expired or not
             //if expired already , delete the verifcation , redirect to signupWithCode and  let user click the link below to regenerate a new Verifcation 
             Date currentDateTime = new Date();
-            System.out.println(currentDateTime);
-            System.out.println(verification.getExpireDate());
             if (currentDateTime.after(verification.getExpireDate())) {
-                System.out.println("work");
-                //delete verification 
+                 //delete verification 
                 try {
                     utx.begin();
                     if (!em.contains(verification)) {
@@ -57,7 +54,7 @@ public class CheckVerificationCode extends HttpServlet {
 
                 Error err = new Error();
                 err.setvCodeExpire(true);
-                session.setAttribute("email", email);
+                session.setAttribute("verifiedEmail", email);
                 session.setAttribute("error", err);
 
                 if ("signUpWithCode".equalsIgnoreCase(whichJSP)) {
@@ -76,8 +73,8 @@ public class CheckVerificationCode extends HttpServlet {
                 } catch (Exception ex) {
                     System.out.println(ex.getMessage() + "Error");
                 }
-                session.removeAttribute("email");
-                session.setAttribute("email", email);
+                session.removeAttribute("verifiedEmail");
+                session.setAttribute("verifiedEmail2", email);
                 session.setAttribute("verificationCode", verificationCode);
 
                 if ("signUpWithCode".equalsIgnoreCase(whichJSP)) {
@@ -90,7 +87,7 @@ public class CheckVerificationCode extends HttpServlet {
         } else {
             Error err = new Error();
             err.setvCodeNotMatch(true);
-            session.setAttribute("email", email);
+            session.setAttribute("verifiedEmail", email);
             session.setAttribute("error", err);
 
             if ("signUpWithCode".equalsIgnoreCase(whichJSP)) {

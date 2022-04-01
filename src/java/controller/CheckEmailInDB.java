@@ -79,11 +79,9 @@ public class CheckEmailInDB extends HttpServlet {
 
             String verificationCode = String.format("%06d", number);
 
-            int addMinuteTime = 1;
+            int addMinuteTime = 10;
             Date targetTime = new Date();
-            System.out.println("Before Adding : " + targetTime);
             targetTime = DateUtils.addMinutes(targetTime, addMinuteTime); // add minute
-            System.out.println("After adding targetTime : " + targetTime);
             Verification verification = new Verification(verificationCode, targetTime, email);
             try {
                 utx.begin();
@@ -94,13 +92,13 @@ public class CheckEmailInDB extends HttpServlet {
             }
 
             try {
-                MailUtil.sendMail(email, "noreplyezifit@gmail.com", "Ezifit Verification Code", "Verification Code: " + verificationCode + "\n\nThis Verificaticode will expired in 10 mins", true);
+                MailUtil.sendMail(email, "noreplyezifit@gmail.com", "Ezifit Verification Code", "<div>Verification Code: " + verificationCode + "</div>" + "<div>This Verification code will expired in 10 mins</div>", true);
             } catch (MessagingException e) {
                 System.out.println(e.getMessage());
             }
             session.removeAttribute("email");
 
-            session.setAttribute("email", email);
+            session.setAttribute("verifiedEmail", email);
             response.sendRedirect("changePasswordWithCode.jsp");
 
         }

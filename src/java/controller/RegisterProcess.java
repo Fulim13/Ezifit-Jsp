@@ -33,7 +33,6 @@ public class RegisterProcess extends HttpServlet {
         String fullName = request.getParameter("fullName");
         String phoneNo = request.getParameter("phoneNo");
         String password = request.getParameter("password");
-        System.out.println(email);
         Customer customer = new Customer(email, fullName, phoneNo, password, new Date());
 
         Error error = new Error();

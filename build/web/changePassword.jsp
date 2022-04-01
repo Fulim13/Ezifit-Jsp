@@ -121,6 +121,9 @@
                 top: 6px;
              
             }
+            .email{
+                background-color: lightgray;
+            }
         </style>
     </head>
     <body>
@@ -146,7 +149,7 @@
                 <h1>Change Password</h1>
                 <form action="ChangePassword" method="POST">
                     <label>Email</label>
-                    <input type="text" name="email" value="${email}" readonly/>
+                    <input type="text" name="email" value="${verifiedEmail2}" readonly class="email"/>
                     <label>Password</label>
                     <input type="password" name="password" class="password"/>
                     <input type="checkbox" class="toggle-checkbox" onclick="togglePsw()">Show Password

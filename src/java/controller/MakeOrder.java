@@ -38,7 +38,6 @@ public class MakeOrder extends HttpServlet {
 
         String[] cartItemIdArr = request.getParameterValues("cartItemList");
         if (cartItemIdArr == null) {
-            System.out.println("hi");
             response.sendRedirect("cart.jsp");
         } else {
             ArrayList<CartItem> purchaseCartItemList = new ArrayList<CartItem>();
@@ -49,7 +48,6 @@ public class MakeOrder extends HttpServlet {
             //Find all the selected cart Item where this customer select to buy
             for (String cartItemId : cartItemIdArr) {
                 CartItem cartItem = em.find(CartItem.class, Integer.parseInt(cartItemId));
-//            System.out.println(cartItem);
                 //calc subtotal
                 orderPrice += cartItem.getSubtotal();
                 //calculate Shipping feee based on weight

@@ -44,7 +44,6 @@ public class CheckLogin extends HttpServlet {
         HttpSession session = request.getSession();
         List<Customer> cList = em.createQuery("SELECT c FROM Customer c WHERE c.email = :email and c.password = :password").setParameter("email", email).setParameter("password", password).getResultList();
         int size = cList.size();
-//        System.out.println(cList.get(0));
         if (size > 0) {
 
             session.setAttribute("loggedInCustomer", cList.get(0));

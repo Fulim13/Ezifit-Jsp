@@ -44,8 +44,6 @@ public class Payment extends HttpServlet {
         String[] purchaseCartItemIdArr = request.getParameterValues("purchaseCartItem");
         String paymentMethod = request.getParameter("paymentMethod");
         String shippingAddress = request.getParameter("shippingAddress");
-
-        System.out.println(shippingAddress);
         double shippingFee = Double.parseDouble(request.getParameter("shippingFee"));
         double orderPrice = Double.parseDouble(request.getParameter("orderPrice"));
         List<CartItem> purchaseCartItemList = new ArrayList<CartItem>();
@@ -55,7 +53,6 @@ public class Payment extends HttpServlet {
             CartItem purchaseCartItem = em.find(CartItem.class, Integer.parseInt(purchaseCartItemId));
             //order have paid the payment 
             if (purchaseCartItem.getOrderId() != null) {
-                System.out.println("hi");
                 response.sendRedirect("orderHaveMade.jsp");
                 return;
             }
@@ -80,22 +77,6 @@ public class Payment extends HttpServlet {
             }
         }
 
-//        for (String purchaseCartItemId : purchaseCartItemIdArr) {
-//            System.out.println(purchaseCartItemId);
-//            CartItem purchaseCartItem = em.find(CartItem.class, Integer.parseInt(purchaseCartItemId));
-//            System.out.println(purchaseCartItem);
-////            purchaseCartItem.setOrderId(order);
-//            purchaseCartItemList.add(purchaseCartItem);
-////            //update database
-////            try {
-////                utx.begin();
-////                em.merge(purchaseCartItem);
-////                utx.commit();
-////            } catch (Exception ex) {
-////                System.out.println(ex.getMessage());
-////            }
-//
-//        }
         HttpSession session = request.getSession();
         Customer loggedInCustomer = (Customer) session.getAttribute("loggedInCustomer");
         Orders order = new Orders(new Date(), orderPrice, paymentMethod, shippingFee, "Ordered", shippingAddress);
@@ -112,9 +93,7 @@ public class Payment extends HttpServlet {
         }
 
         for (String purchaseCartItemId : purchaseCartItemIdArr) {
-            System.out.println(purchaseCartItemId);
             CartItem purchaseCartItem = em.find(CartItem.class, Integer.parseInt(purchaseCartItemId));
-            System.out.println(purchaseCartItem);
             purchaseCartItem.setOrderId(order);
             purchaseCartItemList.add(purchaseCartItem);
 //            //update database

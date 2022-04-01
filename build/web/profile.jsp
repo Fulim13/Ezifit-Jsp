@@ -168,7 +168,7 @@
                 font-size: 40px;
                 position: absolute;
                 left: 35px;
-                
+
             }
         </style>
     </head>
@@ -191,47 +191,50 @@
             </ul>
         </div>
     <li class="previous"><a href="homePage.jsp"><i class="fa fa-arrow-left" aria-hidden="true"></a></i></li>
-        <div class="settings">
-            <%-- if user do not have profile picture use teh default one --%>
-
-            <img id="profile-picture" src="data:image/jpg;base64,${loggedInCustomer.customerImage != null ? loggedInCustomer.base64Image : ""}" />
-            <form class="form-settings" name="form" method="post" action="UpdateProfile" enctype="multipart/form-data"> 
-                <label class="upload-btn" for="upload">Change Profile</label>
-                <input type="file" name="profilePicture" id="upload" onchange="showUploadedImage(this)" hidden>
-                <label>Full Name</label>
-                <input type="text" name="fullName" value="${loggedInCustomer.fullname}">
-                <div class="error">${error.fullNameEmpty ? "FullName is empty" : ""}</div>
-                <label>Email</label>
-                <%-- TODO:Remember to let this field light grey abit  --%>
-                <%-- TODO:Consider using cout  --%>
-                <input class="email" type="text" name="email" value="${loggedInCustomer.email}" readonly>
-                <label>Phone No.</label>
-                <input type="text" name="phone" value="${loggedInCustomer.phone}">
-                <div class="error">${error.phoneNoEmpty ? "Phone number is empty" : ""}</div>
-                <div class="error">${error.phoneNoRedundant ? "This phone number has been registered by another user" : ""}</div>
-                <label>Date of Birth</label>
-                <input type="date" name="dob" value="${loggedInCustomer.dob != null ? loggedInCustomer.strDate : ""}">
-                <div class="error">${error.dobFormatErr ? "Date Format is Wrong" : ""}</div>
-                <label>Address</label>
-                <textarea name="address" rows="5">${loggedInCustomer.address}</textarea>
-                <div class="settings-btns">
-                    <input type="submit" class="settings-btn settings-btn-update" value="Update">
-                    <input type="reset"  class="settings-btn settings-btn-cancel" value="Cancel">
-                </div>
-            </form>
+<div class="settings">
+    <c:choose>
+    <c:when test="${loggedInCustomer.customerImage != null}">
+        <img id="profile-picture" src="data:image/jpg;base64,${loggedInCustomer.customerImage != null ? loggedInCustomer.base64Image : ""}" />
+        </c:when>   
+        <c:otherwise>
+            <img id="profile-picture" src="defaultprofilepic.png" />
+    </c:otherwise>
+  </c:choose>
+    <form class="form-settings" name="form" method="post" action="UpdateProfile" enctype="multipart/form-data"> 
+        <label class="upload-btn" for="upload">Change Profile</label>
+        <input type="file" name="profilePicture" id="upload" onchange="showUploadedImage(this)" hidden>
+        <label>Full Name</label>
+        <input type="text" name="fullName" value="${loggedInCustomer.fullname}">
+        <div class="error">${error.fullNameEmpty ? "FullName is empty" : ""}</div>
+        <label>Email</label>
+        <input class="email" type="text" name="email" value="${loggedInCustomer.email}" readonly>
+        <label>Phone No.</label>
+        <input type="text" name="phone" value="${loggedInCustomer.phone}">
+        <div class="error">${error.phoneNoEmpty ? "Phone number is empty" : ""}</div>
+        <div class="error">${error.phoneNoRedundant ? "This phone number has been registered by another user" : ""}</div>
+        <label>Date of Birth</label>
+        <input type="date" name="dob" value="${loggedInCustomer.dob != null ? loggedInCustomer.strDate : ""}">
+        <div class="error">${error.dobFormatErr ? "Date Format is Wrong" : ""}</div>
+        <label>Address</label>
+        <textarea name="address" rows="5">${loggedInCustomer.address}</textarea>
+        <div class="settings-btns">
+            <input type="submit" class="settings-btn settings-btn-update" value="Update">
+            <input type="reset"  class="settings-btn settings-btn-cancel" value="Cancel">
         </div>
-    </body>
-    <script>
-        function showUploadedImage(fileUpload) {
-            console.log(document.getElementById("profile-picture"));
-            let file = fileUpload.files[0];
-            let reader = new FileReader();
-            reader.onload = function (e) {
-                document.getElementById("profile-picture").src = e.target.result;
+    </form>
+</div>
+</body>
+<script>
+    function showUploadedImage(fileUpload) {
+        console.log(document.getElementById("profile-picture"));
+        let file = fileUpload.files[0];
+        let reader = new FileReader();
+        reader.onload = function (e) {
+            document.getElementById("profile-picture").src = e.target.result;
 
-            }
-            reader.readAsDataURL(file);
         }
-    </script>
+        reader.readAsDataURL(file);
+    }
+</script>
 </html>
 <% session.removeAttribute("error");%>

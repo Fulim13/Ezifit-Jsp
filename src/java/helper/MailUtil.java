@@ -41,28 +41,6 @@ public class MailUtil {
         transport.sendMessage(message,message.getAllRecipients());
         transport.close();
 
-
-//Properties props = new Properties(); 
-//props.put("mail.transport .protocol", "smtp"); 
-//props.put( "mail.smtp.host", "localhost"); 
-//props.put("mail.smtp.port", 25); 
-//Session session = Session.getDefaultInstance(props); 
-//session.setDebug(true); 
-//
-//Message message = new MimeMessage(session); 
-//message.setSubject(subject); 
-//if (IsHtml) 
-//message.setContent(body, "text/html"); 
-//else 
-//message.setText(body); 
-//
-//Address fromAddress = new InternetAddress(from); 
-//Address toAddress = new InternetAddress(to); 
-//message.setFrom(fromAddress); 
-//message.setRecipient(Message.RecipientType.TO, toAddress); 
-//
-//Transport.send(message); 
-
  
     }
     

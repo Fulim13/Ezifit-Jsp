@@ -170,14 +170,15 @@
                 <form  action="CheckVerificationCode" method="POST" class="register-form">
                     <input name="whichJSP" value="changePasswordWithCode" hidden class="whichJSP"/>
                     <label>Email</label>
-                    <input type="text" class="email" name="email" value="${email}" readonly/>
+                    <input type="text" class="email" name="email" value="${verifiedEmail}" readonly/>
                     <label>Verification</label>
                     <input type="text" name="verificationCode" class="verification-field" />
+                    <div class="error">${error.vCodeNotMatch ? "Verification Not Match" : ""}</div>
+                    <div class="error">${error.vCodeExpire ? "Verification Expired, Wait for 60 Seconds , click the link below" : ""}</div>   
                     <div class="resend">
                         <a href="" class="send-verification inactiveLink"></a>
                     </div>
-                    <div class="error">${error.vCodeNotMatch ? "Verification Not Match" : ""}</div>
-                    <div class="error">${error.vCodeExpire ? "Verification Expired, Wait for 60 Seconds , click the link below" : ""}</div>    
+
                     <button type="submit" class="btn-submit">Submit</button>
                 </form>
 
@@ -199,7 +200,7 @@
                 clearInterval(countDownTimer);
                 let email = document.querySelector(".email").value
                 document.querySelector(".send-verification").innerHTML = "Send verification code again"
-                document.querySelector(".send-verification").href = "CheckEmail?email=" + email;
+                document.querySelector(".send-verification").href = "CheckEmailInDB?email=" + email;
                 document.querySelector(".send-verification").classList.remove("inactiveLink");
             } else {
                 document.querySelector(".send-verification").innerHTML = "Resend ? Wait for " + timeleft;

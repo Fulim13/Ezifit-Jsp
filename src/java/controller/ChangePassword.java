@@ -69,24 +69,24 @@ public class ChangePassword extends HttpServlet {
         } else {
             //get the customer object using email
             Query queryEmail = em.createNamedQuery("Customer.findByEmail").setParameter("email", email);
-        List<Customer> customer1ist = queryEmail.getResultList();
-        if(customer1ist.size() > 0){
-             Customer customer = customer1ist.get(0);
-            //save the new password in the database
-            customer.setPassword(password);
-            //update database
-            try {
-                utx.begin();
-                em.merge(customer);
-                utx.commit();
-            } catch (Exception ex) {
-                System.out.println(ex.getMessage());
+            List<Customer> customer1ist = queryEmail.getResultList();
+            if (customer1ist.size() > 0) {
+                Customer customer = customer1ist.get(0);
+                //save the new password in the database
+                customer.setPassword(password);
+                //update database
+                try {
+                    utx.begin();
+                    em.merge(customer);
+                    utx.commit();
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
+                }
+                session.removeAttribute("email");
+                //redirect to log in page
+                response.sendRedirect("login.jsp");
             }
-            session.removeAttribute("email");
-            //redirect to log in page
-            response.sendRedirect("login.jsp");
-        }
-       
+
         }
 
     }

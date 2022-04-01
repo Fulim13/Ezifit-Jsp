@@ -171,7 +171,7 @@
                     <div class="left">
 
                         <label>Email</label>
-                        <input type="text" class="email" name="email" value="${email}" readonly/>
+                        <input type="text" class="email" name="email" value="${verifiedEmail}" readonly/>
                         <label>Verification Code*</label>
                         <input type="text" name="verificationCode" />
                         <div class="error">${error.vCodeNotMatch ? "Verification Not Match" : ""}</div>
@@ -185,7 +185,7 @@
         </div>
     </body>
     <script>
-        let timeleft = 3;
+        let timeleft = 60;
         let countDownTimer = setInterval(function () {
             if (timeleft <= 0) {
                 clearInterval(countDownTimer);

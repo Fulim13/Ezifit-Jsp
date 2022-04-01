@@ -2,7 +2,6 @@ package controller;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,7 +30,7 @@ import helper.Error;
 @MultipartConfig(
         fileSizeThreshold = 1024 * 10,
         maxFileSize = 1024 * 1024 * 10,
-        maxRequestSize = 1024 * 1024 * 11
+        maxRequestSize = 1024 * 1024 * 12
 )
 public class UpdateProfile extends HttpServlet {
 
@@ -85,14 +84,9 @@ public class UpdateProfile extends HttpServlet {
         //redirect back to profile page with error
         if (error.isIsError()) {
             session.setAttribute("error", error);
-            System.out.println("Hi");
             response.sendRedirect("profile.jsp");
         } else {
 
-//        // get the user data from db 
-//        HttpSession session = request.getSession();
-//        Customer customer = (Customer)session.getAttribute("loggedInCustomer");
-//        String customerEmail = customer.getEmail();
             //get Customer object from the database
             Query querySessionCustomer = em.createQuery("SELECT c FROM Customer c WHERE c.email = :email").setParameter("email", customerEmail);
             List<Customer> sessionCustomerList = querySessionCustomer.getResultList();
@@ -110,7 +104,6 @@ public class UpdateProfile extends HttpServlet {
                 DateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
                 try {
                     Date dobDate = dateformat.parse(dob);
-                    System.out.println(dobDate);
                     sessionCustomerObj.setDob(dobDate);
                 } catch (ParseException ex) {
                     Logger.getLogger(UpdateProfile.class.getName()).log(Level.SEVERE, null, ex);
