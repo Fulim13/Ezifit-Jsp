@@ -51,7 +51,7 @@ public class SaveOrderReview extends HttpServlet {
             utx.commit();            
             
             //actually jump back to the check orders page
-            response.sendRedirect("orders.jsp");
+            response.sendRedirect("ThanksForReviewOrder.jsp");
             
         } catch(Exception ex){
             Logger.getLogger(SaveOrderReview.class.getName()).log(Level.SEVERE, null, ex);

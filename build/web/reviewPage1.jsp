@@ -120,17 +120,16 @@
         <div class="header">            
             <span><a href="homePage.jsp">EZIFIT</a></span>
             <ul class="nav-link">
-                <li>|</li>
                     <%if (loggedIn) {%>
-                <li><a href="profile.jsp"><i class="fa fa-user"></i></a></li>
-                <li><a href="GetOrder">My Order</a></li>
-                <li><a href="Logout">Logout</a></li>
+                <li><a href="GetOrder"><i class="fa fa-shopping-bag"></i></a></li>                
                 <li><a href="GetCart"><i class="fa fa-shopping-cart"></i></a></li>
+                <li><a href="profile.jsp"><i class="fa fa-user"></i></a></li>
+                <li><a href="Logout"><i class="fa fa-sign-out"></i></a></li>
                         <%} else {%>
-                <li><a href="login.jsp"><i class="fa fa-user"></i></a></li>
-                <li><a href="login.jsp">My Order</a></li>
-                <li><a href="login.jsp">Login</a></li>
-                <li><a href="login.jsp"><i class="fa fa-shopping-cart"></i></a></li>
+                <li><a href="GetOrder"><i class="fa fa-shopping-bag"></i></a></li>                
+                <li><a href="GetCart"><i class="fa fa-shopping-cart"></i></a></li>
+                <li><a href="profile.jsp"><i class="fa fa-user"></i></a></li>
+                <li><a href="login.jsp"><i class="fa fa-sign-in"></i></a></li>
                         <%}%>       
             </ul>
         </div>
@@ -160,11 +159,11 @@
 
                 <br/><br/>
                 <div style="margin-bottom: 10px">We'd love to hear your feedback. What was positive? What can we improve?</div>
-                <textarea name="comment" rows="6" cols="50" readonly="" placeholder="<%= rByOrder.getComment()%>"></textarea><br/><br/><br/>
+                <textarea name="comment" rows="6" cols="43" readonly="" placeholder="<%= rByOrder.getComment()%>"></textarea><br/><br/><br/>
 
                 <%  if (rByOrder.getReplyComment() != null) {%> 
                 <div style="margin-bottom: 10px">Feedback from us</div>
-                <textarea rows="6" cols="50" readonly="" placeholder="<%= rByOrder.getReplyComment()%>"></textarea>
+                <textarea rows="6" cols="43" readonly="" placeholder="<%= rByOrder.getReplyComment()%>"></textarea>
 
                 <% }
                 } else { %>
@@ -187,7 +186,7 @@
 
                     <br/><br/>
                     <div style="margin-bottom: 10px">We'd love to hear your feedback. What was positive? What can we improve?</div>
-                    <textarea name="comment" rows="6" cols="50"></textarea>
+                    <textarea name="comment" rows="6" cols="43"></textarea>
                     <div class="submitBtn"><input type="submit" value="submit" /><div>
                             </form>
                             <% }%>

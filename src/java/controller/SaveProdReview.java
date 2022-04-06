@@ -55,8 +55,7 @@ public class SaveProdReview extends HttpServlet {
             em.persist(review);
             utx.commit();            
 
-            //actually jump back to the check orders page
-            response.sendRedirect("orders.jsp");
+            response.sendRedirect("ThanksForReviewProd.jsp");
            
         } catch(Exception ex){
             Logger.getLogger(SaveOrderReview.class.getName()).log(Level.SEVERE, null, ex);

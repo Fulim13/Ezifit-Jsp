@@ -137,18 +137,18 @@
             }
 
             .settings-btn-update{
-                background-color: #5ae07e;
+                background-color: #47ed7e;
                 color: black;
 
             }
 
             .settings-btn-cancel{
-                background-color:  #C82333;
+                background-color:  #db465a;
 
                 color: #EEEEEE;
             }
             .upload-btn{
-                background-color: indigo;
+                background-color: #8B0000;
                 color: white;
                 padding: 0.5rem;
                 font-family: sans-serif;
@@ -176,17 +176,16 @@
         <div class="header">            
             <span><a href="homePage.jsp">EZIFIT</a></span>
             <ul class="nav-link">
-                <li>|</li>
                     <%if (loggedIn) {%>
-                <li><a href="profile.jsp"><i class="fa fa-user"></i></a></li>
-                <li><a href="GetOrder">My Order</a></li>
-                <li><a href="Logout">Logout</a></li>
+                <li><a href="GetOrder"><i class="fa fa-shopping-bag"></i></a></li>                
                 <li><a href="GetCart"><i class="fa fa-shopping-cart"></i></a></li>
+                <li><a href="profile.jsp"><i class="fa fa-user"></i></a></li>
+                <li><a href="Logout"><i class="fa fa-sign-out"></i></a></li>
                         <%} else {%>
-                <li><a href="login.jsp"><i class="fa fa-user"></i></a></li>
-                <li><a href="login.jsp">My Order</a></li>
-                <li><a href="login.jsp">Login</a></li>
-                <li><a href="login.jsp"><i class="fa fa-shopping-cart"></i></a></li>
+                <li><a href="GetOrder"><i class="fa fa-shopping-bag"></i></a></li>                
+                <li><a href="GetCart"><i class="fa fa-shopping-cart"></i></a></li>
+                <li><a href="profile.jsp"><i class="fa fa-user"></i></a></li>
+                <li><a href="login.jsp"><i class="fa fa-sign-in"></i></a></li>
                         <%}%>       
             </ul>
         </div>

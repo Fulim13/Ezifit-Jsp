@@ -1,34 +1,19 @@
-<%-- 
-    Document   : orderHaveMade
-    Created on : Apr 1, 2022, 11:25:16 AM
-    Author     : Lim
---%>
+<%-- CHAN KAI LIN --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     boolean loggedIn = session != null && session.getAttribute("loggedInCustomer") != null;
-    // not enable the people whoe have not logged in , to profile page
-    if (!loggedIn) {
-        response.sendRedirect(request.getContextPath());
-        return;
-    }
-
 %>
+
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <title>REVIEW | EZIFIT</title>
         <style>
-            *{
-                margin:0;
-                padding:0;
-                box-sizing: border-box;
-            }
-
             body{
-                font-family: 'Lucida Sans';   
-
+                font-family: 'Lucida Sans';                
             }
             .header{
                 display: flex; 
@@ -55,41 +40,38 @@
             .nav-link :hover{
                 color: #8B0000;
             }
-            img{
-                width: 100px;
-                height: 100px;
+            .img{
+                width: 100%;                
             }
-
-            textarea {
-                display: block;
-                outline: none;
-                resize: none;
-                border: 2px lightgray solid;
-                width:100%;
-                margin: 20px 0;
+            .img img{
+                width: 100%;
             }
-            a, a:hover, a:focus, a:active {
+            .button1 a{
+                font-family: 'Lucida Sans'; 
+                font-weight: bold;
+                font-size: 20px;
                 text-decoration: none;
-                color: inherit;
+                background-color: rgba(0, 0, 0, 0.17);
+                color: black;
+                padding: 10px 12px;
+                position: absolute;
+                bottom: -100px;
+                left: 400px;
             }
-
-
-            .box{
-                display: flex;
-                justify-content: flex-start;
-                flex-direction: column;
-                align-items: center;
-                min-height: calc(100vh - 108.4px);
-                
+            .button2 button{
+                font-family: 'Lucida Sans'; 
+                font-weight: bold;
+                font-size: 20px;
+                background-color: rgba(0, 0, 0, 0.17);
+                border: none;
+                padding: 10px 12px;
+                position: absolute;
+                bottom: -100px;
+                right: 380px;
+                cursor: pointer;
             }
-            
-            .title{
-                font-size: 25px;
-                margin: 40px 0 20px ;
-            }
-            .link, .link:hover,.link:active,.link:focus{
-                color: blue;
-                text-decoration: underline;
+            .button1 a:hover, .button2 button:hover{
+                color: white;
             }
         </style>
     </head>
@@ -97,7 +79,7 @@
         <div class="header">            
             <span><a href="homePage.jsp">EZIFIT</a></span>
             <ul class="nav-link">
-                    <%if (loggedIn) {%>
+                <%if (loggedIn) {%>                
                 <li><a href="GetOrder"><i class="fa fa-shopping-bag"></i></a></li>                
                 <li><a href="GetCart"><i class="fa fa-shopping-cart"></i></a></li>
                 <li><a href="profile.jsp"><i class="fa fa-user"></i></a></li>
@@ -110,15 +92,14 @@
                         <%}%>       
             </ul>
         </div>
-
-        <div class="box">
-            <div class="title">Payment have made before </div>
-            <div>
-                <a href="orders.jsp" class="link">Go to Order Page</a>
-            </div>
-            <div>
-                <a href="homePage.jsp" class="link">Back to Home page</a>
-            </div>
+        
+        <div class="img">
+            <img src="tq.jpg">
         </div>
+        
+        <div class="button1"><a href="orders.jsp">BACK</a></div>
+        <form class="button2" action="GetReview2" method="POST">
+            <button type="submit">CONTINUE</button>
+        </form>
     </body>
 </html>

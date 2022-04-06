@@ -1,13 +1,13 @@
-//CHAN KAI LIN
-
 package controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,8 +16,8 @@ import model.CartItem;
 import model.Orders;
 import model.Review;
 
-
-public class GetReview extends HttpServlet {
+@WebServlet(name = "GetReview2", urlPatterns = {"/GetReview2"})
+public class GetReview2 extends HttpServlet {
 
     @PersistenceContext
     EntityManager em;
@@ -26,8 +26,9 @@ public class GetReview extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        int orderID = Integer.parseInt(request.getParameter("orderID"));
-
+        HttpSession session = request.getSession();
+        int orderID = (Integer)session.getAttribute("orderID");
+        
         List<Review> reviewList = em.createNamedQuery("Review.findAll", Review.class).getResultList(); 
         Review rByOrder = new Review();
         List<Review> rByProductList = new ArrayList<>();
@@ -50,14 +51,12 @@ public class GetReview extends HttpServlet {
         //To get cart related to specific orderID 
         Orders order = em.find(Orders.class, orderID);
         List<CartItem> cartList = order.getCartItemList();
-       
-        HttpSession session = request.getSession();
-        session.setAttribute("orderID", orderID);
+        
         session.setAttribute("rByOrder", rByOrder);  
         session.setAttribute("rByProductList", rByProductList); 
         session.setAttribute("cartList", cartList);  
 
-        response.sendRedirect("reviewPage1.jsp");       
+        response.sendRedirect("reviewPage2.jsp");   
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
