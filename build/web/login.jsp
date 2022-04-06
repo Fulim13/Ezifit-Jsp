@@ -185,9 +185,9 @@
                 <li><a href="profile.jsp"><i class="fa fa-user"></i></a></li>
                 <li><a href="Logout"><i class="fa fa-sign-out"></i></a></li>
                         <%} else {%>
-                <li><a href="GetOrder"><i class="fa fa-shopping-bag"></i></a></li>                
-                <li><a href="GetCart"><i class="fa fa-shopping-cart"></i></a></li>
-                <li><a href="profile.jsp"><i class="fa fa-user"></i></a></li>
+                <li><a href="login.jsp"><i class="fa fa-shopping-bag"></i></a></li>                
+                <li><a href="login.jsp"><i class="fa fa-shopping-cart"></i></a></li>
+                <li><a href="login.jsp"><i class="fa fa-user"></i></a></li>
                 <li><a href="login.jsp"><i class="fa fa-sign-in"></i></a></li>
                         <%}%>       
             </ul>
