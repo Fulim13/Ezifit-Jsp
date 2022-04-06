@@ -137,7 +137,7 @@
             }
 
             .settings-btn-update{
-                background-color: #05c46b;
+                background-color: #1ac475;
                 color: black;
 
             }
