@@ -113,6 +113,13 @@ public class Orders implements Serializable {
         this.status = status;
         this.shippingAddress = shippingAddress;
     }
+    
+      public Orders(Integer orderId, double orderPrice, double shippingFee, String status) {
+        this.orderId = orderId;
+        this.orderPrice = orderPrice;
+        this.shippingFee = shippingFee;
+        this.status = status;
+    }
 
     public Integer getOrderId() {
         return orderId;

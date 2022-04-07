@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Lim
+ * @author User
  */
 @Entity
 @Table(name = "STAFF")
@@ -72,6 +72,21 @@ public class Staff implements Serializable {
 
     public Staff(Integer staffId) {
         this.staffId = staffId;
+    }
+
+    public Staff(String staffName, String staffEmail, String password, String position) {
+        this.staffName = staffName;
+        this.staffEmail = staffEmail;
+        this.password = password;
+        this.position = position;
+    }
+
+    public Staff(String staffName, String staffEmail, String password, String position, List<Review> reviewList) {
+        this.staffName = staffName;
+        this.staffEmail = staffEmail;
+        this.password = password;
+        this.position = position;
+        this.reviewList = reviewList;
     }
 
     public Staff(Integer staffId, String staffName, String staffEmail, String password, String position) {
@@ -153,7 +168,7 @@ public class Staff implements Serializable {
 
     @Override
     public String toString() {
-        return "model.Staff[ staffId=" + staffId + " ]";
+        return "" + staffId;
     }
     
 }

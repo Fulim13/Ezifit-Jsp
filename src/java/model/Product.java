@@ -114,6 +114,31 @@ public class Product implements Serializable {
         this.category = category;
     }
 
+    public Product(Integer prodId, String prodName, String description, double price, int quantity, double weight, String status, double cost, String size, Character category) {
+        this.prodId = prodId;
+        this.prodName = prodName;
+        this.description = description;
+        this.price = price;
+        this.quantity = quantity;
+        this.weight = weight;
+        this.status = status;
+        this.cost = cost;
+        this.size = size;
+        this.category = category;
+    }
+
+    public Product(String prodName, String description, double price, int quantity, double weight, String status, double cost, String size, Character category) {
+        this.prodName = prodName;
+        this.description = description;
+        this.price = price;
+        this.quantity = quantity;
+        this.weight = weight;
+        this.status = status;
+        this.cost = cost;
+        this.size = size;
+        this.category = category;
+    }
+
     public Integer getProdId() {
         return prodId;
     }
@@ -242,11 +267,11 @@ public class Product implements Serializable {
 
     @Override
     public String toString() {
-        return "model.Product[ prodId=" + prodId + " ]";
+        return "" + prodId;
     }
-    
-    public String getBase64Image(){
-        return  Base64.getEncoder().encodeToString(this.prodPicture);
-       
+
+    public String getBase64Image() {
+        return Base64.getEncoder().encodeToString(this.prodPicture);
+
     }
 }

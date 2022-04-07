@@ -42,7 +42,13 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Customer.findByPassword", query = "SELECT c FROM Customer c WHERE c.password = :password")
     , @NamedQuery(name = "Customer.findByRegisterDate", query = "SELECT c FROM Customer c WHERE c.registerDate = :registerDate")
     , @NamedQuery(name = "Customer.findByDob", query = "SELECT c FROM Customer c WHERE c.dob = :dob")
-    , @NamedQuery(name = "Customer.findByAddress", query = "SELECT c FROM Customer c WHERE c.address = :address")})
+    , @NamedQuery(name = "Customer.findByAddress", query = "SELECT c FROM Customer c WHERE c.address = :address")
+, @NamedQuery(name = "Customer.findSortNameASC", query = "SELECT c FROM Customer c ORDER BY c.fullname ASC")
+    , @NamedQuery(name = "Customer.findSortNameDESC", query = "SELECT c FROM Customer c ORDER BY c.fullname DESC")
+    , @NamedQuery(name = "Customer.findSortRegisterDateASC", query = "SELECT c FROM Customer c ORDER BY c.registerDate ASC")
+    , @NamedQuery(name = "Customer.findSortRegisterDateDESC", query = "SELECT c FROM Customer c ORDER BY c.registerDate DESC")
+    , @NamedQuery(name = "Customer.findSortDobASC", query = "SELECT c FROM Customer c ORDER BY c.dob ASC")
+    , @NamedQuery(name = "Customer.findSortDobDESC", query = "SELECT c FROM Customer c ORDER BY c.dob DESC")})
 public class Customer implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -206,7 +212,7 @@ public class Customer implements Serializable {
 
     @Override
     public String toString() {
-        return "model.Customer[ customerId=" + customerId + " ]";
+        return ""+customerId;
     }
 
     public String getBase64Image() {
