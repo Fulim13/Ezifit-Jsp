@@ -1,9 +1,3 @@
-<%-- 
-    Document   : orderHaveMade
-    Created on : Apr 1, 2022, 11:25:16 AM
-    Author     : Lim
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     boolean loggedIn = session != null && session.getAttribute("loggedInCustomer") != null;
@@ -113,10 +107,7 @@
         </div>
 
         <div class="box">
-            <div class="title">Payment have made before </div>
-            <div>
-                <a href="orders.jsp" class="link">Go to Order Page</a>
-            </div>
+            <div class="title">Payment Failed due to the quantity of your purchase is greater than the product quantity</div>
             <div>
                 <a href="homePage.jsp" class="link">Back to Home page</a>
             </div>
