@@ -32,6 +32,10 @@
         <servlet-name>SearchModifyProduct</servlet-name>
         <servlet-class>controller.SearchModifyProduct</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SearchProductView</servlet-name>
+        <servlet-class>controller.SearchProductView</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>GetProduct</servlet-name>
         <url-pattern>/GetProduct</url-pattern>
@@ -320,6 +324,26 @@
         <servlet-name>SearchModifyProduct</servlet-name>
         <url-pattern>/SearchModifyProduct</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>RemoveCartItem</servlet-name>
+        <servlet-class>controller.RemoveCartItem</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RemoveCartItem</servlet-name>
+        <url-pattern>/RemoveCartItem</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>UpdateQty</servlet-name>
+        <servlet-class>controller.UpdateQty</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateQty</servlet-name>
+        <url-pattern>/UpdateQty</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchProductView</servlet-name>
+        <url-pattern>/SearchProductView</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             60
@@ -328,7 +352,7 @@
     <welcome-file-list>
         <welcome-file>homePage.jsp</welcome-file>
     </welcome-file-list>
-        <security-constraint>
+    <security-constraint>
         <display-name>ManagerConstraint</display-name>
         <web-resource-collection>
             <web-resource-name>Manager</web-resource-name>

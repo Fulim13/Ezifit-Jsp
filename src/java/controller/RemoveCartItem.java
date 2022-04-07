@@ -1,44 +1,64 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package controller;
 
-import model.ProductService;
-import model.Product;
-import java.io.*;
-import java.util.logging.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.Resource;
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.servlet.ServletException;
-import javax.servlet.http.*;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
+import model.CartItem;
+import model.CartService;
 
-public class DeleteProduct extends HttpServlet {
-
+/**
+ *
+ * @author Rainiey
+ */
+//@WebServlet("/cartRemove")
+public class RemoveCartItem extends HttpServlet {
     @PersistenceContext
     EntityManager em;
     @Resource
     UserTransaction utx;
-
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+            response.setContentType("text/html;charset=UTF-8");
+            
+//        request.setAttribute("", em);
         try {
-            ProductService productService = new ProductService(em);
+            CartService cartService = new CartService(em);
             HttpSession session = request.getSession();
-            Product product = (Product) session.getAttribute("product");
-            int id = product.getProdId();
-            boolean success = false;
-            try {
+            CartItem cart = (CartItem)session.getAttribute("cart");
+//            int id = cart.getCartId();
+//            List<CartItem> cart = (List<CartItem>)session.getAttribute("cart");
+            
+            int cartID = Integer.parseInt(request.getParameter("id"));
+            System.out.println(cartID);
+//            cart.remove(cartID);
                 utx.begin();
-                success = productService.deleteProduct(id);
+                boolean success = cartService.deleteCart(cartID);
                 utx.commit();
-            } catch (Exception ex) {
-                session.setAttribute("success", false);
-                response.sendRedirect("secureManager/Product/DeleteConfirmProduct.jsp");
-                return;
-            }
-            session.setAttribute("success", success);
-            response.sendRedirect("secureManager/Product/DeleteConfirmProduct.jsp");
-        } catch (Exception ex) {
-            Logger.getLogger(AddProduct.class.getName()).log(Level.SEVERE, null, ex);
+//                
+                session.setAttribute("success", success);
+                session.setAttribute("cart", cart);
+                response.sendRedirect("GetCart");                    
         }
+        catch (Exception ex) {
+//            Logger.getLogger(AddStaff.class.getName()).log(Level.SEVERE, null, ex);
+        } 
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -79,4 +99,5 @@ public class DeleteProduct extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
 }

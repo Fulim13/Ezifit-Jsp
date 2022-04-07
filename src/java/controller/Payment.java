@@ -79,7 +79,7 @@ public class Payment extends HttpServlet {
 
         HttpSession session = request.getSession();
         Customer loggedInCustomer = (Customer) session.getAttribute("loggedInCustomer");
-        Orders order = new Orders(new Date(), orderPrice, paymentMethod, shippingFee, "Ordered", shippingAddress);
+        Orders order = new Orders(new Date(), orderPrice, paymentMethod, shippingFee, "ORDERED", shippingAddress);
         order.setCartItemList(purchaseCartItemList);
         order.setCustomerId(loggedInCustomer);
 

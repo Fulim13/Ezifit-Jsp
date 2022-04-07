@@ -71,7 +71,7 @@
                 font-size: 18px;
                 font-weight: bold;
                 letter-spacing: 2px;
-                margin: 0px 90px 10px 90px;     
+                margin: 0px 90px 50px 90px;                
                 border: none;
                 border-radius: 30px;
                 padding: 13px;
@@ -92,7 +92,28 @@
                 box-shadow: 1px 2px 3px 0px rgba(0,0,0,0.10);
                 border-radius: 8px;
             }
-
+            .button{
+                text-align: center;                
+            }
+            .button button{
+                font-family: 'Arial narrow'; 
+                font-size: 18px;
+                font-weight: bold;
+                letter-spacing: 2px;
+                margin: 0px 90px 30px 90px;                
+                border: none;
+                border-radius: 30px;
+                padding: 13px;
+                cursor: pointer;
+            }
+            .button #btn2{
+                background-color: #8B0000;
+                color: white;
+            }
+            .button #btn1{
+                background-color: transparent;
+                color: black;
+            }
             .item {
                 padding: 20px 20px;
                 height: 100px;
@@ -105,18 +126,18 @@
             }
             .select {
                 margin-left: 160px;
-                margin-bottom: -50px;
+                margin-bottom: -45px;
             }
             .image {
                 margin-right: 40px;
             }
             .name, .size{
                 padding-top: 40px;
-                margin-right: 50px;
+                margin-right: 60px;
             }
             .quantity {
-                padding-top: 36px;
-                margin-right: 10px;
+                padding-top: 40px;
+                margin-right: 50px;
             }
             .quantity input {
                 text-align: center;
@@ -138,13 +159,10 @@
                 margin-right: 40px;
                 text-align: center;
             }
-            .select {
-                /*left: 50%;*/
-            }
             .purchaseButton{
-                /*position: fixed;*/
+                position: absolute;
+                padding-bottom: 10px;
                 left: 42%;
-                /*top: 419px;*/
             }
             .returnButton {
                 position: absolute;
@@ -156,7 +174,7 @@
         <div class="header">            
             <span><a href="homePage.jsp">EZIFIT</a></span>
             <ul class="nav-link">
-                    <%if (loggedIn) {%>
+                   <%if (loggedIn) {%>
                 <li><a href="GetOrder"><i class="fa fa-shopping-bag"></i></a></li>                
                 <li><a href="GetCart"><i class="fa fa-shopping-cart"></i></a></li>
                 <li><a href="profile.jsp"><i class="fa fa-user"></i></a></li>
@@ -166,7 +184,7 @@
                 <li><a href="login.jsp"><i class="fa fa-shopping-cart"></i></a></li>
                 <li><a href="login.jsp"><i class="fa fa-user"></i></a></li>
                 <li><a href="login.jsp"><i class="fa fa-sign-in"></i></a></li>
-                        <%}%>      
+                        <%}%>       
             </ul>
         </div>
 
@@ -175,52 +193,43 @@
         </div>
 
         <div class="button">
-            <button id="btn1">Change Quantity</button>
-            <a href="purchase.jsp"><button id="btn2">Purchase</button></a>
+            <a href="cart.jsp"><button id="btn1">Change Quantity</button></a>
+            <button id="btn2">Purchase</button>
         </div>
-        
+
         <table>  
-            <c:forEach var="cartItem" items="${cartItemList}">
-<!--                <form action="MakeOrder" method="POST">
+            <form action="MakeOrder" method="POST">
+                <c:forEach var="cartItem" items="${cartItemList}">
                     <div class="select">
                         <input type="checkbox" name="cartItemList" value="${cartItem.cartId}">
-                        <div class="purchaseButton">
-                            <input type="submit" value="Purchase"/>                  
-                        </div>
-                    </div>                   
-                </form>-->
-                <div class="shopping-cart"> 
-                    <div class="item">
-                        <div class="removeButtons">
-                            <a href="RemoveCartItem?id=${cartItem.cartId}"><i class="fa fa-trash" ></i></a>
-                        </div>
-
-                        <div class="image">
-                            <img src="data:image/jpg;base64,${cartItem.prodId.base64Image}">
-                        </div>
-                        <div class="name">
-                            ${cartItem.prodId.prodName}
-                        </div>
-                        <div class="size">
-                            ${cartItem.prodId.size}
-                        </div>
-                        <div class="quantity">
-                        </div>
-                        <form action="UpdateQty" method="post">
-                            <div class="quantity">
-                                <input type="text" name="qty" placeholder="${cartItem.purchaseQty}">
-                                <input type="hidden" name="id" value="${cartItem.cartId}">
-                            </div>
-                            <div class="updateButton">
-                                <input type="submit" value="update">
-                            </div>
-                        </form>
-                        <div class="subtotal">MYR ${cartItem.subtotal}</div>
                     </div>
+                    
+                    <div class="shopping-cart"> 
+                        <div class="item">
+                            <div class="removeButtons">
+                                <a href="RemoveCartItem?id=${cartItem.cartId}"><i class="fa fa-trash" ></i></a>
+                            </div>
+
+                            <div class="image">
+                                <img src="data:image/jpg;base64,${cartItem.prodId.base64Image}">
+                            </div>
+                            <div class="name">
+                                ${cartItem.prodId.prodName}
+                            </div>
+                            <div class="size">
+                                ${cartItem.prodId.size}
+                            </div>
+                            <div class="quantity">
+                                ${cartItem.purchaseQty}
+                            </div>
+                            <div class="subtotal">MYR ${cartItem.subtotal}</div>
+                        </div>
+                    </div>
+                </c:forEach>
+                <div class="purchaseButton">
+                    <input type="submit" value="Purchase"/>                  
                 </div>
-
-            </c:forEach>
-
+            </form>
 
             <a href="homePage.jsp" class="returnButton"><button>Back to Home Page</button></a>
         </table>

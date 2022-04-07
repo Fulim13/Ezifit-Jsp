@@ -163,6 +163,36 @@
             ::-webkit-scrollbar-thumb{
                 -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3)
             }
+            
+            .searchInput{
+                border: transparent;
+                background-color: #D3D3D3;               
+                padding-left: 20px;
+                position: relative;
+            }
+            .searchBox .searchInput{      
+                width: 160px;
+                height: 40px;
+                border-radius: 30px;
+                font-size: 18px;
+                margin-left: 1180px;
+            }
+            .searchBtn{
+                position: absolute;
+                top: 210px;
+                left: 1330px;
+                cursor: pointer;
+                background-color: transparent;
+                border:none;
+                outline: none;
+            }  
+
+            .searchBtn button[type=submit]{
+                border: none;
+                outline: none;
+                background: transparent;
+                cursor: pointer;
+            }
         </style>
     </head>
     <body>
@@ -181,6 +211,13 @@
             <h1 style="color: #8B0000">PRODUCT OVERVIEW></h1>
         </div>
         <br>        <hr style="width: 97%">
+        
+         <form class="searchBox" action="../SearchProductView">
+                <input type="text" name="search_for_product" class="searchInput" placeholder="Search..." />
+                <div class="searchBtn">
+                    <button type="submit"><i class="fa fa-search"></i></button>
+                </div>
+            </form> 
         <div class="header_fixed">
             <table class="pro">
                 <form action="../SalesRecord">

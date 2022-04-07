@@ -100,7 +100,6 @@
                 text-align: center;
                 line-height: 1;
                 font-size: 17px;
-                background-color : transparent;
                 padding: 10px;
                 outline: none;
                 border-radius: 4px;

@@ -569,7 +569,7 @@
                         <li class="active"></li>
                         <li class="active"></li>
                     </ul>
-                    <% }  else if(orders.getStatus().equals("-")|| orders.getStatus() == null) {%>
+                    <% }  else if(orders.getStatus().equals("ORDERED")|| orders.getStatus() == null) {%>
                     <ul id="progress4" class="text-center">
                         <li class="active"></li>
                         <li class="active"></li>

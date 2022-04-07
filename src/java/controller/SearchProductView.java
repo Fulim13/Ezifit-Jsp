@@ -1,43 +1,44 @@
 package controller;
 
-import model.ProductService;
 import model.Product;
-import java.io.*;
-import java.util.logging.*;
-import javax.annotation.Resource;
-import javax.persistence.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.servlet.ServletException;
-import javax.servlet.http.*;
-import javax.transaction.UserTransaction;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-public class DeleteProduct extends HttpServlet {
+public class SearchProductView extends HttpServlet {
 
     @PersistenceContext
     EntityManager em;
-    @Resource
-    UserTransaction utx;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            ProductService productService = new ProductService(em);
-            HttpSession session = request.getSession();
-            Product product = (Product) session.getAttribute("product");
-            int id = product.getProdId();
-            boolean success = false;
-            try {
-                utx.begin();
-                success = productService.deleteProduct(id);
-                utx.commit();
-            } catch (Exception ex) {
-                session.setAttribute("success", false);
-                response.sendRedirect("secureManager/Product/DeleteConfirmProduct.jsp");
-                return;
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            //To get search result
+            List<Product> productList = em.createNamedQuery("Product.findAll", Product.class).getResultList();
+            String search_for_product = request.getParameter("search_for_product").toUpperCase();
+            List<Product> productList2 = new ArrayList<>();
+            if (search_for_product != null) {
+                for (int i = 0; i < productList.size(); i++) {
+                    if (search_for_product.equalsIgnoreCase(productList.get(i).getProdId().toString()) || productList.get(i).getProdName().toUpperCase().contains(search_for_product) || productList.get(i).getProdName().equalsIgnoreCase(search_for_product)) {
+                        productList2.add(productList.get(i));
+                    }
+                }
+                productList = productList2;
+
             }
-            session.setAttribute("success", success);
-            response.sendRedirect("secureManager/Product/DeleteConfirmProduct.jsp");
-        } catch (Exception ex) {
-            Logger.getLogger(AddProduct.class.getName()).log(Level.SEVERE, null, ex);
+
+            HttpSession session = request.getSession();
+            session.setAttribute("productList", productList);
+            response.sendRedirect("secureStaff/DisplayProductCategoryList.jsp");
         }
     }
 
@@ -79,4 +80,5 @@ public class DeleteProduct extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
 }

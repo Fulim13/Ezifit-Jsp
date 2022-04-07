@@ -144,10 +144,10 @@ and open the template in the editor.
             <div class="banner">
                <a href="../LoadRating">
                 <img src="s1.jpeg" alt="" style="width: 17%;" /></a>
-                <h2 class="heading" >Customer Review</h2>
+                <h2 class="heading" >Customer <br/> Review</h2>
                 <a href="../ViewCustomer">
                     <img src="s2.jpeg" alt="" style="width: 17%;" /></a>
-                    <h2 class="heading2">Customer Record</h2>
+                    <h2 class="heading2">Customer<br/>  Record</h2>
                 <a href="../LoadOrderDetailsList">
                     <img src="s3.jpeg" alt="" style="width: 17%;" /></a>
                     <h2 class="heading3">Order Status</h2>
@@ -168,7 +168,7 @@ and open the template in the editor.
                 <h2 class="heading" >View Product</h2>
                 <a href="../LoadProductList">
                     <img src="s7.jpeg" alt="" style="width: 17%;" /></a>
-                    <h2 class="heading2">Maintain Product</h2>
+                    <h2 class="heading2">Maintain<br/>  Product</h2>
                 <a href="AddProduct.jsp">
                     <img src="s8.jpeg" alt="" style="width: 17%;" /></a>
                     <h2 class="heading3">Add Product</h2>

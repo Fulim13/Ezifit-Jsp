@@ -51,7 +51,7 @@ public class CartItem implements Serializable {
     @JoinColumn(name = "CUSTOMER_ID", referencedColumnName = "CUSTOMER_ID")
     @ManyToOne(optional = false)
     private Customer customerId;
-    @JoinColumn(name = "ORDER_ID", referencedColumnName = "ORDER_ID",updatable = true)
+    @JoinColumn(name = "ORDER_ID", referencedColumnName = "ORDER_ID", updatable = true)
     @ManyToOne
     private Orders orderId;
     @JoinColumn(name = "PROD_ID", referencedColumnName = "PROD_ID")
@@ -65,19 +65,24 @@ public class CartItem implements Serializable {
         this.cartId = cartId;
     }
 
+    public CartItem(Integer cartId, int purchaseQty) {
+        this.cartId = cartId;
+        this.purchaseQty = purchaseQty;
+    }
+
     public CartItem(Integer cartId, int purchaseQty, double subtotal) {
         this.cartId = cartId;
         this.purchaseQty = purchaseQty;
         this.subtotal = subtotal;
     }
 
-    public CartItem(Product prodId, Customer customerId, int purchaseQty, double subtotal){
+    public CartItem(Product prodId, Customer customerId, int purchaseQty, double subtotal) {
         this.prodId = prodId;
         this.customerId = customerId;
         this.purchaseQty = purchaseQty;
         this.subtotal = Double.parseDouble(String.format("%.2f", subtotal));
     }
-    
+
     public Integer getCartId() {
         return cartId;
     }
@@ -150,5 +155,5 @@ public class CartItem implements Serializable {
     public String toString() {
         return "model.CartItem[ cartId=" + cartId + " ]";
     }
-    
+
 }

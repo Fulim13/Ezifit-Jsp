@@ -35,8 +35,7 @@ public class AddToCart extends HttpServlet {
         if (!loggedIn) {
             response.sendRedirect("login.jsp");
         }
-        
-        
+
         int prodID = Integer.parseInt(request.getParameter("prodID"));
         try {
             Product product = em.find(Product.class, prodID);
@@ -48,16 +47,21 @@ public class AddToCart extends HttpServlet {
             CartItem cartItem2 = new CartItem();
 
             //Find if there is same product that is in cart
-            for (int i = 0; i < cartItemList.size(); i++) {          
-                if ((cartItemList.get(i).getCustomerId().getCustomerId() == (int)loggedInCustomer.getCustomerId()) && (cartItemList.get(i).getOrderId() == null) && (cartItemList.get(i).getProdId().getProdId() == prodID)) {
+            for (int i = 0; i < cartItemList.size(); i++) {
+                if ((cartItemList.get(i).getCustomerId().getCustomerId() == (int) loggedInCustomer.getCustomerId()) && (cartItemList.get(i).getOrderId() == null) && (cartItemList.get(i).getProdId().getProdId() == prodID)) {
                     cartItem2 = cartItemList.get(i);
-                    int qty = cartItem2.getPurchaseQty() + 1;
-                    double price = cartItem2.getSubtotal() + product.getPrice();
+                    int qty = cartItem2.getPurchaseQty();
+                    double price = cartItem2.getSubtotal();
+                    if (product.getQuantity() >= cartItem2.getPurchaseQty() + 1) {
+                        qty = qty + 1;
+                        price += product.getPrice();
+                    }
+
                     cartItem2.setPurchaseQty(qty);
                     cartItem2.setSubtotal(price);
                 }
-            } 
-            
+            }
+
             utx.begin();
             if (cartItem2.getCartId() == null) {
                 em.persist(cartItem1);
