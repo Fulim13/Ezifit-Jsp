@@ -288,7 +288,11 @@
             <% for (int i = 0; i < orderList.size(); i++) {%>           
             <button type="submit" name="orderID" value="<%= orderList.get(i).getOrderId()%>">
                 <div class="testimonial">
+                    <%if (orderList.get(i).getCustomerId().getCustomerImage() == null) {%>
+                    <img id="img" src="../defaultprofilepic.png">
+                    <%} else {%>
                     <img id="img" src="data:image/jpg;base64,<%=orderList.get(i).getCustomerId().getBase64Image()%>">
+                    <%}%>
                     <div class="name">Order ID <%=orderList.get(i).getOrderId()%></div>
                     <p style="font-size: 20px">Status <%=orderList.get(i).getStatus()%></p>
                 </div>

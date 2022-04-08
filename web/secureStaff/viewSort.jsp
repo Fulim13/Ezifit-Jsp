@@ -315,13 +315,29 @@
                 <tbody>
                     <% for (Customer customer : custList) {%>
                     <tr>
-                        <td><img class="customer_pic" src="data:image/jpg;base64,<%= customer.getBase64Image()%>"</td>
+                        <%if (customer.getCustomerImage() == null) {%>
+                            <td><img class="customer_pic" src="../defaultprofilepic.png"></td>
+                        <%} else {%>
+                            <td><img class="customer_pic" src="data:image/jpg;base64,<%= customer.getBase64Image()%>"</td>
+                        <%}%>
                         <td data-th="Full Name"><%=customer.getFullname()%></td>
                         <td data-th="Email"><%= customer.getEmail()%></td>
                         <td data-th="Phone Number"><%= customer.getPhone()%></td>
-                        <td data-th="Date Of Birth"><%=ft.format(customer.getDob())%></td>
-                        <td data-th="Register Date"><%= ft.format(customer.getRegisterDate())%></td>
-                        <td data-th="Address"><%= customer.getAddress()%></td>
+                        <%if (customer.getDob() == null) {%>
+                            <td data-th="Date Of Birth">Haven't set</td>
+                        <%} else {%>
+                            <td data-th="Date Of Birth"><%=ft.format(customer.getDob())%></td>
+                        <%}%>
+                        <%if (customer.getRegisterDate() == null) {%>
+                             <td data-th="Register Date">Haven't set</td>
+                        <%} else {%>
+                            <td data-th="Register Date"><%= ft.format(customer.getRegisterDate())%></td>
+                        <%}%>
+                        <%if (customer.getAddress() == null) {%>
+                            <td data-th="Address">Haven't set</td>
+                        <%} else {%>
+                            <td data-th="Address"><%= customer.getAddress()%></td>
+                        <%}%>
                     </tr>
                     <% }%>
                 </tbody>

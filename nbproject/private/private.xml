@@ -3,55 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/WEB-INF/web.xml</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/src/java/model/Product.java</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureManager/Staff/DeleteConfirmStaff.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/src/java/model/Staff.java</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureManager/Staff/UpdateConfirmationStaff.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/WEB-INF/glassfish-web.xml</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureManager/reportPage.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureManager/Product/DeleteConfirmProduct.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureManager/ProductRatingReport.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureManager/SalesReport.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureStaff/staffHomepage.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/WEB-INF/glassfish-resources.xml</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureManager/Staff/DeleteConfirmationStaff.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureStaff/UpdateStaffProfile.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureManager/Product/DisplayProductList.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureStaff/Display.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/loginAgainStaff.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureStaff/AddConfirmProduct.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureStaff/SalesRecordDisplay.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureManager/Staff/registerStaff.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/loginStaff.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureStaff/SearchOrder.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureManager/Staff/SearchStaff.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureStaff/shipping.jpg</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureStaff/ReplyCommentPage.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureManager/Product/SearchProduct.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureStaff/AddProduct.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureManager/Product/productUpdateDeletePage.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureManager/Staff/AddConfirmStaff.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureStaff/DisplayProductCategoryList.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureManager/Staff/UpdateConfirmStaff.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/src/java/controller/reportRetrieve.java</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureStaff/SearchProductSales.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureStaff/deliver.jpg</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureStaff/retrieveSorting.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureStaff/DisplayOrderList.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureManager/Staff/DisplayStaffList.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureManager/Product/UpdateConfirmProduct.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureStaff/UpdateStatusConfirmation.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureStaff/logoutStaff.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureManager/Staff/maintainStaff.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureStaff/viewSort.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureStaff/RatingDisplay.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureManager/top_product_report.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureStaff/SearchRating.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/src/java/model/Customer.java</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureManager/Product/DeleteConfirmationProduct.jsp</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/src/java/controller/DBProduct.java</file>
-            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/web/secureManager/Product/UpdateConfirmationProduct.jsp</file>
+            <file>file:/C:/Users/Lim/Documents/NetBeansProjects/EzifitAssignment/src/java/controller/AddProduct.java</file>
         </group>
     </open-files>
 </project-private>

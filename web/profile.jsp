@@ -137,14 +137,14 @@
             }
 
             .settings-btn-update{
-                background-color: #1ac475;
-                color: black;
+                background-color: #16a085;
+                color: #FFF;
 
             }
 
             .settings-btn-cancel{
-                background-color:  #E04848;
-                color: #EEEEEE;
+                background-color:  #dc143c;
+                color: #FFF;
             }
             .upload-btn{
                 background-color: #8B0000;

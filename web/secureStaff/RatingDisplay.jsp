@@ -314,7 +314,11 @@
            <% for (int i = 0; i < reviewList.size(); i++) { %>  
           <button class="button" type="submit" name="reviewID" value="<%=reviewList.get(i).getReviewId() %>">
                <div class="testimonial">
+                   <%if (reviewList.get(i).getOrderId().getCustomerId().getCustomerImage() == null) {%>
+                   <img id="img" src="../defaultprofilepic.png">
+                   <%} else {%>
                    <img id="img" src="data:image/jpg;base64,<%=reviewList.get(i).getOrderId().getCustomerId().getBase64Image() %>">
+                  <%}%> 
                    <p style="font-size: 15px"><%=reviewList.get(i).getOrderId().getCustomerId().getFullname() %></p>
                      <div class="stars">
                        <%for(int j = 0; j < reviewList.get(i).getRating(); j++) {%>
