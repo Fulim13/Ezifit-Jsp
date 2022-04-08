@@ -169,14 +169,14 @@
             var emailFormat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
             console.log(emailField.value);
             if (emailField.value.match(emailFormat)) {
-                console.log("Hi");
                 document.querySelector(".jserror").innerHTML = "";
                 document.querySelector(".btn-submit").innerHTML = "Waiting...";
                 document.querySelector(".btn-submit").style.pointerEvents = "none";
+                emailField.style.backgroundColor = "lightgrey";
+                emailField.readOnly = true;
                 return true;
 
             } else {
-                console.log("Bye");
                 document.querySelector(".jserror").style.color = "red";
                 document.querySelector(".jserror").innerHTML = "Invalid Email Address";
                 emailField.value = "";
