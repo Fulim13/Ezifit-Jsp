@@ -122,6 +122,9 @@
                 text-align: center;
                 padding:20px 0;
             }
+            .error{
+                color: red;
+            }
         </style>
     </head>
     <body>
@@ -172,7 +175,6 @@
                 document.querySelector(".jserror").innerHTML = "";
                 document.querySelector(".btn-submit").innerHTML = "Waiting...";
                 document.querySelector(".btn-submit").style.pointerEvents = "none";
-                emailField.style.backgroundColor = "lightgrey";
                 emailField.readOnly = true;
                 return true;
 

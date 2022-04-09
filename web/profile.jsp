@@ -169,6 +169,9 @@
                 left: 35px;
 
             }
+            .error{
+                color:red;
+            }
         </style>
     </head>
     <body>
@@ -224,7 +227,6 @@
 </body>
 <script>
     function showUploadedImage(fileUpload) {
-        console.log(document.getElementById("profile-picture"));
         let file = fileUpload.files[0];
         let reader = new FileReader();
         reader.onload = function (e) {

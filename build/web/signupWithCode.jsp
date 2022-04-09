@@ -11,7 +11,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>SIGN UP | EZIFIT</title>
         <style>
             .send-verification, .send-verification:hover, .send-verification:active{
                 padding-top: 20px;
@@ -141,7 +141,10 @@
             .error{
                 color: red;
             }
-
+            .email{
+                background-color: #E9ECEF;
+                cursor: auto;
+            }
             
         </style>
     </head>
@@ -166,7 +169,7 @@
             <div class="register-box">
                 <h1>Sign up</h1>
                 <form  action="CheckVerificationCode" method="POST" class="register-form">
-                    <input name="whichJSP" value="signUpWithCode" hidden style="display:none"/>
+                    <input name="whichJSP" value="signUpWithCode" type="hidden" style="display:none"/>
                     <div class="left">
 
                         <label>Email</label>

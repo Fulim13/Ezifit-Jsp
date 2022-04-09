@@ -29,8 +29,8 @@ import helper.Error;
 @WebServlet(name = "UpdateProfile", urlPatterns = {"/UpdateProfile"})
 @MultipartConfig(
         fileSizeThreshold = 1024 * 10,
-        maxFileSize = 1024 * 1024 * 10,
-        maxRequestSize = 1024 * 1024 * 12
+        maxFileSize = 1024 * 1024 * 15,
+        maxRequestSize = 1024 * 1024 * 18
 )
 public class UpdateProfile extends HttpServlet {
 
@@ -50,14 +50,14 @@ public class UpdateProfile extends HttpServlet {
         Part profilePicture = request.getPart("profilePicture");
 
         //validation for all the field
-        Error error = new helper.Error();
+        Error error = new Error();
         //fullName cannot be empty
         if (fullName.isEmpty() || fullName.trim().length() == 0) {
             error.setIsError(true);
             error.setFullNameEmpty(true);
         }
         //phone cannot be empty
-        if (phone.isEmpty() || fullName.trim().length() == 0) {
+        if (phone.isEmpty() || phone.trim().length() == 0) {
             error.setIsError(true);
             error.setPhoneNoEmpty(true);
         }

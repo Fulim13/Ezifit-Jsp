@@ -63,7 +63,7 @@ public class CheckEmail extends HttpServlet {
             session.setAttribute("error", error);
             response.sendRedirect("signup.jsp");
         } else {
-            //get all the verification code from the database
+            //get all the verification code belongs to user entered email from the database
             List<Verification> vList = em.createQuery("SELECT v FROM Verification v WHERE v.email = :email").setParameter("email", email).getResultList();
             //delete verification 
             int size = vList.size();
@@ -87,10 +87,13 @@ public class CheckEmail extends HttpServlet {
 
             String verificationCode = String.format("%06d", number);
 
+            //generate expire time for this verification code
             int addMinuteTime = 10;
             Date targetTime = new Date();
             targetTime = DateUtils.addMinutes(targetTime, addMinuteTime); // add minute
             Verification verification = new Verification(verificationCode, targetTime, email);
+            
+            //save verificaiton code to database
             try {
                 utx.begin();
                 em.persist(verification);
@@ -98,6 +101,8 @@ public class CheckEmail extends HttpServlet {
             } catch (Exception ex) {
 
             }
+            
+            //send the verification Code to email
             try {
                 MailUtil.sendMail(email, "noreplyezifit@gmail.com", "Ezifit Verification Code", "<div>Verification Code: " + verificationCode + "</div>" + "<div>This Verification code will expired in 10 mins</div>", true);
             } catch (MessagingException e) {

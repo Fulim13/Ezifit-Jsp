@@ -15,7 +15,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <title>JSP Page</title>
+        <title>SIGN UP | EZIFIT</title>
         <!--<link rel="stylesheet" href="registration.css">-->
         <style>
             *{
@@ -124,7 +124,7 @@
                   color: #FFFFFF;
                 font-family: Raleway-Bold;
             }
-            .email{
+            .email, .verification{
                 background-color: #E9ECEF;
                 cursor: auto;
             }
@@ -171,7 +171,7 @@
                         <label>Email*</label>
                         <input type="text" class="email" name="email" value="${verifiedEmail2}" readonly/>
                         <label>Verification Code*</label>
-                        <input type="text" class="email" name="email" value="${verificationCode}" readonly/>
+                        <input type="text" class="verification" value="${verificationCode}" readonly/>
                     </div>
                     <div class="right">
                         <label>Full Name*</label>

@@ -5,10 +5,9 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<jsp:useBean id="error" scope="session" class="helper.Error" />
 <%
     boolean loggedIn = session != null && session.getAttribute("loggedInCustomer") != null;
-    // not enable the people whoe have logged in , to sign up agains
+    // not enable the people who have logged in , to sign up agains , must log out first 
     if (loggedIn) {
         response.sendRedirect(request.getContextPath());
         return;
@@ -19,7 +18,7 @@
     <head>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>SIGN UP | EZIFIT</title>
         <style>
             .no-click {
                 pointer-events: none;
@@ -177,14 +176,10 @@
 
             let emailField = document.querySelector(".email");
             var emailFormat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-            console.log(emailField.value);
-            if (emailField.value.match(emailFormat)) {
-                console.log("Hi");
-                
+            if (emailField.value.match(emailFormat)) {            
                 document.querySelector(".jserror").innerHTML = "";
                 document.querySelector(".btn-submit").innerHTML = "Waiting...";
                 document.querySelector(".btn-submit").style.pointerEvents  = "none";
-                emailField.style.backgroundColor = "lightgrey";
                 emailField.readOnly = true;
                 return true;
 

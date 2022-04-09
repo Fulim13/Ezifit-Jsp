@@ -15,6 +15,7 @@
         response.sendRedirect(request.getContextPath());
         return;
     }
+    List<CartItem> cartItemtList = (List)session.getAttribute("cartItemList");
 %>
 <!DOCTYPE html>
 <html>
@@ -58,7 +59,7 @@
             }
             img{
                 width: 110px;
-                height: 110px;
+                height: 130px;
             }           
             * {
                 box-sizing: border-box;
@@ -74,7 +75,7 @@
                 margin: 0px 90px 10px 90px;     
                 border: none;
                 border-radius: 30px;
-                padding: 13px;
+                padding: 12px;
                 cursor: pointer;
             }
             .button #btn1{
@@ -85,70 +86,89 @@
                 background-color: transparent;
             }
             .shopping-cart {
-                width: 850px;
-                height: 150px;
-                margin: 15px auto;
                 background: #EEEEEE;
                 box-shadow: 1px 2px 3px 0px rgba(0,0,0,0.10);
                 border-radius: 8px;
             }
-
-            .item {
-                padding: 20px 20px;
-                height: 100px;
-                display: flex;
-            }
             .removeButtons {
-                padding-top: 50px;
-                margin-right: 30px;
+                vertical-align: middle;               
+                text-align: center;               
+                margin-left: 10px;
+            }
+            .removeButtons a{
                 color: #8B0000;
             }
-            .select {
-                margin-left: 160px;
-                margin-bottom: -50px;
-            }
+            .removeButtons a:hover{
+                color: black;
+            }           
             .image {
-                margin-right: 40px;
+                vertical-align: middle;               
+                text-align: center;
+            }
+            .name{
+                width: 25%;
+            }
+            .size{
+                width: 10%;
             }
             .name, .size{
-                padding-top: 40px;
-                margin-right: 50px;
+                font-weight: bold;
+                vertical-align: middle;               
+                text-align: center;
             }
             .quantity {
-                padding-top: 36px;
-                margin-right: 10px;
+                vertical-align: middle;               
+                text-align: center;
             }
             .quantity input {
                 text-align: center;
                 width: 40px;
                 font-size: 16px;
                 color: #8B0000;
+                font-weight: bold;
             }
             .updateButton {
-                padding-top: 38px;
-                margin-right: 60px;
+                text-align: center;
+                margin-top: 15px;
             }
-            .fa-plus-square, .fa-minus-square{
-                padding-top: 20px;
-                font-size: 20px;    
-                color: #333333;
+            .updateButton input{
+                background-color: transparent;
+                border: none;
+                font-weight: bold;
+                cursor: pointer;
+            }
+            .updateButton input:hover{
+                color: #8B0000;
             }
             .subtotal {
-                padding-top: 40px;
-                margin-right: 40px;
-                text-align: center;
-            }
-            .select {
-                /*left: 50%;*/
-            }
-            .purchaseButton{
-                /*position: fixed;*/
-                left: 42%;
-                /*top: 419px;*/
+                font-weight: bold;
+                vertical-align: middle;               
+                text-align: center;    
+                width: 20%;
             }
             .returnButton {
-                position: absolute;
-                left: 48%;
+                text-align: center;  
+                margin: 45px 0px;
+            }
+            .returnButton a{
+                color: black;
+                text-decoration: none;
+                font-weight: bold;
+                padding: 10px;
+            }
+            .returnButton a:hover{
+                background-color: black;
+                color: white;
+            }
+            .table{
+                margin: 10px auto;                
+                width: 60%;
+                border-color: #EEEEEE;
+                border-collapse: collapse;
+            }
+            .table tr{
+                border:solid 15px white;
+                
             }
         </style>
     </head>
@@ -171,58 +191,54 @@
         </div>
 
         <div class="Header">
-            <h3>Shopping cart</h3>
+            <h3>Cart</h3>
+            <br>
         </div>
 
         <div class="button">
-            <button id="btn1">Change Quantity</button>
-            <a href="purchase.jsp"><button id="btn2">Purchase</button></a>
+            <button id="btn1">MAKE CHANGES</button>
+            <a href="purchase.jsp"><button id="btn2">MAKE PAYMENT</button></a>
         </div>
         
-        <table>  
-            <c:forEach var="cartItem" items="${cartItemList}">
-<!--                <form action="MakeOrder" method="POST">
-                    <div class="select">
-                        <input type="checkbox" name="cartItemList" value="${cartItem.cartId}">
-                        <div class="purchaseButton">
-                            <input type="submit" value="Purchase"/>                  
-                        </div>
-                    </div>                   
-                </form>-->
-                <div class="shopping-cart"> 
-                    <div class="item">
-                        <div class="removeButtons">
-                            <a href="RemoveCartItem?id=${cartItem.cartId}"><i class="fa fa-trash" ></i></a>
-                        </div>
+        <table class="table">  
+            
+            <% for(int i=0; i<cartItemtList.size(); i++){ %>    
+                <tr class="shopping-cart"> 
+                    
+                        <td>
+                            <div class="removeButtons">
+                                <a href="RemoveCartItem?id=<%= cartItemtList.get(i).getCartId() %>"><i class="fa fa-trash"></i></a>
+                            </div>
+                        </td>
 
-                        <div class="image">
-                            <img src="data:image/jpg;base64,${cartItem.prodId.base64Image}">
-                        </div>
-                        <div class="name">
-                            ${cartItem.prodId.prodName}
-                        </div>
-                        <div class="size">
-                            ${cartItem.prodId.size}
-                        </div>
-                        <div class="quantity">
-                        </div>
+                        <td class="image">
+                            <img src="data:image/jpg;base64,<%= cartItemtList.get(i).getProdId().getBase64Image() %>">
+                        </td>
+                        <td class="name">
+                            <%= cartItemtList.get(i).getProdId().getProdName() %>
+                        </td>
+                        <td class="size">
+                            <%= cartItemtList.get(i).getProdId().getSize() %>
+                        </td>
+                        <td>
                         <form action="UpdateQty" method="post">
                             <div class="quantity">
-                                <input type="text" name="qty" placeholder="${cartItem.purchaseQty}">
-                                <input type="hidden" name="id" value="${cartItem.cartId}">
+                                <input type="number" name="qty" min="1" max="<%= cartItemtList.get(i).getProdId().getQuantity() %>" placeholder="<%= cartItemtList.get(i).getPurchaseQty() %>">
+                                <!--<input type="text" name="qty" placeholder="${cartItem.purchaseQty}">-->
+                                <input type="hidden" name="id" value="<%= cartItemtList.get(i).getCartId() %>">
                             </div>
                             <div class="updateButton">
                                 <input type="submit" value="update">
                             </div>
                         </form>
-                        <div class="subtotal">MYR ${cartItem.subtotal}</div>
-                    </div>
-                </div>
-
-            </c:forEach>
-
-
-            <a href="homePage.jsp" class="returnButton"><button>Back to Home Page</button></a>
+                        </td>
+                        <td class="subtotal">MYR<%= String.format("%.2f", cartItemtList.get(i).getSubtotal()) %></td>
+                </tr>
+                <tr style="margin: 50px;"></tr>
+            <% } %>              
         </table>
+        <div class="returnButton"><a href="homePage.jsp">Back to Home Page</a></div>
+        
+ 
     </body>
 </html>

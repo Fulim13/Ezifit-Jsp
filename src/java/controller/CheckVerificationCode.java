@@ -32,12 +32,15 @@ public class CheckVerificationCode extends HttpServlet {
         String verificationCode = request.getParameter("verificationCode").trim();
         String whichJSP = request.getParameter("whichJSP");
         List<Verification> vList = em.createQuery("SELECT v FROM Verification v WHERE  v.verificationCode = :verificationCode and v.email = :email").setParameter("verificationCode", verificationCode).setParameter("email", email).getResultList();
-        int size = vList.size();
+        
         HttpSession session = request.getSession();
+        
+        int size = vList.size();
         if (size > 0) {
             Verification verification = vList.get(0);
             //check whether is expired or not
             //if expired already , delete the verifcation , redirect to signupWithCode and  let user click the link below to regenerate a new Verifcation 
+            
             Date currentDateTime = new Date();
             if (currentDateTime.after(verification.getExpireDate())) {
                  //delete verification 

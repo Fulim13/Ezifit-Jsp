@@ -3,6 +3,8 @@
     Created on : Mar 30, 2022, 4:18:30 PM
     Author     : Lim
 --%>
+<%@page import="java.util.List"%>
+<%@page import="model.Orders"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
@@ -12,6 +14,7 @@
         response.sendRedirect(request.getContextPath());
         return;
     }
+    List<Orders> orderList = (List)session.getAttribute("ordersList");
 %>
 <!DOCTYPE html>
 <html>
@@ -53,39 +56,39 @@
                 font-size: 20px;
                 color: #8B0000;
             }
-            .container {
-                width: 95%;
-                height: 400px;
+            .container {              
+                margin: 40px auto 80px auto;              
+            }
+            .table{
                 margin: 20px auto;
-                background: #EEEEEE;
-                box-shadow: 1px 2px 3px 0px rgba(0,0,0,0.10);
-                border-radius: 8px;
+                border-collapse: collapse;
             }
             th {
-                padding-top: 20px;
-                padding-left: 40px;
-                padding-bottom: 10px;
-                color: #8B0000;
+                padding: 10px 12px;
+                color: white;
+                background-color: black;
             }
             td {
-                padding-left: 40px;
-                padding-right: 10px;
+                border: solid;
                 text-align: center;
-                padding-bottom: 15px;
-            }
-            .feedbackButton:link {
+                padding: 15px ;
+            }        
+            .feedbackButton i:hover {
                 color: #8B0000;
-            }            
-            .feedbackButton:hover {
-                color: cadetblue;
-            }
-            .feedbackButton:visited {
-                color: #333333;
             }
             .returnButton {
-                /*margin-top: 20%;*/
-                padding-left: 43%;
-                font-size: 30px;
+                text-align: center;  
+                margin: 45px 0px;
+            }
+            .returnButton a{
+                color: black;
+                text-decoration: none;
+                font-weight: bold;
+                padding: 10px;
+            }
+            .returnButton a:hover{
+                background-color: black;
+                color: white;
             }
             a, a:hover, a:focus, a:active {
                 text-decoration: none;
@@ -114,7 +117,7 @@
         <h3>My Orders</h3>
 
         <div class="container">
-            <table>
+            <table class="table">
                 <thead>
                     <tr>
                         <th>Order ID</th>
@@ -128,32 +131,27 @@
                 </thead>
 
                 <tbody>
-                <form action="" method="POST">                   
-                    <c:forEach var="orders" items="${ordersList}">                        
-                        <!--<a class="order" href="GetReview?orderID=${orders.orderId}">-->
+                                
+                    <% for(int i=0; i<orderList.size(); i++){ %>                                              
                         <tr>
-                            <td>${orders.orderId}</td>
-                            <td>${orders.orderDate}</td>
-                            <td>${orders.shippingFee}</td>
-                            <td>${orders.orderPrice}</td>
-                            <td>${orders.paymentMethod}</td>
-                            <td>${orders.status}</td>
-                            <c:choose>
-                                <c:when test="${orders.status=='DELIVERED'}">
-                               <td><a href="GetReview?orderID=${orders.orderId}" class="feedbackButton">Add Feedback</a></td>
-                            </c:when>    
-                            <c:otherwise>
-                                <td></td>
-                            </c:otherwise>
-                        </c:choose>
-                        
-                        </tr>                          
-                        <!--</a>-->                        
-                    </c:forEach>                   
-                </form>
+                            <td><%= orderList.get(i).getOrderId() %></td>
+                            <td><%= orderList.get(i).getOrderDate() %></td>
+                            <td><%= orderList.get(i).getShippingFee() %></td>
+                            <td><%= orderList.get(i).getOrderPrice() %></td>
+                            <td><%= orderList.get(i).getPaymentMethod() %></td>
+                            <td><%= orderList.get(i).getStatus() %></td>
+                            <% if(orderList.get(i).getStatus().equalsIgnoreCase("DELIVERED")) {%>                                
+                               <td><a href="GetReview?orderID=<%= orderList.get(i).getOrderId() %>" class="feedbackButton"><i class="fa fa-comments"></i></a></td>
+                            <% } else{ %>                              
+                                <td></td>                           
+                            <% } %>                       
+                        </tr>                                                                          
+                    <% } %>                   
+                
                 </tbody>
             </table>
-            <a href="homePage.jsp" class="returnButton"><button>Back to Home Page</button></a>
+            
         </div>
+        <div class="returnButton"><a href="homePage.jsp">Back to Home Page</a></div>
     </body>
 </html>

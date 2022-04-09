@@ -2,7 +2,6 @@ package controller;
 
 import model.Customer;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,7 +11,6 @@ import helper.Error;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.Resource;
-import javax.servlet.RequestDispatcher;
 import javax.persistence.*;
 import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
@@ -96,7 +94,7 @@ public class RegisterProcess extends HttpServlet {
                 utx.commit();
 
                 HttpSession session = request.getSession();
-                session.removeAttribute("email");
+                session.removeAttribute("verifiedEmail2");
                 session.removeAttribute("customer");
                 session.setAttribute("loggedInCustomer", customer);
 

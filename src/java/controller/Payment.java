@@ -78,8 +78,11 @@ public class Payment extends HttpServlet {
         }
 
         HttpSession session = request.getSession();
+        //Get current date
+        long millis = System.currentTimeMillis();
+        Date currentDate = new java.sql.Date(millis);
         Customer loggedInCustomer = (Customer) session.getAttribute("loggedInCustomer");
-        Orders order = new Orders(new Date(), orderPrice, paymentMethod, shippingFee, "ORDERED", shippingAddress);
+        Orders order = new Orders(currentDate, orderPrice, paymentMethod, shippingFee, "ORDERED", shippingAddress);
         order.setCartItemList(purchaseCartItemList);
         order.setCustomerId(loggedInCustomer);
 
@@ -95,7 +98,6 @@ public class Payment extends HttpServlet {
         for (String purchaseCartItemId : purchaseCartItemIdArr) {
             CartItem purchaseCartItem = em.find(CartItem.class, Integer.parseInt(purchaseCartItemId));
             purchaseCartItem.setOrderId(order);
-            purchaseCartItemList.add(purchaseCartItem);
 //            //update database
             try {
                 utx.begin();

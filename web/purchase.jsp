@@ -15,6 +15,7 @@
         response.sendRedirect(request.getContextPath());
         return;
     }
+    List<CartItem> cartItemtList = (List) session.getAttribute("cartItemList");
 %>
 <!DOCTYPE html>
 <html>
@@ -58,7 +59,7 @@
             }
             img{
                 width: 110px;
-                height: 110px;
+                height: 130px;
             }           
             * {
                 box-sizing: border-box;
@@ -85,9 +86,6 @@
                 background-color: transparent;
             }
             .shopping-cart {
-                width: 850px;
-                height: 150px;
-                margin: 15px auto;
                 background: #EEEEEE;
                 box-shadow: 1px 2px 3px 0px rgba(0,0,0,0.10);
                 border-radius: 8px;
@@ -125,48 +123,68 @@
                 color: #8B0000;
             }
             .select {
-                margin-left: 160px;
-                margin-bottom: -45px;
+                vertical-align: middle;               
+                text-align: center;
             }
             .image {
-                margin-right: 40px;
+                vertical-align: middle;               
+                text-align: center;
+                width: 20%;
+            }
+            .name{
+                width: 35%;
+            }
+            .size{
+                width: 8%;
             }
             .name, .size{
-                padding-top: 40px;
-                margin-right: 60px;
+                font-weight: bold;
+                vertical-align: middle;               
+                text-align: center;
             }
             .quantity {
-                padding-top: 40px;
-                margin-right: 50px;
-            }
-            .quantity input {
+                vertical-align: middle;               
                 text-align: center;
-                width: 40px;
-                font-size: 16px;
-                color: #8B0000;
+                font-weight: bold;
+                width: 8%;
             }
             .updateButton {
                 padding-top: 38px;
                 margin-right: 60px;
             }
-            .fa-plus-square, .fa-minus-square{
-                padding-top: 20px;
-                font-size: 20px;    
-                color: #333333;
-            }
             .subtotal {
-                padding-top: 40px;
-                margin-right: 40px;
-                text-align: center;
+                font-weight: bold;
+                vertical-align: middle;               
+                text-align: center;    
+                width: 20%;
             }
-            .purchaseButton{
-                position: absolute;
-                padding-bottom: 10px;
-                left: 42%;
+
+            .returnButton, .purchaseButton {
+                text-align: center;  
+                margin: 45px 0px;
+                
             }
-            .returnButton {
-                position: absolute;
-                left: 48%;
+            .returnButton a, .purchaseButton input {
+                color: black;
+                text-decoration: none;
+                font-weight: bold;
+                padding: 10px;
+                border: none;
+                background-color: transparent;
+                font-size: 15px;
+            }
+            .returnButton a:hover, .purchaseButton input:hover{
+                background-color: black;
+                color: white;
+            }
+            .table{
+                margin: 10px auto;                
+                width: 60%;
+                border-color: #EEEEEE;
+                border-collapse: collapse;
+            }
+            .table tr{
+                border:solid 15px white;
             }
         </style>
     </head>
@@ -174,7 +192,7 @@
         <div class="header">            
             <span><a href="homePage.jsp">EZIFIT</a></span>
             <ul class="nav-link">
-                   <%if (loggedIn) {%>
+                <%if (loggedIn) {%>
                 <li><a href="GetOrder"><i class="fa fa-shopping-bag"></i></a></li>                
                 <li><a href="GetCart"><i class="fa fa-shopping-cart"></i></a></li>
                 <li><a href="profile.jsp"><i class="fa fa-user"></i></a></li>
@@ -189,49 +207,60 @@
         </div>
 
         <div class="Header">
-            <h3>Shopping cart</h3>
+            <h3>Cart</h3>
         </div>
 
         <div class="button">
-            <a href="cart.jsp"><button id="btn1">Change Quantity</button></a>
-            <button id="btn2">Purchase</button>
+            <a href="cart.jsp"><button id="btn1">MAKE CHANGES</button></a>
+            <button id="btn2">MAKE PAYMENT</button>
         </div>
 
-        <table>  
-            <form action="MakeOrder" method="POST">
-                <c:forEach var="cartItem" items="${cartItemList}">
-                    <div class="select">
-                        <input type="checkbox" name="cartItemList" value="${cartItem.cartId}">
-                    </div>
-                    
-                    <div class="shopping-cart"> 
-                        <div class="item">
-                            <div class="removeButtons">
-                                <a href="RemoveCartItem?id=${cartItem.cartId}"><i class="fa fa-trash" ></i></a>
-                            </div>
 
-                            <div class="image">
-                                <img src="data:image/jpg;base64,${cartItem.prodId.base64Image}">
-                            </div>
-                            <div class="name">
-                                ${cartItem.prodId.prodName}
-                            </div>
-                            <div class="size">
-                                ${cartItem.prodId.size}
-                            </div>
-                            <div class="quantity">
-                                ${cartItem.purchaseQty}
-                            </div>
-                            <div class="subtotal">MYR ${cartItem.subtotal}</div>
+        <form action="MakeOrder" method="POST">
+            <table class="table">  
+
+                <% for (int i = 0; i < cartItemtList.size(); i++) {%>    
+                <tr class="shopping-cart"> 
+                    <td>
+                        <div class="select">
+                            <input type="checkbox" name="cartItemList" value="<%= cartItemtList.get(i).getCartId()%>">
                         </div>
-                    </div>
-                </c:forEach>
-                <div class="purchaseButton">
-                    <input type="submit" value="Purchase"/>                  
-                </div>
-            </form>
+                    </td>
 
-            <a href="homePage.jsp" class="returnButton"><button>Back to Home Page</button></a>
-        </table>
+                    <td class="image">
+                        <img src="data:image/jpg;base64,<%= cartItemtList.get(i).getProdId().getBase64Image()%>">
+                    </td>
+                    <td class="name">
+                        <%= cartItemtList.get(i).getProdId().getProdName()%>
+                    </td>
+                    <td class="size">
+                        <%= cartItemtList.get(i).getProdId().getSize()%>
+                    </td>
+                    <td class="quantity">
+                        
+                            <%= cartItemtList.get(i).getPurchaseQty()%>
+                        
+                        
+                    </td>
+                    <td class="subtotal">MYR<%= String.format("%.2f", cartItemtList.get(i).getSubtotal())%></td>
+                </tr>
+                <tr style="margin: 50px;"></tr>
+                <% }%>  
+
+
+
+
+            </table>
+            <table style="margin: 45px auto; width: 50%;">
+                <tr>
+                <td class="purchaseButton">
+                    <input type="submit" value="Purchase"/>                  
+                </td>
+                <td class="returnButton">
+                    <a href="homePage.jsp">Back to Home Page</a>
+                </td>
+                </tr>
+            </table>
+        </form>
     </body>
 </html>

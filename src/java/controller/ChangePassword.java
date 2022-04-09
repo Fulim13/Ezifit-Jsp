@@ -82,7 +82,7 @@ public class ChangePassword extends HttpServlet {
                 } catch (Exception ex) {
                     System.out.println(ex.getMessage());
                 }
-                session.removeAttribute("email");
+                session.removeAttribute("verifiedEmail2");
                 //redirect to log in page
                 response.sendRedirect("login.jsp");
             }
