@@ -24,6 +24,16 @@
 
             @import 'https://fonts.googleapis.com/css?family=Open+Sans:600,700';
 
+            html{
+                overflow: scroll;
+                overflow-x: hidden;
+            }
+            ::-webkit-scrollbar {
+                width: 0px;
+            }
+            ::webkit-scrollbar-thumb{
+                background: #FF0000;
+            }
             .header{
                 font-family: 'Lucida Sans';   
                 display: flex; 
@@ -51,7 +61,41 @@
                 color: #8B0000;
             }
 
-            * {font-family: 'Open Sans', sans-serif;}
+            .col-2{
+                flex-basis: 100%;
+                flex-basis: 100%;
+                min-width: 300px;
+                margin: 10px;
+            }
+            .col-2 h1{
+                font-size: 25px;
+                line-height: 0px;
+                margin: 18px 0;
+                font-family: 'Lucida Sans'; 
+                border-bottom: solid;
+                border-color: #8B0000;
+                display: inline;
+            }
+            .col-3{
+                flex-wrap: wrap;
+                flex-basis: 100%;
+                min-width: 300px;
+                margin: 10px;
+            }
+            .col-3 h1{
+                font-size: 15px;
+                line-height: 0px;
+                margin: 18px 0;
+                font-family: 'Lucida Sans'; 
+                text-align: right;
+            }
+            .col-3 h2{
+                font-size: 14px;
+                line-height: 2px;
+                margin: 0;
+                font-family: 'Lucida Sans'; 
+                text-align: right;
+            }
 
             .customerRecord {
                 margin: auto;
@@ -185,10 +229,10 @@
             }
 
             .btn_name{
+                font-family: 'Lucida Sans'; 
                 border-top: none;
                 background-color:transparent;
                 color:#fff;
-                font-family: 'Open Sans', sans-serif;
                 font-weight:bold;
                 font-size: 1em;
                 padding-left: 40px;
@@ -203,12 +247,12 @@
             }
 
             .btn_dob,.btn_register_date{
+                font-family: 'Lucida Sans'; 
                 color: #fff;
                 background-color: transparent;
                 font-weight: bold;
                 font-size: 1em;
                 display: inline-block;
-                font-family: 'Open Sans', sans-serif;
                 border-top: none;
                 border-style: none;
                 cursor: pointer;
@@ -228,14 +272,14 @@
                 width: 10%;
             }
             .col_name{
-                width: 13%;
+                width: 15%;
             }
             .col_dob, .col_register_date{
-                width: 10%;
+                width: 12%;
             }
 
-            .btn_name:hover, .btn_dob:hover, .btn_register_date:hover{
-                background:red;
+            .col_phone{
+                width: 10%;
             }
 
 
@@ -245,7 +289,7 @@
                 background-color: #D3D3D3;               
                 padding-left: 20px;
                 position: relative;
-                left: 500px;
+                left: 590px;
                 top: 45px;
             }
             .searchBox .searchInput{      
@@ -257,7 +301,7 @@
             .searchBtn{
                 position: absolute;
                 top: 54px;
-                left: 1300px;
+                left: 1400px;
                 cursor: pointer;
                 background-color: transparent;
                 border:none;
@@ -275,14 +319,24 @@
     </head>
     <body>
         <div class="header">            
-            <span><a href="staffHomepage.jsp">EZIFIT</a></span>
+            <span><a href="../secureStaff/staffHomepage.jsp">EZIFIT</a></span>
             <ul class="nav-link">
                 <li><a href="../LoadCheckIdentityStaff"><i class="fa fa-user"></i></a></li>
                 <li><a href="logoutStaff.jsp"><i class="fa fa-sign-out"></i></a></li>                
             </ul>
         </div>
+        <div class="col-3">
+            <h1 style="color: #818589">-&nbsp;" A good team is a greater action.</h1>
+            <h2 text-align="right" style="color: #818589">Believe in your team !&nbsp; "-</h2>
+        </div>
+        <div class="col-2">
+            <h1 style="color: #8B0000"><i style="color: black;"class="fa fa-address-card"></i>Customer Records</h1>
+            <br>
+
+        </div>
         <hr style="width: 97%;"> 
         <div class="content-table">
+
 
             <form class="searchBox" action="../SearchCustomer">
                 <input type="text" name="search_for_staff" class="searchInput" placeholder="Search..." />
@@ -290,8 +344,7 @@
                     <button type="submit"><i class="fa fa-search"></i></button>
                 </div>
             </form> 
-
-            <span class="head_Customer_Record"><i class="fa fa-address-card"></i>Customer Records</span>
+            </br></br></br>
             <%
                 List<Customer> custList = (List) session.getAttribute("custList");
             %>
@@ -303,11 +356,11 @@
                     <thead>
                         <tr>
                             <th class="pic_col">#</th>
-                            <th class="col_name"><input type="submit" name="button" class="btn_name" value="Full Name"><i class="fa-solid fa-arrow-down-arrow-up"></i></th>
+                            <th class="col_name"><button type="submit" name="button" class="btn_name" value="Full Name">Full Name&nbsp;<i class="fa fa-sort"></i></button></th>
                             <th>Email</th>
-                            <th>Phone Number</th>
-                            <th class="col_dob"><input type="submit" name="button" class="btn_dob" value="Date Of Birth"></th>
-                            <th class="col_register_date"><input type="submit" name="button" class="btn_register_date" value="Register Date"></th>
+                            <th class="col_phone">Phone Number</th>
+                            <th class="col_dob"><button type="submit" name="button" class="btn_dob" value="Date Of Birth">Date Of Birth&nbsp;<i class="fa fa-sort"></i></button></th>
+                            <th class="col_register_date"><button type="submit" name="button" class="btn_register_date" value="Register Date">Register Date&nbsp;<i class="fa fa-sort"></i></button></th>
                             <th>Address</th>
                         </tr>
                     </thead>
@@ -315,29 +368,35 @@
                 <tbody>
                     <% for (Customer customer : custList) {%>
                     <tr>
-                        <%if (customer.getCustomerImage() == null) {%>
-                            <td><img class="customer_pic" src="../defaultprofilepic.png"></td>
-                        <%} else {%>
-                            <td><img class="customer_pic" src="data:image/jpg;base64,<%= customer.getBase64Image()%>"</td>
-                        <%}%>
+                        <td>
+                            <% if (customer.getCustomerImage() == null) { %>
+                            Null
+                            <% } %>
+                            <% if (customer.getCustomerImage() != null) {%>
+                            <img class="customer_pic" src="data:image/jpg;base64,<%= customer.getBase64Image()%>"
+                                 <% }%>
+                        </td>
                         <td data-th="Full Name"><%=customer.getFullname()%></td>
                         <td data-th="Email"><%= customer.getEmail()%></td>
-                        <td data-th="Phone Number"><%= customer.getPhone()%></td>
-                        <%if (customer.getDob() == null) {%>
-                            <td data-th="Date Of Birth">Haven't set</td>
-                        <%} else {%>
-                            <td data-th="Date Of Birth"><%=ft.format(customer.getDob())%></td>
-                        <%}%>
-                        <%if (customer.getRegisterDate() == null) {%>
-                             <td data-th="Register Date">Haven't set</td>
-                        <%} else {%>
-                            <td data-th="Register Date"><%= ft.format(customer.getRegisterDate())%></td>
-                        <%}%>
-                        <%if (customer.getAddress() == null) {%>
-                            <td data-th="Address">Haven't set</td>
-                        <%} else {%>
-                            <td data-th="Address"><%= customer.getAddress()%></td>
-                        <%}%>
+                        <td data-th="Phone Number"><%=customer.getPhone()%></td>
+                        <td data-th="Date Of Birth">
+                            <% if(customer.getDob()==null){%>
+                            Null
+                            <% } %>
+                            <% if (customer.getDob() != null) {%>
+                             <%=ft.format(customer.getDob())%>
+                            <% }%>
+                           </td>
+                        <td data-th="Register Date"><%= ft.format(customer.getRegisterDate())%></td>
+                        <td data-th="Address">
+                            <% if (customer.getAddress() == null) { %>
+                            Null
+                            <% } %>
+                            
+                            <% if (customer.getAddress()!= null) {%>
+                             <%= customer.getAddress()%>
+                            <% }%>
+                      </td>
                     </tr>
                     <% }%>
                 </tbody>

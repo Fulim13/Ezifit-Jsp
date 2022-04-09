@@ -317,7 +317,7 @@
                 <div class="left-block">
                     <div class="shiping-address">
                         <div>Shipping Address</div>
-                        <textarea name="shippingAddress" rows="5" required="">${loggedInCustomer.address != null ? loggedInCustomer.address : " "}</textarea>
+                        <textarea name="shippingAddress" rows="5" required="">${loggedInCustomer.address}</textarea>
                     </div>
                     <div class="purchaseitems">
                         <div class="title-product">

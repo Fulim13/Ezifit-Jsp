@@ -44,12 +44,15 @@ public class Payment extends HttpServlet {
         String[] purchaseCartItemIdArr = request.getParameterValues("purchaseCartItem");
         String paymentMethod = request.getParameter("paymentMethod");
         String shippingAddress = request.getParameter("shippingAddress");
+        if(shippingAddress.isEmpty()){
+            shippingAddress = "Cannot found";
+        }
         double shippingFee = Double.parseDouble(request.getParameter("shippingFee"));
         double orderPrice = Double.parseDouble(request.getParameter("orderPrice"));
         List<CartItem> purchaseCartItemList = new ArrayList<CartItem>();
 
         for (String purchaseCartItemId : purchaseCartItemIdArr) {
-            //minus product quantity
+            
             CartItem purchaseCartItem = em.find(CartItem.class, Integer.parseInt(purchaseCartItemId));
             //order have paid the payment 
             if (purchaseCartItem.getOrderId() != null) {
@@ -63,6 +66,7 @@ public class Payment extends HttpServlet {
                 return;
             } else {
                 Product product = em.find(Product.class, purchaseCartItem.getProdId().getProdId());
+                //minus product quantity
                 product.setQuantity(originalQty - purchaseQty);
 
                 try {

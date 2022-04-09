@@ -60,6 +60,7 @@ public class reportRetrieve extends HttpServlet {
                 for (int i = 0; i < cart_list.size(); i++) {
                     if (cart_list.get(i).getOrderId() == null) {
                         cart_list.remove(i);
+                        i--;
                     }
                 }
 
@@ -222,8 +223,8 @@ public class reportRetrieve extends HttpServlet {
                     product_sum_profit = 0;
                     for (int j = 0; j < product_list.size(); j++) {
                         if (store_product_name.get(i).getProdName().equals(product_list.get(j).getProdName())) {
-                            product_sum_revenue += sales_revenue.get(j);
-                            product_sum_profit += product_profit.get(j);
+                            product_sum_revenue +=Double.parseDouble(String.format("%.2f",sales_revenue.get(j)));
+                            product_sum_profit +=Double.parseDouble(String.format("%.2f",product_profit.get(j)));
                         }
                     }
                     temp_product_total_revenue.add(product_sum_revenue);
@@ -262,6 +263,7 @@ public class reportRetrieve extends HttpServlet {
                 List<Double> store_rating_percentage = new ArrayList<>();
                 List<String> store_rating_evaluate = new ArrayList<>();
                 List<Double> max_rating = new ArrayList<>();
+                List<Integer> store_without_review=new ArrayList<>();
 
                 //remove duplicate product
                 for (int i = 0; i < product_list.size(); i++) {
@@ -281,6 +283,9 @@ public class reportRetrieve extends HttpServlet {
                         i--;
                     }
                 }
+                
+                
+                
 
                 //remove the product don't have the review
                 int[] without_review = new int[product_list.size()];
@@ -288,18 +293,23 @@ public class reportRetrieve extends HttpServlet {
                     without_review[i] = 0;
                     for (int j = 0; j < review_list.size(); j++) {
                         if (product_list.get(i).getProdName().equals(review_list.get(j).getProdId().getProdName())) {
-                            without_review[i]++;
+                           without_review[i]++;
                         }
                     }
+                    store_without_review.add(without_review[i]);
                 }
-
-                //remove the product without review
-                for (int i = 0; i < product_list.size(); i++) {
-                    if (without_review[i] == 0) {
+                 
+                //remove the product which no inside in the review table
+                for(int i=0;i<product_list.size();i++){
+                    if(store_without_review.get(i)==0){
                         product_list.remove(i);
+                        store_without_review.remove(i);
                         i--;
                     }
                 }
+               
+                out.println(product_list.size());
+                
 
                 for (int i = 0; i < product_list.size(); i++) {
                     sum_rating = 0;
@@ -326,13 +336,14 @@ public class reportRetrieve extends HttpServlet {
                         store_rating_evaluate.add("Poor");
                     }
                 }
+                
 
                 session.setAttribute("product_list", product_list);
                 session.setAttribute("store_rating_percentage", store_rating_percentage);
                 session.setAttribute("store_rating_evaluate", store_rating_evaluate);
                 response.sendRedirect("secureManager/ProductRatingReport.jsp");
             }
-
+    
         } catch (Exception ex) {
 
         }

@@ -38,7 +38,7 @@ public class MakeOrder extends HttpServlet {
 
         String[] cartItemIdArr = request.getParameterValues("cartItemList");
         if (cartItemIdArr == null) {
-            response.sendRedirect("cart.jsp");
+            response.sendRedirect("purchase.jsp");
         } else {
             ArrayList<CartItem> purchaseCartItemList = new ArrayList<CartItem>();
             double orderPrice = 0;
@@ -52,7 +52,12 @@ public class MakeOrder extends HttpServlet {
                 orderPrice += cartItem.getSubtotal();
                 //calculate Shipping feee based on weight
                 weight += cartItem.getPurchaseQty() * cartItem.getProdId().getWeight();
-                if (weight <= 1) {
+                
+
+                purchaseCartItemList.add(cartItem);
+            }
+            
+            if (weight <= 1) {
                     //less than or equal to 1kg
                     shippingFee = 4.5;
                 } else if (weight <= 3) {
@@ -67,9 +72,6 @@ public class MakeOrder extends HttpServlet {
                     //subsequent kg (each kg - RM5)
                     shippingFee = 20 + ((weight - 5) * 5);
                 }
-
-                purchaseCartItemList.add(cartItem);
-            }
 
             HttpSession session = request.getSession();
             session.setAttribute("purchaseCartItemList", purchaseCartItemList);

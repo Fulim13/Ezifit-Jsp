@@ -64,7 +64,6 @@ public class ChangePassword extends HttpServlet {
         // if fail the validation - redirect back to changePassword.jsp
         if (error.isIsError()) {
             session.setAttribute("error", error);
-            session.setAttribute("email", email);
             response.sendRedirect("changePassword.jsp");
         } else {
             //get the customer object using email

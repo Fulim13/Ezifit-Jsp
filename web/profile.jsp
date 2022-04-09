@@ -178,7 +178,7 @@
         <div class="header">            
             <span><a href="homePage.jsp">EZIFIT</a></span>
             <ul class="nav-link">
-                    <%if (loggedIn) {%>
+                <%if (loggedIn) {%>
                 <li><a href="GetOrder"><i class="fa fa-shopping-bag"></i></a></li>                
                 <li><a href="GetCart"><i class="fa fa-shopping-cart"></i></a></li>
                 <li><a href="profile.jsp"><i class="fa fa-user"></i></a></li>
@@ -193,14 +193,14 @@
         </div>
     <li class="previous"><a href="homePage.jsp"><i class="fa fa-arrow-left" aria-hidden="true"></a></i></li>
 <div class="settings">
-    <c:choose>
-    <c:when test="${loggedInCustomer.customerImage != null}">
-        <img id="profile-picture" src="data:image/jpg;base64,${loggedInCustomer.customerImage != null ? loggedInCustomer.base64Image : ""}" />
-        </c:when>   
-        <c:otherwise>
-            <img id="profile-picture" src="defaultprofilepic.png" />
-    </c:otherwise>
-  </c:choose>
+        <c:choose>
+            <c:when test="${loggedInCustomer.customerImage != null}">
+                <img id="profile-picture" src="data:image/jpg;base64,${loggedInCustomer.customerImage != null ? loggedInCustomer.base64Image : ""}" />
+            </c:when>   
+            <c:otherwise>
+                <img id="profile-picture" src="defaultprofilepic.png" />
+            </c:otherwise>
+        </c:choose>
     <form class="form-settings" name="form" method="post" action="UpdateProfile" enctype="multipart/form-data"> 
         <label class="upload-btn" for="upload">Change Profile</label>
         <input type="file" name="profilePicture" id="upload" onchange="showUploadedImage(this)" hidden>
@@ -220,7 +220,7 @@
         <textarea name="address" rows="5">${loggedInCustomer.address}</textarea>
         <div class="settings-btns">
             <input type="submit" class="settings-btn settings-btn-update" value="Update">
-            <input type="reset"  class="settings-btn settings-btn-cancel" value="Cancel">
+            <input type="button"  class="settings-btn settings-btn-cancel" value="Cancel" onclick="location.reload();">
         </div>
     </form>
 </div>

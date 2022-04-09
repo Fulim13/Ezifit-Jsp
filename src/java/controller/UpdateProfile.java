@@ -107,6 +107,7 @@ public class UpdateProfile extends HttpServlet {
                     sessionCustomerObj.setDob(dobDate);
                 } catch (ParseException ex) {
                     Logger.getLogger(UpdateProfile.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println(ex.getMessage() + "Error");
                 }
 
                 //convert user uploaded image to the format that db accept
