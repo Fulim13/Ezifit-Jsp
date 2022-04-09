@@ -52,26 +52,25 @@ public class MakeOrder extends HttpServlet {
                 orderPrice += cartItem.getSubtotal();
                 //calculate Shipping feee based on weight
                 weight += cartItem.getPurchaseQty() * cartItem.getProdId().getWeight();
-                
 
                 purchaseCartItemList.add(cartItem);
             }
-            
+
             if (weight <= 1) {
-                    //less than or equal to 1kg
-                    shippingFee = 4.5;
-                } else if (weight <= 3) {
-                    //less than or equal to 3kg
-                    shippingFee = 10;
-                } else if (weight <= 5) {
-                    //less than or equal to 5kg
-                    shippingFee = 20;
-                } else {
-                    //more than 5 kg
-                    // first 5 kg - RM 20
-                    //subsequent kg (each kg - RM5)
-                    shippingFee = 20 + ((weight - 5) * 5);
-                }
+                //less than or equal to 1kg
+                shippingFee = 4.5;
+            } else if (weight <= 3) {
+                //less than or equal to 3kg
+                shippingFee = 10;
+            } else if (weight <= 5) {
+                //less than or equal to 5kg
+                shippingFee = 20;
+            } else {
+                //more than 5 kg
+                // first 5 kg - RM 20
+                //subsequent kg (each kg - RM5)
+                shippingFee = 20 + ((weight - 5) * 5);
+            }
 
             HttpSession session = request.getSession();
             session.setAttribute("purchaseCartItemList", purchaseCartItemList);
