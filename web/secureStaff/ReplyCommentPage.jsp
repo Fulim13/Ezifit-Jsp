@@ -3,11 +3,11 @@
 <%@page import="model.CartItem"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-            Review review = (Review) session.getAttribute("review");
-            if (review != null) {
+    Review review = (Review) session.getAttribute("review");
+    if (review != null) {
 %>
 <%
-  List<CartItem> cartList = (List)session.getAttribute("cartList");
+    List<CartItem> cartList = (List) session.getAttribute("cartList");
 %>
 
 <!DOCTYPE html>
@@ -148,8 +148,8 @@
             .form{
                 width: 100%;
             }   
-            
-           .input-box{
+
+            .input-box{
                 margin-bottom: 15px;
                 display: flex;
                 align-items: center;
@@ -253,7 +253,7 @@
                 font-size: 15px;
                 font-style: inherit;
             }
-            </style>
+        </style>
     </head>
     <body>
         <div class="header">            
@@ -266,122 +266,121 @@
         <div class="col-3">
             <h1 style="color: #818589">" A good team is a greater action.</h1>
             <h2 text-align="right" style="color: #818589">Believe in your team ! "</h2>
-               <p class="date"><span id="datetime"></span></p><script>var dt = new Date();
-                        document.getElementById("datetime").innerHTML=dt.toLocaleString();</script>  
-            </div>
+            <p class="date"><span id="datetime"></span></p><script>var dt = new Date();
+                   document.getElementById("datetime").innerHTML = dt.toLocaleString();</script>  
+        </div>
 
-            <div class="col-2">
-                <%if(review.getProdId() == null) { %>
-                <h1 style="color: #8B0000">CUSTOMER ORDER REVIEW</h1>
-                <%  }else {  %>
-                <h1 style="color: #8B0000">CUSTOMER PRODUCT REVIEW</h1>
-                <%  }  %>
-            </div>
+        <div class="col-2">
+            <%if (review.getProdId() == null) { %>
+            <h1 style="color: #8B0000">CUSTOMER ORDER REVIEW</h1>
+            <%  } else {  %>
+            <h1 style="color: #8B0000">CUSTOMER PRODUCT REVIEW</h1>
+            <%  }  %>
+        </div>
         <br>      <hr style="width: 97%">
         <div class="col-2">
-                <h3>&nbsp;&nbsp;&nbsp;REVIEW INFORMATION</h3>
+            <h3>&nbsp;&nbsp;&nbsp;REVIEW INFORMATION</h3>
         </div>
-       
-        <%  if(review.getProdId() != null) { %>
-        <% for(int i=0; i < cartList.size(); i++){ %> 
+
+        <%  if (review.getProdId() != null) {%>
         <table class="productreview">
             <tr>
                 <td class="cart">                 
-                    <img id="img" src="data:image/jpg;base64,<%=cartList.get(i).getProdId().getBase64Image() %>">
+                    <img id="img" src="data:image/jpg;base64,<%=review.getProdId().getBase64Image()%>">
                     <div class="descriptionC">
-                    <div class="name"><%= cartList.get(i).getProdId().getProdName() %></div>
-                    <div>Size: <%= cartList.get(i).getProdId().getSize() %></div>
-                    <div>Quantity: <%= cartList.get(i).getPurchaseQty() %></div>
+                        <div class="name"><%= review.getProdId().getProdName()%></div>
+                        <div>Size: <%= review.getProdId().getSize()%></div>
+   
                     </div>
                 </td>
                 <td class="customerReview">
                     <form action="../AddComment" class="form" onsubmit="return window.confirm('Are you sure you want to reply this review?')">
                         <div class="input-box">
                             <label class="details">Customer Name</label>
-                            <input type="text" class="form-control" name="customerName" value="<%=review.getOrderId().getCustomerId().getFullname() %>" readonly="readonly"/>    
+                            <input type="text" class="form-control" name="customerName" value="<%=review.getOrderId().getCustomerId().getFullname()%>" readonly="readonly"/>    
                         </div>
                         <div class="input-box">
                             <label class="details">Customer ID</label>
-                            <input type="text" class="form-control" name="customerID" value="<%=review.getOrderId().getCustomerId() %>" readonly="readonly"/>    
+                            <input type="text" class="form-control" name="customerID" value="<%=review.getOrderId().getCustomerId()%>" readonly="readonly"/>    
                         </div>
                         <div class="input-box">
                             <label class="details">Review ID</label>
-                            <input type="text" class="form-control" name="reviewID" value="<%=review.getReviewId() %>" readonly="readonly"/>    
+                            <input type="text" class="form-control" name="reviewID" value="<%=review.getReviewId()%>" readonly="readonly"/>    
                         </div>
                         <div class="input-box">
                             <label class="details">Review Date</label>
-                            <%java.text.DateFormat df = new java.text.SimpleDateFormat("dd/MM/yyyy"); %>
-                            <input type="text" class="form-control" name="reviewDate" value="<%=df.format(review.getDateReview()) %>" readonly="readonly"/>    
+                            <%java.text.DateFormat df = new java.text.SimpleDateFormat("dd/MM/yyyy");%>
+                            <input type="text" class="form-control" name="reviewDate" value="<%=df.format(review.getDateReview())%>" readonly="readonly"/>    
                         </div>
                         <div class="input-box">
                             <label class="details">Rating</label>
-                            <input type="text" class="form-control" name="rating" value="<%=String.format("%.1f", review.getRating()) %>" readonly="readonly"/>    
+                            <input type="text" class="form-control" name="rating" value="<%=String.format("%.1f", review.getRating())%>" readonly="readonly"/>    
                         </div>
                         <div class="input-box">
                             <label class="details">Product ID</label>
-                            <input type="text" class="form-control" name="productID" value="<%=review.getProdId() %>" readonly="readonly" />    
+                            <input type="text" class="form-control" name="productID" value="<%=review.getProdId()%>" readonly="readonly" />    
                         </div>
                         <div class="input-box">
                             <label class="details">Product Name</label>
-                            <input type="text" class="form-control" name="productName" value="<%=review.getProdId().getProdName() %>" readonly="readonly" />    
+                            <input type="text" class="form-control" name="productName" value="<%=review.getProdId().getProdName()%>" readonly="readonly" />    
                         </div>
                         <div class="feedback" style="color:#757575;">We'd love to hear your feedback. How was our product? What can we improve?</div>
-                            <textarea placeholder="<%=review.getComment() %>" rows="6" cols="60" class="form-control" readonly="readonly"><%=review.getComment() %></textarea>    
-                            <div class="feedback" style="font-size: 18px;"><strong>Feedback From Us</strong></div>
-                            <textarea rows="6" cols="60" name="replyComment" class="reply"><%=review.getReplyComment() %></textarea>
-                             <div class="input-box">
+                        <textarea placeholder="<%=review.getComment()%>" rows="6" cols="60" class="form-control" readonly="readonly"><%=review.getComment()%></textarea>    
+                        <div class="feedback" style="font-size: 18px;"><strong>Feedback From Us</strong></div>
+                        <textarea rows="6" cols="60" name="replyComment" class="reply"><%=review.getReplyComment()%></textarea>
+                        <div class="input-box">
                             <label class="staff" style="color: black; font-size: 16px;">Staff In-Charge<font color = "#FF0000">*</font></label>
-                            <input style="margin-top: 10px;" type="text" class="form-control" name="staffID" value="<%=review.getStaffId() %>" />    
+                            <input style="margin-top: 10px;" type="text" class="form-control" name="staffID" value="<%=review.getStaffId()%>" />    
                         </div>
                         <div class="input-box">
                             <button type="submit" class="btn">UPDATE</button>
                         </div>
                     </form>
                 </td>
-             </tr>
-             <br>
+            </tr>
+            <br>
         </table>
-        <% } %>
+
         <% } else {%>
- 
+
         <div class="orderReview">
             <form action="../AddComment" class="form">
-                        <div class="input-box">
-                            <label class="details">Customer Name</label>
-                            <input type="text" class="form-control" name="customerName" value="<%=review.getOrderId().getCustomerId().getFullname() %>" readonly="readonly"/>    
-                        </div>
-                        <div class="input-box">
-                            <label class="details">Customer ID</label>
-                            <input type="text" class="form-control" name="customerID" value="<%=review.getOrderId().getCustomerId() %>" readonly="readonly"/>    
-                        </div>
-                        <div class="input-box">
-                            <label class="details">Review ID</label>
-                            <input type="text" class="form-control" name="reviewID" value="<%=review.getReviewId() %>" readonly="readonly"/>    
-                        </div>
-                        <div class="input-box">
-                            <label class="details">Review Date</label>
-                            <%java.text.DateFormat df = new java.text.SimpleDateFormat("dd/MM/yyyy"); %>
-                            <input type="text" class="form-control" name="reviewDate" value="<%=df.format(review.getDateReview()) %>" readonly="readonly"/>    
-                        </div>
-                        <div class="input-box">
-                            <label class="details">Rating</label>
-                            <input type="text" class="form-control" name="rating" value="<%=String.format("%.1f", review.getRating()) %>" readonly="readonly"/>    
-                        </div>
-                        <div class="feedback" style="color:#757575; text-align: center;">We'd love to hear your feedback. How was our product?<br> What can we improve?</div>
-                        <textarea rows="6" cols="60" class="form-control" readonly="readonly" style="margin-left: 10px;"><%=review.getComment() %></textarea>    
-                            <div class="feedback" style="font-size: 18px;"><strong>Feedback From Us</strong></div>
-                            <textarea rows="6" cols="60" name="replyComment" class="reply" style="margin-left: 10px;"><%=review.getReplyComment() %></textarea>
-                             <div class="input-box">
-                            <label class="staff" style="color: black; font-size: 16px;">Staff In-Charge<font color = "#FF0000">*</font></label>
-                            <input style="margin-top: 10px;" type="text" class="form-control" name="staffID" value="<%=review.getStaffId() %>" />    
-                        </div>
-                        <div class="input-box">
-                            <button type="submit" class="btn">UPDATE</button>
-                        </div>
-                    </form>
+                <div class="input-box">
+                    <label class="details">Customer Name</label>
+                    <input type="text" class="form-control" name="customerName" value="<%=review.getOrderId().getCustomerId().getFullname()%>" readonly="readonly"/>    
+                </div>
+                <div class="input-box">
+                    <label class="details">Customer ID</label>
+                    <input type="text" class="form-control" name="customerID" value="<%=review.getOrderId().getCustomerId()%>" readonly="readonly"/>    
+                </div>
+                <div class="input-box">
+                    <label class="details">Review ID</label>
+                    <input type="text" class="form-control" name="reviewID" value="<%=review.getReviewId()%>" readonly="readonly"/>    
+                </div>
+                <div class="input-box">
+                    <label class="details">Review Date</label>
+                    <%java.text.DateFormat df = new java.text.SimpleDateFormat("dd/MM/yyyy");%>
+                    <input type="text" class="form-control" name="reviewDate" value="<%=df.format(review.getDateReview())%>" readonly="readonly"/>    
+                </div>
+                <div class="input-box">
+                    <label class="details">Rating</label>
+                    <input type="text" class="form-control" name="rating" value="<%=String.format("%.1f", review.getRating())%>" readonly="readonly"/>    
+                </div>
+                <div class="feedback" style="color:#757575; text-align: center;">We'd love to hear your feedback. How was our product?<br> What can we improve?</div>
+                <textarea rows="6" cols="60" class="form-control" readonly="readonly" style="margin-left: 10px;"><%=review.getComment()%></textarea>    
+                <div class="feedback" style="font-size: 18px;"><strong>Feedback From Us</strong></div>
+                <textarea rows="6" cols="60" name="replyComment" class="reply" style="margin-left: 10px;"><%=review.getReplyComment()%></textarea>
+                <div class="input-box">
+                    <label class="staff" style="color: black; font-size: 16px;">Staff In-Charge<font color = "#FF0000">*</font></label>
+                    <input style="margin-top: 10px;" type="text" class="form-control" name="staffID" value="<%=review.getStaffId()%>" />    
+                </div>
+                <div class="input-box">
+                    <button type="submit" class="btn">UPDATE</button>
+                </div>
+            </form>
         </div>
-<%  } %>
         <%  } %>
+        <% }%>
     </body>
 </html>
 

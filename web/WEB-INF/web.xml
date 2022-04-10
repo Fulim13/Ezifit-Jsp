@@ -36,6 +36,10 @@
         <servlet-name>SearchProductView</servlet-name>
         <servlet-class>controller.SearchProductView</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SearchCustomerOrder</servlet-name>
+        <servlet-class>controller.SearchCustomerOrder</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>GetProduct</servlet-name>
         <url-pattern>/GetProduct</url-pattern>
@@ -343,6 +347,10 @@
     <servlet-mapping>
         <servlet-name>SearchProductView</servlet-name>
         <url-pattern>/SearchProductView</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchCustomerOrder</servlet-name>
+        <url-pattern>/SearchCustomerOrder</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

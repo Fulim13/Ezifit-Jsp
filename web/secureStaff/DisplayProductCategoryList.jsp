@@ -208,7 +208,7 @@
             <h2 text-align="right" style="color: #818589">Believe in your team !&nbsp; "-</h2>
         </div>
         <div class="col-2">
-            <h1 style="color: #8B0000">PRODUCT OVERVIEW></h1>
+            <h1 style="color: #8B0000">PRODUCT OVERVIEW</h1>
         </div>
         <br>        <hr style="width: 97%">
         

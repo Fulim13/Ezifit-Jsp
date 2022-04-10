@@ -3,6 +3,7 @@
     Created on : Mar 30, 2022, 4:18:30 PM
     Author     : Lim
 --%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.List"%>
 <%@page import="model.Orders"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -14,7 +15,7 @@
         response.sendRedirect(request.getContextPath());
         return;
     }
-    List<Orders> orderList = (List)session.getAttribute("ordersList");
+    List<Orders> orderList = (List) session.getAttribute("ordersList");
 %>
 <!DOCTYPE html>
 <html>
@@ -131,26 +132,26 @@
                 </thead>
 
                 <tbody>
-                                
-                    <% for(int i=0; i<orderList.size(); i++){ %>                                              
-                        <tr>
-                            <td><%= orderList.get(i).getOrderId() %></td>
-                            <td><%= orderList.get(i).getOrderDate() %></td>
-                            <td><%= orderList.get(i).getShippingFee() %></td>
-                            <td><%= orderList.get(i).getOrderPrice() %></td>
-                            <td><%= orderList.get(i).getPaymentMethod() %></td>
-                            <td><%= orderList.get(i).getStatus() %></td>
-                            <% if(orderList.get(i).getStatus().equalsIgnoreCase("DELIVERED")) {%>                                
-                               <td><a href="GetReview?orderID=<%= orderList.get(i).getOrderId() %>" class="feedbackButton"><i class="fa fa-comments"></i></a></td>
-                            <% } else{ %>                              
-                                <td></td>                           
-                            <% } %>                       
-                        </tr>                                                                          
-                    <% } %>                   
-                
+                    <% SimpleDateFormat ft = new SimpleDateFormat("dd-MM-yyyy"); %>    
+                    <% for (int i = 0; i < orderList.size(); i++) {%>                                              
+                    <tr>
+                        <td><%= orderList.get(i).getOrderId()%></td>
+                        <td><%= ft.format(orderList.get(i).getOrderDate())%></td>
+                        <td><%= orderList.get(i).getShippingFee()%></td>
+                        <td><%= orderList.get(i).getOrderPrice()%></td>
+                        <td><%= orderList.get(i).getPaymentMethod()%></td>
+                        <td><%= orderList.get(i).getStatus()%></td>
+                        <% if (orderList.get(i).getStatus().equalsIgnoreCase("DELIVERED")) {%>                                
+                        <td><a href="GetReview?orderID=<%= orderList.get(i).getOrderId()%>" class="feedbackButton"><i class="fa fa-comments"></i></a></td>
+                                <% } else { %>                              
+                        <td></td>                           
+                        <% } %>                       
+                    </tr>                                                                          
+                    <% }%>                   
+
                 </tbody>
             </table>
-            
+
         </div>
         <div class="returnButton"><a href="homePage.jsp">Back to Home Page</a></div>
     </body>

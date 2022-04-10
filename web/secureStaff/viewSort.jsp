@@ -150,7 +150,7 @@
                 color: #000;
             }
 
-            .customerRecord td:first-child::before{
+            .customerRecord td:first-child::before,.customerRecord td:last-child::before{
                 content: "";
                 font-weight: bold;
                 width: 120px;
@@ -314,6 +314,20 @@
                 background: transparent;
                 cursor: pointer;
             }
+            
+            .btn_order{
+                padding: 10px;
+                margin-bottom: 10px;
+                background-color: #AA3232;
+                color: #fff;
+                border: 1px solid #eee;
+                box-shadow: 5px 5px #eee;
+                text-shadow: none;
+                padding: 10px;
+                text-align: center;
+                width: 100%;
+                cursor: pointer;
+            }
 
         </style>
     </head>
@@ -362,6 +376,7 @@
                             <th class="col_dob"><button type="submit" name="button" class="btn_dob" value="Date Of Birth">Date Of Birth&nbsp;<i class="fa fa-sort"></i></button></th>
                             <th class="col_register_date"><button type="submit" name="button" class="btn_register_date" value="Register Date">Register Date&nbsp;<i class="fa fa-sort"></i></button></th>
                             <th>Address</th>
+                            <th>Orders</th>
                         </tr>
                     </thead>
                 </form>
@@ -397,6 +412,9 @@
                              <%= customer.getAddress()%>
                             <% }%>
                       </td>
+                <form action="../SearchCustomerOrder">
+                      <td><button type="submit" name="cust_id" value="<%=customer.getCustomerId()%>" class="btn_order"</button>View Orders</td>
+                      <form>
                     </tr>
                     <% }%>
                 </tbody>
